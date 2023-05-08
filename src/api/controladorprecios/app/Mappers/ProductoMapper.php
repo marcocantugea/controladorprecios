@@ -33,7 +33,7 @@ class ProductoMapper implements IMapper
      * @return ProductoDTO
      */
     public function reverse($product){
-        $activo = (boolval($product->activo));
+        $activo = empty($product->activo) ? true : boolval($product->activo);
         $created_at=(empty($product->created_at))?null: new DateTime($product->created_at);
         $updated_at=(empty($product->updated_at)) ? null :new DateTime($product->updated_at);
         $fecha_eliminado=(empty($product->fecha_eliminado)) ? null :new DateTime($product->fecha_eliminado);

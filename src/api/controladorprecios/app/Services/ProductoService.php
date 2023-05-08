@@ -39,4 +39,21 @@ class ProductoService implements IProductosService
             throw $th;
         }
     }
+
+    public function updateProducto(ProductoDTO $producto){
+        try {
+            $productoModel = $this->productoMapper->map($producto);
+            $this->productoRepository->update($productoModel);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteProducto($id){
+        try {
+            $this->productoRepository->delete($id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

@@ -55,6 +55,7 @@ class ProductosRepository implements IProductosRepository
             'fecha_eliminado'=> new DateTime('now')
         ]);
     }
+    
     public function getById($id){
         if(empty($id)) throw new Exception("invalid product id", 1);
         return $this->db->table('productos')

@@ -32,7 +32,7 @@ class ProductoController extends Controller
             $this->service->addProduct($productoDto);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
-            return new Response($this->stdResponse(false,true,$th->getMessage()));
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
 
@@ -41,7 +41,28 @@ class ProductoController extends Controller
             $productoDto=$this->service->getProducto($id);
             return new Response($this->stdResponse(data:$productoDto));
         } catch (\Throwable $th) {
-            return new Response($this->stdResponse(false,true,$th->getMessage()));
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
+
+    public function updateProducto(Request $request,$id){
+        try {
+            $jsonParsed= json_decode($request->getContent());
+            $productoDto= $this->mapper->reverse($jsonParsed);
+            $productoDto->publicId=$id;
+            $this->service->updateProducto($productoDto);
+            return new Response($this->stdResponse());
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
+
+    public function deleteProducto($id){
+        try {
+            $this->service->deleteProducto($id);
+            return new Response($this->stdResponse());
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
 

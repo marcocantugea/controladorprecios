@@ -19,3 +19,5 @@ $router->get('/', function () use ($router) {
 
 $router->post('api/producto','ProductoController@addProducto');
 $router->get('api/producto/{id}','ProductoController@getProducto');
+$router->put('api/producto/{id}','ProductoController@updateProducto');
+$router->delete('api/producto/{id}','ProductoController@deleteProducto');
