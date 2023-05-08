@@ -16,3 +16,6 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->post('api/producto','ProductoController@addProducto');
+$router->get('api/producto/{id}','ProductoController@getProducto');

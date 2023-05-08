@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Contractors\Data\IRepository;
+use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Models\Producto;
 use DateTime;
 use Illuminate\Database\MySqlConnection;
 use Exception;
 
-class ProductosRepository implements IRepository
+class ProductosRepository implements IProductosRepository
 {
     private MySqlConnection $db;
 
@@ -20,6 +20,7 @@ class ProductosRepository implements IRepository
         if(!$model instanceof Producto) throw new Exception("model is not instance of Producto", 1);
         $this->db->table('productos')->insert(
             [
+                'publicId'=> uniqid(),
                 'nombre'=>$model->nombre,
                 'descripcion'=>$model->descripcion,
                 'codigo'=>$model->codigo,
