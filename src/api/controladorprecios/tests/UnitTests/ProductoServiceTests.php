@@ -26,7 +26,7 @@ class ProductoServiceTests extends TestCase
        
        $this->productosRepositoryMock=$this->getMockBuilder(ProductosRepository::class)
                                                 ->setConstructorArgs(array($this->db))
-                                                ->onlyMethods(['add','getById','getProductos'])
+                                                ->onlyMethods(['add','getById','getProductos','updateProductoByProperty'])
                                                 ->getMock();
 
        $this->productoMapperMock=$this->getMockBuilder(ProductoMapper::class)
@@ -261,6 +261,22 @@ class ProductoServiceTests extends TestCase
 
         $this->assertEquals(2,$productosFound['totalRecordsFound']);
         $this->assertEquals(2,count($productosFound['data']));
+    }
+
+    public function test_ShouldUpdateProductoByProperties(){
+
+        $publicid=uniqid();
+        $propertyValues=[
+            'nombre'=>'newnombre',
+            'codigo'=>'codigo'
+        ];
+
+        $this->productosRepositoryMock
+                    ->expects($this->once())
+                    ->method('updateProductoByProperty')
+                    ->with($this->equalTo($publicid),$this->equalTo($propertyValues));
+
+        $this->productoService->updateProductoByProperty($publicid,$propertyValues);
     }
 
     private function getMockProducts(){

@@ -51,6 +51,35 @@ class ProductoService implements IProductosService
         }
     }
 
+    public function updateProductoByProperty($id,array $propertyValue){
+        
+        $updateFields=[];
+        
+        //update main properties of product
+        $updatableFields=[
+            "nombre",
+            "descripcion",
+            "codigo",
+            "sku",
+            "upc",
+            "ean"
+        ];
+
+        foreach ($propertyValue as $key => $value) {
+            if(in_array($key,$updatableFields)) {
+                $updateFields+=[$key=>$value];
+            }
+        }
+        
+        try {
+            $this->productoRepository->updateProductoByProperty($id,$updateFields);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        //TODO: add update to other properties 
+    }
+
     public function deleteProducto($id){
         try {
             $this->productoRepository->delete($id);

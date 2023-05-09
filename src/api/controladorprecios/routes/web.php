@@ -22,3 +22,4 @@ $router->get('api/producto/{id}','ProductoController@getProducto');
 $router->get('api/productos','ProductoController@getProductos');
 $router->put('api/producto/{id}','ProductoController@updateProducto');
 $router->delete('api/producto/{id}','ProductoController@deleteProducto');
+$router->patch('api/producto/{id}','ProductoController@updateProductoByProperty');

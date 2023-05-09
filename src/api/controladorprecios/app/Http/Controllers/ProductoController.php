@@ -57,6 +57,16 @@ class ProductoController extends Controller
         }
     }
 
+    public function updateProductoByProperty(Request $request,$id){
+        try {
+            $jsonParsed= json_decode($request->getContent(),true);
+            $this->service->updateProductoByProperty($id,$jsonParsed);
+            return new Response($this->stdResponse());
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
+
     public function deleteProducto($id){
         try {
             $this->service->deleteProducto($id);

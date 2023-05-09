@@ -99,4 +99,8 @@ class ProductosRepository implements IProductosRepository
 
 
     }
+
+    public function updateProductoByProperty(string $id,array $fieldValue){
+        $this->db->table('productos')->where('publicId',$id)->update($fieldValue);
+    }
 }

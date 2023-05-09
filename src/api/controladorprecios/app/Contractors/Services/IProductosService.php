@@ -10,4 +10,5 @@ interface IProductosService {
     function getProducto($id):ProductoDTO;
     function updateProducto(ProductoDTO $producto);
     function getProductos(array $searchParams,int $limit=500,int $offset=0);
+    function updateProductoByProperty($id,array $propertyValue);
 }

@@ -11,6 +11,8 @@ use Tests\TestCase;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\ConnectionFactory;
 use DateTime;
+use Faker\Core\Uuid;
+
 use function PHPUnit\Framework\isNull;
 
 class ProductosRepositoryTests extends TestCase
@@ -234,6 +236,42 @@ class ProductosRepositoryTests extends TestCase
         $productos= $this->productosrepository->getProductos($filter);
 
         $this->assertEquals($model->codigo,$productos[0]->codigo);
+        $this->deleteProductAdded($model->codigo);
+    }
+
+    public function test_ShouldUpdateProductoPropertySelected(){
+        $model= new Producto(); 
+        $model->publicId= uniqid();
+        $model->nombre="productoPruebafecha";
+        $model->descripcion="descripcion prueba";
+        $model->codigo="998800";
+        $model->sku="sku";
+        $model->upc="upc";
+        $model->ean="ean";
+
+        $this->db->table('productos')->insert(
+            [
+                'publicId'=>$model->publicId,
+                'nombre'=>$model->nombre,
+                'descripcion'=>$model->descripcion,
+                'codigo'=>$model->codigo,
+                'sku'=>$model->sku,
+                'upc'=>$model->upc,
+                'ean'=>$model->ean
+            ]
+        );
+
+        $updateProperty=[
+            "sku"=>"239403",
+            "upc"=>"39304"
+        ];
+
+        $this->productosrepository->updateProductoByProperty($model->publicId,$updateProperty);
+
+        $productoUpdated=$this->db->table('productos')->where('codigo',$model->codigo)->get()[0];
+
+        $this->assertEquals($productoUpdated->sku,"239403");
+        $this->assertEquals($productoUpdated->upc,"39304");
         $this->deleteProductAdded($model->codigo);
     }
 
