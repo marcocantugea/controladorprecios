@@ -47,7 +47,8 @@ class ProductoMapper implements IMapper
             $activo,
             $created_at,
             $updated_at,
-            $fecha_eliminado
+            $fecha_eliminado,
+            $product->publicId
         );
     }
 }

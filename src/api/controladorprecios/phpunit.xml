@@ -18,6 +18,11 @@
         <testsuite name="default">
             <directory>tests</directory>
         </testsuite>
+        <testsuite name="Productos">
+             <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
+             <file>./tests/UnitTests/ProductoServiceTests.php</file>
+             <file>./tests/UnitTests/ProductoMapperTests.php</file>
+        </testsuite>
     </testsuites>
    <php>
         <env name="APP_ENV" value="testing"/>

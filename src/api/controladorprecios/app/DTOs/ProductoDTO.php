@@ -28,7 +28,8 @@ class ProductoDTO
         bool $activo=true,
         DateTime $created_at=null,
         DateTime $updated_at=null,
-        DateTime $fecha_eliminado=null
+        DateTime $fecha_eliminado=null,
+        string $publicId=null
         ) {
         $this->nombre=$nombre;
         $this->descripcion=$descripcion;
@@ -40,5 +41,6 @@ class ProductoDTO
         $this->created_at=$created_at;
         $this->updated_at=$updated_at;
         $this->fecha_eliminado=$fecha_eliminado;
+        $this->publicId=$publicId;
     }
 }

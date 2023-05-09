@@ -66,6 +66,22 @@ class ProductoController extends Controller
         }
     }
 
+    public function getProductos(Request $request){
+        $searchParams= $request->query();
+        try {
+            $productosSearchParams=[];
+            foreach ($searchParams as $key => $value) {
+                $productosSearchParams+=[$key=>[$value,null]];
+            }
+
+            $productosFound=$this->service->getProductos($productosSearchParams);
+
+            return new Response($this->stdResponse(data:$productosFound));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
+
     protected function stdResponse($success=true,$error=false,$message="",$data=null){
         return ["success"=>$success,"error"=>$error,"message"=>$message,"data"=>$data];
     }

@@ -167,4 +167,77 @@ class ProductosRepositoryTests extends TestCase
         $this->assertTrue(!empty($producto));
         $this->assertEquals($model->descripcion,$producto->descripcion);
     }
+
+    public function test_ShouldGetProductos_All(){
+
+        $productos= $this->productosrepository->getProductos([]);
+
+        $this->assertGreaterThan(1,count($productos));
+    }
+
+    public function test_ShouldGetProductos_filter_NoOperator(){
+
+        $model= new Producto(); 
+        $model->nombre="productoPruebafecha";
+        $model->descripcion="descripcion prueba";
+        $model->codigo="998899";
+        $model->sku="sku";
+        $model->upc="upc";
+        $model->ean="ean";
+
+        $this->db->table('productos')->insert(
+            [
+                'nombre'=>$model->nombre,
+                'descripcion'=>$model->descripcion,
+                'codigo'=>$model->codigo,
+                'sku'=>$model->sku,
+                'upc'=>$model->upc,
+                'ean'=>$model->ean
+            ]
+        );
+
+        $filter=[
+            "codigo"=>[$model->codigo,null]
+        ];
+
+        $productos= $this->productosrepository->getProductos($filter);
+
+        $this->assertEquals($model->codigo,$productos[0]->codigo);
+        $this->deleteProductAdded($model->codigo);
+    }
+
+    public function test_ShouldGetProductos_filter_Operator(){
+
+        $model= new Producto(); 
+        $model->nombre="productoPruebafecha";
+        $model->descripcion="descripcion prueba";
+        $model->codigo="998899";
+        $model->sku="sku";
+        $model->upc="upc";
+        $model->ean="ean";
+
+        $this->db->table('productos')->insert(
+            [
+                'nombre'=>$model->nombre,
+                'descripcion'=>$model->descripcion,
+                'codigo'=>$model->codigo,
+                'sku'=>$model->sku,
+                'upc'=>$model->upc,
+                'ean'=>$model->ean
+            ]
+        );
+
+        $filter=[
+            "codigo"=>['%998%',"like"]
+        ];
+
+        $productos= $this->productosrepository->getProductos($filter);
+
+        $this->assertEquals($model->codigo,$productos[0]->codigo);
+        $this->deleteProductAdded($model->codigo);
+    }
+
+    private function deleteProductAdded($productoCode){
+        $this->db->table('productos')->where('codigo',$productoCode)->delete();
+    }
 }

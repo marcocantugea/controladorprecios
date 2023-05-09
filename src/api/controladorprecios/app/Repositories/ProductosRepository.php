@@ -7,6 +7,7 @@ use App\Contractors\Models\Producto;
 use DateTime;
 use Illuminate\Database\MySqlConnection;
 use Exception;
+use Hamcrest\Arrays\IsArray;
 
 class ProductosRepository implements IProductosRepository
 {
@@ -55,7 +56,7 @@ class ProductosRepository implements IProductosRepository
             'fecha_eliminado'=> new DateTime('now')
         ]);
     }
-    
+
     public function getById($id){
         if(empty($id)) throw new Exception("invalid product id", 1);
         return $this->db->table('productos')
@@ -73,5 +74,29 @@ class ProductosRepository implements IProductosRepository
             'updated_at',
             'fecha_eliminado'
         )->get();
+    }
+
+    function getProductos(array $searchParams,int $limit=500){
+        
+        $query= $this->db->table('productos');
+        foreach ($searchParams as $key => [$value,$operator]) {
+            $query->where($key,empty($operator) ? '=' : $operator,$value);
+        }
+
+        return $query->select(
+            'publicId',
+            'nombre',
+            'descripcion',
+            'codigo',
+            'sku',
+            'upc',
+            'ean',
+            'activo',
+            'created_at',
+            'updated_at',
+            'fecha_eliminado'
+        )->limit(500)->get();
+
+
     }
 }

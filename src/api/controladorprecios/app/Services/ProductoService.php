@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Contractors\Data\IRepository;
+use App\Contractors\Models\Producto;
 use App\Contractors\IMapper;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
 use App\DTOs\ProductoDTO;
 use App\Mappers\ProductoMapper;
 use Illuminate\Database\MySqlConnection;
+use PHPUnit\Framework\Constraint\Operator;
 
 class ProductoService implements IProductosService
 {
@@ -52,6 +54,37 @@ class ProductoService implements IProductosService
     public function deleteProducto($id){
         try {
             $this->productoRepository->delete($id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getProductos(array $searchParams,int $limit=500){
+        try {
+            $fiedlsLikeOperator=[
+                "nombre",
+                "descripcion",
+                "codigo",
+                "sku",
+                "upc",
+                "ean"
+            ];
+            $productoModel=get_class_vars(Producto::class);
+            $filterSearhParams=[];
+            foreach ($searchParams as $key => [$value,$operator]) {
+                if(!in_array($key,array_keys($productoModel))) continue;
+                if(in_array($key,$fiedlsLikeOperator)) $operator='like';
+                $filterSearhParams+=[$key=>[$value,$operator]];
+            }
+
+            $productosFound=$this->productoRepository->getProductos($filterSearhParams,$limit);
+            $productosDTOFound=[];
+
+            foreach ($productosFound as $item) {
+                array_push($productosDTOFound,$this->productoMapper->reverse($item));
+            }
+
+            return $productosDTOFound;
         } catch (\Throwable $th) {
             throw $th;
         }
