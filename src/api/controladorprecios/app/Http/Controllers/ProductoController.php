@@ -70,11 +70,23 @@ class ProductoController extends Controller
         $searchParams= $request->query();
         try {
             $productosSearchParams=[];
+            $limit=500;
+            $offset=0;
             foreach ($searchParams as $key => $value) {
+                if($key=='offset') {
+                    $offset=$value;
+                    continue;
+                }
+
+                if($key=='limit'){
+                    $limit=$value;
+                    continue;
+                }
+
                 $productosSearchParams+=[$key=>[$value,null]];
             }
 
-            $productosFound=$this->service->getProductos($productosSearchParams);
+            $productosFound=$this->service->getProductos($productosSearchParams,$limit,$offset);
 
             return new Response($this->stdResponse(data:$productosFound));
         } catch (\Throwable $th) {

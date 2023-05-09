@@ -19,7 +19,7 @@ class ProductoServiceFactory
     public static function __callStatic($name, $arguments)
     {
         if($name=='get') {
-            return new ProductoService(DB::connection(),new ProductosRepository(DB::connection()),new ProductoMapper());
+            return new ProductoService(new ProductosRepository(DB::connection()),new ProductoMapper());
         }
     }
 }

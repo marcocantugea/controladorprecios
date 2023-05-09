@@ -6,5 +6,5 @@ use App\Contractors\Data\IRepository;
 
 interface IProductosRepository extends IRepository{
 
-    function getProductos(array $searchParams,int $limit=500);
+    function getProductos(array $searchParams,int $limit=500,int $offset=0);
 }

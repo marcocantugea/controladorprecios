@@ -9,5 +9,5 @@ interface IProductosService {
     function addProduct(ProductoDTO $product);
     function getProducto($id):ProductoDTO;
     function updateProducto(ProductoDTO $producto);
-    function getProductos(array $searchParams);
+    function getProductos(array $searchParams,int $limit=500,int $offset=0);
 }

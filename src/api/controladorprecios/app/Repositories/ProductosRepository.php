@@ -76,7 +76,7 @@ class ProductosRepository implements IProductosRepository
         )->get();
     }
 
-    function getProductos(array $searchParams,int $limit=500){
+    function getProductos(array $searchParams,int $limit=500,int $offset=0){
         
         $query= $this->db->table('productos');
         foreach ($searchParams as $key => [$value,$operator]) {
@@ -95,7 +95,7 @@ class ProductosRepository implements IProductosRepository
             'created_at',
             'updated_at',
             'fecha_eliminado'
-        )->limit(500)->get();
+        )->skip($offset)->take(500)->get();
 
 
     }

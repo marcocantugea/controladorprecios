@@ -17,7 +17,7 @@ class ProductoService implements IProductosService
     private IProductosRepository $productoRepository;
     private IMapper $productoMapper;
 
-    public function __construct(MySqlConnection $db,IProductosRepository $productRepository,IMapper $productoMapper) {
+    public function __construct(IProductosRepository $productRepository,IMapper $productoMapper) {
         $this->productoRepository = $productRepository;
         $this->productoMapper=$productoMapper;
     }
@@ -59,8 +59,9 @@ class ProductoService implements IProductosService
         }
     }
 
-    public function getProductos(array $searchParams,int $limit=500){
+    public function getProductos(array $searchParams,int $limit=500,int $offset=0){
         try {
+            
             $fiedlsLikeOperator=[
                 "nombre",
                 "descripcion",
@@ -77,14 +78,21 @@ class ProductoService implements IProductosService
                 $filterSearhParams+=[$key=>[$value,$operator]];
             }
 
-            $productosFound=$this->productoRepository->getProductos($filterSearhParams,$limit);
+            $productosFound=$this->productoRepository->getProductos($filterSearhParams,$limit,$offset);
             $productosDTOFound=[];
 
             foreach ($productosFound as $item) {
                 array_push($productosDTOFound,$this->productoMapper->reverse($item));
             }
 
-            return $productosDTOFound;
+            $response=[
+                'offset'=>$offset,
+                'limit'=>$limit,
+                'totalRecordsFound'=>count($productosDTOFound),
+                'data'=>$productosDTOFound
+            ];
+
+            return $response;
         } catch (\Throwable $th) {
             throw $th;
         }
