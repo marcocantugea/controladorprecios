@@ -51,7 +51,16 @@ class CategoriaService implements ICategoriaService
         }
     }
 
-    public function getCategorias(array $searchParameters){
-
+    public function getCategorias(string $nombre){
+        try {
+            $catetorias= $this->repository->searchCategory($nombre);
+            $dtos=[];
+            foreach ($catetorias as $value) {
+                array_push($dtos,$this->mapper->reverse($value));
+            }
+            return $dtos;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

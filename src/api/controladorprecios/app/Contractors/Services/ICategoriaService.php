@@ -10,6 +10,6 @@ interface ICategoriaService{
     function updateCategoria(CategoriaDTO $dto);
     function deleteCategoria($id);
     function getCategoria($id);
-    function getCategorias(array $searchParameters);
+    function getCategorias(string $nombre);
 
 }

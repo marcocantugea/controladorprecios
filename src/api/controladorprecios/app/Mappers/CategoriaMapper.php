@@ -5,6 +5,7 @@ namespace App\Mappers;
 use App\Contractors\IMapper;
 use App\Contractors\Models\Categoria;
 use App\DTOs\CategoriaDTO;
+use DateTime;
 
 class CategoriaMapper implements IMapper
 {
@@ -23,11 +24,14 @@ class CategoriaMapper implements IMapper
 
     public function reverse($model)
     {
+        $dateCreate=(empty($model->created_at)) ? null : new DateTime($model->created_at);
+        $dateUpdated=(empty($model->updated_at)) ? null : new DateTime($model->updated_at);
+        $fechaEliminado=(empty($model->fecha_eliminado)) ? null : new DateTime( $model->fecha_eliminado);
         return new CategoriaDTO($model->nombre,
-                                (empty($model->activo)) ? true : $model->activo,
-                                (empty($model->created_at)) ? null : $model->created_at,
-                                (empty($model->updated_at)) ? null : $model->updated_at,
-                                (empty($model->fecha_eliminado)) ? null : $model->fecha_eliminado,
+                                (empty($model->activo)) ? true : boolval($model->activo),
+                                $dateCreate,
+                                $dateUpdated,
+                                $fechaEliminado,
                                 (empty($model->publicId)) ? null : $model->publicId
                             );
     }

@@ -63,4 +63,19 @@ class CategoriaRepository implements ICategoriaRepository
             'updated_at'=>new DateTime('now')
         ]);
     }
+
+    public function searchCategory(string $nombre){
+        $query=$this->db->table('categorias');
+        if(!empty($nombre)) $query->where('nombre','like',$nombre);
+        $query->select(
+                        'publicId',
+                        'nombre',
+                        'activo',
+                        'created_at',
+                        'updated_at',
+                        'fecha_eliminado'
+        );
+
+        return $query->get();
+    }
 }
