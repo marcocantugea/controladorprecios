@@ -9,6 +9,7 @@ use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
 use App\DTOs\ProductoDTO;
 use App\Mappers\ProductoMapper;
+use Exception;
 use Illuminate\Database\MySqlConnection;
 use PHPUnit\Framework\Constraint\Operator;
 
@@ -35,6 +36,7 @@ class ProductoService implements IProductosService
     public function getProducto($id):ProductoDTO{
         try {
             $producto=$this->productoRepository->getById($id);
+            if(count($producto)==0 )throw new Exception("producto not found");
             $productoDto=$this->productoMapper->reverse($producto[0]);
             return $productoDto;
         } catch (\Throwable $th) {
