@@ -48,7 +48,7 @@ class ProductoMapper implements IMapper
             $created_at,
             $updated_at,
             $fecha_eliminado,
-            $product->publicId
+            empty($product->publicId) ? null : $product->publicId
         );
     }
 }
