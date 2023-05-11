@@ -8,7 +8,7 @@ use App\Services\ServicesContainer;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
-class ProductoController extends Controller
+class ProductoController extends BaseController
 {
     private ProductoService $service;
     private ProductoMapper $mapper;
@@ -102,10 +102,5 @@ class ProductoController extends Controller
         } catch (\Throwable $th) {
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
-    }
-
-    protected function stdResponse($success=true,$error=false,$message="",$data=null){
-        return ["success"=>$success,"error"=>$error,"message"=>$message,"data"=>$data];
-    }
-    
+    }    
 }

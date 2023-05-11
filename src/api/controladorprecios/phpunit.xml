@@ -19,9 +19,22 @@
             <directory>tests</directory>
         </testsuite>
         <testsuite name="Productos">
-             <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
-             <file>./tests/UnitTests/ProductoServiceTests.php</file>
-             <file>./tests/UnitTests/ProductoMapperTests.php</file>
+            <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
+            <file>./tests/UnitTests/ProductoServiceTests.php</file>
+            <file>./tests/UnitTests/ProductoMapperTests.php</file>
+        </testsuite>
+        <testsuite name="Categorias">
+            <file>./tests/UnitTests/CategoriasRepositoryTests.php</file>
+            <file>./tests/UnitTests/CategoriasMapperTests.php</file>
+            <file>./tests/UnitTests/CategoriasServiceTests.php</file>
+        </testsuite>
+        <testsuite name="All">
+            <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
+            <file>./tests/UnitTests/ProductoServiceTests.php</file>
+            <file>./tests/UnitTests/ProductoMapperTests.php</file>
+            <file>./tests/UnitTests/CategoriasRepositoryTests.php</file>
+            <file>./tests/UnitTests/CategoriasMapperTests.php</file>
+            <file>./tests/UnitTests/CategoriasServiceTests.php</file>
         </testsuite>
     </testsuites>
    <php>
