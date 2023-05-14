@@ -69,4 +69,17 @@ class CategoriasMapperTests extends TestCase
 
     }
 
+    public function test_ShouldMappCategoriaDTO_esSubCategoriaProperty(){
+        $model= new Categoria(); 
+        $model->publicId=uniqid();
+        $model->nombre="productoPrueba";
+        $model->esSubCategoria=true;
+
+        $stdClass= json_decode(json_encode($model));
+
+        $categoriaDto= $this->categoriaMapper->reverse($stdClass);
+        $this->assertInstanceOf(CategoriaDTO::class,$categoriaDto);
+        $this->assertTrue($categoriaDto->esSubCategoria);
+    }
+
 }

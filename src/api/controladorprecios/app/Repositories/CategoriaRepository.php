@@ -49,7 +49,8 @@ class CategoriaRepository implements ICategoriaRepository
             'activo',
             'created_at',
             'updated_at',
-            'fecha_eliminado'
+            'fecha_eliminado',
+            'esSubcategoria'
         )->get()[0];
     }
 
@@ -64,9 +65,9 @@ class CategoriaRepository implements ICategoriaRepository
         ]);
     }
 
-    public function searchCategory(string $nombre){
-        $query=$this->db->table('categorias');
-        if(!empty($nombre)) $query->where('nombre','like',$nombre);
+    public function searchCategory(string $nombre,bool $esSubcategoria=false){
+        $query=$this->db->table('categorias')->where('esSubcategoria',$esSubcategoria);
+        if(!empty($nombre)) $query->where('nombre','like',$nombre,true);
         $query->select(
                         'publicId',
                         'nombre',
@@ -77,5 +78,27 @@ class CategoriaRepository implements ICategoriaRepository
         );
 
         return $query->get();
+    }
+
+    public function addSubCategoria($id,Categoria $model)
+    {
+        if(!$model instanceof Categoria) throw new Exception("model is not instance of categoria", 1);
+        $model->publicId=uniqid();
+        $this->db->table('categorias')->insert(
+            [
+                'publicId'=> $model->publicId,
+                'nombre'=>$model->nombre,
+                'created_at'=>new DateTime('now'),
+                'esSubcategoria'=>true
+            ]
+        );
+
+        $idCategoria=  $this->db->table('categorias')->where('publicId',$id)->get('id')[0]->id;
+        $idSubCategoria= $this->db->table('categorias')->where('publicId',$model->publicId)->get('id')[0]->id;
+
+        $this->db->table('subcategorias')->insert(
+            ['categoriaId'=>$idCategoria,'subcategoriaId'=>$idSubCategoria]
+        );
+
     }
 }

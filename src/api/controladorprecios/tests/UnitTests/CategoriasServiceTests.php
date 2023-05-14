@@ -15,7 +15,7 @@ class CategoriasServiceTests extends TestCase
 {
 
     protected $db;
-    protected CategoriaService $productoService;
+    protected CategoriaService $categoriaService;
     protected ICategoriaRepository $categoriaRepositoryMock;
     protected IMapper $categoriaMapper;
     
@@ -25,14 +25,14 @@ class CategoriasServiceTests extends TestCase
        $this->db=$this->app->make('db')->connection();
        
        $this->categoriaRepositoryMock=$this->getMockBuilder(ICategoriaRepository::class)
-                                                ->onlyMethods(['add','update','delete','getById','searchCategory'])
+                                                ->onlyMethods(['add','update','delete','getById','searchCategory','addSubCategoria'])
                                                 ->getMock();
 
        $this->categoriaMapper=$this->getMockBuilder(IMapper::class)
                                         ->onlyMethods(['map','reverse'])
                                         ->getMock();
 
-       $this->productoService= new CategoriaService($this->categoriaRepositoryMock,$this->categoriaMapper);
+       $this->categoriaService= new CategoriaService($this->categoriaRepositoryMock,$this->categoriaMapper);
     }
 
     public function test_AddCategoria_Sucess(){
@@ -51,7 +51,7 @@ class CategoriasServiceTests extends TestCase
                                         ->method('add')
                                         ->with($this->equalTo($categoriaToAdd));
 
-        $this->productoService->addCategoria(new CategoriaDTO($categoriaToAdd->nombre,true,new Datetime(),publicId:$categoriaToAdd->publicId));
+        $this->categoriaService->addCategoria(new CategoriaDTO($categoriaToAdd->nombre,true,new Datetime(),publicId:$categoriaToAdd->publicId));
 
     }
 
@@ -63,7 +63,7 @@ class CategoriasServiceTests extends TestCase
 
         $this->expectException(Exception::class);
 
-        $this->productoService->addCategoria(new CategoriaDTO("nombre",true,new Datetime(),publicId:uniqid()));
+        $this->categoriaService->addCategoria(new CategoriaDTO("nombre",true,new Datetime(),publicId:uniqid()));
     }
 
     public function test_UpdateCategoria_Sucess(){
@@ -82,7 +82,7 @@ class CategoriasServiceTests extends TestCase
                                         ->method('update')
                                         ->with($this->equalTo($categoriaToAdd));
 
-        $this->productoService->updateCategoria(new CategoriaDTO($categoriaToAdd->nombre,true,new Datetime(),publicId:$categoriaToAdd->publicId));
+        $this->categoriaService->updateCategoria(new CategoriaDTO($categoriaToAdd->nombre,true,new Datetime(),publicId:$categoriaToAdd->publicId));
 
     }
 
@@ -94,7 +94,7 @@ class CategoriasServiceTests extends TestCase
 
         $this->expectException(Exception::class);
 
-        $this->productoService->updateCategoria(new CategoriaDTO("nombre",true,new Datetime(),publicId:uniqid()));
+        $this->categoriaService->updateCategoria(new CategoriaDTO("nombre",true,new Datetime(),publicId:uniqid()));
     }
 
 
@@ -106,7 +106,7 @@ class CategoriasServiceTests extends TestCase
         ->method('delete')
         ->with($this->equalTo($publicId));
 
-        $this->productoService->deleteCategoria($publicId);
+        $this->categoriaService->deleteCategoria($publicId);
     }
 
     public function test_deleteCategoria_Fail_ExceptionThrown(){
@@ -119,8 +119,18 @@ class CategoriasServiceTests extends TestCase
 
         $this->expectException(Exception::class);
 
-        $this->productoService->deleteCategoria($publicId);
+        $this->categoriaService->deleteCategoria($publicId);
     }
 
+    public function test_ShouldAddSubCategoria_Success(){
+
+        $this->categoriaMapper->expects($this->once())
+                            ->method('map')
+                            ->willReturn(new Categoria());
+
+        $this->categoriaRepositoryMock->expects($this->once())->method('addSubCategoria');
+
+        $this->categoriaService->addSubCategory(uniqid(),new CategoriaDTO("nombre"));
+    }
 
 }

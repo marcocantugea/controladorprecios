@@ -13,6 +13,7 @@ class CategoriaRoutes
         $router->get("api/categoria/{id}",'CategoriaController@getCategoria');
         $router->delete("api/categoria/{id}",'CategoriaController@deleteCategoria');
         $router->get("api/categorias",'CategoriaController@getCategorias');
+        $router->post("api/categoria/{id}/subcategoria",'CategoriaController@addSubCategoria');
     }
     
 }

@@ -13,6 +13,7 @@ class CategoriaDTO
     public ?DateTime $created_at;
     public ?DateTime $updated_at;
     public ?DateTime $fecha_eliminado;
+    public bool $esSubCategoria=false;
 
     public function __construct(
         string $nombre,
@@ -20,7 +21,8 @@ class CategoriaDTO
         DateTime $created_at=null,
         Datetime $updated_at=null,
         DateTime $fecha_eliminado=null,
-        string $publicId=null
+        string $publicId=null,
+        bool $esSubCategoria=false
     ) {
         $this->nombre=$nombre;
         $this->activo=$activo;
@@ -28,5 +30,6 @@ class CategoriaDTO
         $this->updated_at=(empty($updated_at)) ? null : $updated_at;
         $this->fecha_eliminado=(empty($fecha_eliminado)) ? null : $fecha_eliminado;
         $this->publicId=$publicId;
+        $this->esSubCategoria=$esSubCategoria;
     }
 }

@@ -18,7 +18,7 @@ class CategoriaMapper implements IMapper
         $categoria->created_at=(empty($DTO->created_at)) ? null : new DateTime($DTO->created_at);
         $categoria->updated_at=(empty($DTO->updated_at)) ? null : new DateTime($DTO->updated_at);
         $categoria->fecha_eliminado=(empty($DTO->fecha_eliminado)) ? null : new DateTime($DTO->fecha_eliminado);
-
+        $categoria->esSubCategoria=(empty($DTO->esSubcategoria)) ? false : boolval($DTO->esSubcategoria);
         return $categoria;
     }
 
@@ -32,7 +32,8 @@ class CategoriaMapper implements IMapper
                                 $dateCreate,
                                 $dateUpdated,
                                 $fechaEliminado,
-                                (empty($model->publicId)) ? null : $model->publicId
+                                (empty($model->publicId)) ? null : $model->publicId,
+                                esSubCategoria:(isset($model->esSubcategoria)) ? boolval($model->esSubcategoria) : false
                             );
     }
 }

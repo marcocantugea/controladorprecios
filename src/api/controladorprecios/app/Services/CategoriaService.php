@@ -53,12 +53,21 @@ class CategoriaService implements ICategoriaService
 
     public function getCategorias(string $nombre){
         try {
-            $catetorias= $this->repository->searchCategory($nombre);
+            $catetorias= $this->repository->searchCategory($nombre,false);
             $dtos=[];
             foreach ($catetorias as $value) {
                 array_push($dtos,$this->mapper->reverse($value));
             }
             return $dtos;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addSubCategoria($id,CategoriaDTO $subCategoria){
+        try {
+            $categoriaModel= $this->mapper->map($subCategoria);
+            $this->repository->addSubCategoria($id,$categoriaModel);
         } catch (\Throwable $th) {
             throw $th;
         }

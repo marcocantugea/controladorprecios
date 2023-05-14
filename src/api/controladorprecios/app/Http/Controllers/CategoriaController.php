@@ -70,4 +70,15 @@ class CategoriaController extends BaseController
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
+
+    public function addSubCategoria(Request $request,$id){
+        try {
+            $jsonParsed= json_decode($request->getContent());
+            $dto= $this->mapper->reverse($jsonParsed);
+            $this->service->addSubCategoria($id,$dto);
+            return new Response($this->stdResponse());
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }

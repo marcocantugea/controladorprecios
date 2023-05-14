@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean("activo")->default(true);
             $table->timestamps();
             $table->dateTime("fecha_eliminado")->nullable();
+            $table->boolean('esSubcategoria')->default(false);
 
         });
 

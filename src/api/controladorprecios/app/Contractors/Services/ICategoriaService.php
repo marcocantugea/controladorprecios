@@ -11,5 +11,6 @@ interface ICategoriaService{
     function deleteCategoria($id);
     function getCategoria($id);
     function getCategorias(string $nombre);
+    function addSubCategoria($id,CategoriaDTO $subCategoria);
 
 }
