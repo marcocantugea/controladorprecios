@@ -3,6 +3,7 @@
 namespace Tests\UnitTests;
 
 use App\Contractors\Models\Producto;
+use App\DTOs\CategoriaDTO;
 use App\Repositories\ProductosRepository;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
@@ -172,9 +173,32 @@ class ProductosRepositoryTests extends TestCase
 
     public function test_ShouldGetProductos_All(){
 
+        $model= new Producto(); 
+        $model->nombre="productoPruebafechaAll";
+        $model->descripcion="descripcion prueba";
+        $model->codigo="998867";
+        $model->sku="sku";
+        $model->upc="upc";
+        $model->ean="ean";
+        $model->publicId=uniqid();
+
+        $this->db->table('productos')->insert(
+            [
+                'publicId'=>$model->publicId,
+                'nombre'=>$model->nombre,
+                'descripcion'=>$model->descripcion,
+                'codigo'=>$model->codigo,
+                'sku'=>$model->sku,
+                'upc'=>$model->upc,
+                'ean'=>$model->ean
+            ]
+        );
+
         $productos= $this->productosrepository->getProductos([]);
 
-        $this->assertGreaterThan(1,count($productos));
+        $this->assertGreaterThan(0,count($productos));
+        $this->deleteProductAdded($model->codigo);
+
     }
 
     public function test_ShouldGetProductos_filter_NoOperator(){
@@ -213,7 +237,7 @@ class ProductosRepositoryTests extends TestCase
         $model= new Producto(); 
         $model->nombre="productoPruebafecha";
         $model->descripcion="descripcion prueba";
-        $model->codigo="998899";
+        $model->codigo="6687977";
         $model->sku="sku";
         $model->upc="upc";
         $model->ean="ean";
@@ -230,7 +254,7 @@ class ProductosRepositoryTests extends TestCase
         );
 
         $filter=[
-            "codigo"=>['%998%',"like"]
+            "codigo"=>['%668%',"like"]
         ];
 
         $productos= $this->productosrepository->getProductos($filter);
@@ -273,6 +297,59 @@ class ProductosRepositoryTests extends TestCase
         $this->assertEquals($productoUpdated->sku,"239403");
         $this->assertEquals($productoUpdated->upc,"39304");
         $this->deleteProductAdded($model->codigo);
+    }
+
+    public function test_shouldAssingCategoryToProduct_Sucess(){
+
+        $model= new Producto(); 
+        $model->nombre="productoPruebaCategoriaRelacion";
+        $model->descripcion="descripcion prueba";
+        $model->codigo="9985768";
+        $model->sku="sku";
+        $model->upc="upc";
+        $model->ean="ean";
+        $model->publicId=uniqid();
+
+        $this->db->table('productos')->insert(
+            [
+                'publicId'=>$model->publicId,
+                'nombre'=>$model->nombre,
+                'descripcion'=>$model->descripcion,
+                'codigo'=>$model->codigo,
+                'sku'=>$model->sku,
+                'upc'=>$model->upc,
+                'ean'=>$model->ean
+            ]
+        );
+
+        $model->id= $this->db->table('productos')->where('publicId',$model->publicId)->select('id')->first()->id;
+
+        $categoriasDto=[
+            new CategoriaDTO("Categoria1",true,new DateTime('now'),publicId:uniqid()),
+            new CategoriaDTO("Categoria2",true,new DateTime('now'),publicId:uniqid())
+        ];
+
+        foreach ($categoriasDto as $value) {
+            $this->db->table('categorias')->insert([
+                'publicId'=>$value->publicId,
+                'nombre'=>$value->nombre,
+                'created_at'=>$value->created_at,
+                'activo'=>true
+            ]);
+        }
+    
+        $this->productosrepository->assignCategoryToProduct($model->publicId,$categoriasDto);
+
+        $categoriasfound= $this->db->table('productoscategorias')->where('productoId',$model->id)->get();
+
+        $this->assertGreaterThan(1,count($categoriasfound));
+        $this->assertEquals($model->id,$categoriasfound[0]->productoId);
+
+        $this->db->table('productoscategorias')->delete();
+        $this->db->table('categorias')->where('nombre','Categoria1')->delete();
+        $this->db->table('categorias')->where('nombre','Categoria2')->delete();
+        $this->db->table('productos')->where('nombre',$model->nombre)->delete();
+
     }
 
     private function deleteProductAdded($productoCode){

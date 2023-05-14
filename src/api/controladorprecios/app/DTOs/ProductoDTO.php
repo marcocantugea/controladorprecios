@@ -17,6 +17,7 @@ class ProductoDTO
     public ?DateTime $created_at;
     public ?DateTime $updated_at;
     public ?DateTime $fecha_eliminado;
+    public ?array $categorias;
  
     public function __construct(
         string $nombre, 

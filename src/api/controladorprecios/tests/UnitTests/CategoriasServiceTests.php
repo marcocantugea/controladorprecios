@@ -25,7 +25,7 @@ class CategoriasServiceTests extends TestCase
        $this->db=$this->app->make('db')->connection();
        
        $this->categoriaRepositoryMock=$this->getMockBuilder(ICategoriaRepository::class)
-                                                ->onlyMethods(['add','update','delete','getById'])
+                                                ->onlyMethods(['add','update','delete','getById','searchCategory'])
                                                 ->getMock();
 
        $this->categoriaMapper=$this->getMockBuilder(IMapper::class)

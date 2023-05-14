@@ -2,6 +2,7 @@
 
 namespace App\Factories;
 
+use App\Mappers\CategoriaMapper;
 use App\Mappers\ProductoMapper;
 use App\Repositories\ProductosRepository;
 use App\Services\ProductoService;
@@ -19,7 +20,7 @@ class ProductoServiceFactory
     public static function __callStatic($name, $arguments)
     {
         if($name=='get') {
-            return new ProductoService(new ProductosRepository(DB::connection()),new ProductoMapper());
+            return new ProductoService(new ProductosRepository(DB::connection()),new ProductoMapper(),new CategoriaMapper());
         }
     }
 }

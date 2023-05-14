@@ -15,9 +15,9 @@ class CategoriaMapper implements IMapper
         
         $categoria->publicId=(empty($DTO->publicId)) ? null : $DTO->publicId;
         $categoria->nombre= $DTO->nombre;
-        $categoria->created_at=(empty($DTO->created_at)) ? null : $DTO->created_at;
-        $categoria->updated_at=(empty($DTO->updated_at)) ? null : $DTO->updated_at;
-        $categoria->fecha_eliminado=(empty($DTO->fecha_eliminado)) ? null : $DTO->fecha_eliminado;
+        $categoria->created_at=(empty($DTO->created_at)) ? null : new DateTime($DTO->created_at);
+        $categoria->updated_at=(empty($DTO->updated_at)) ? null : new DateTime($DTO->updated_at);
+        $categoria->fecha_eliminado=(empty($DTO->fecha_eliminado)) ? null : new DateTime($DTO->fecha_eliminado);
 
         return $categoria;
     }

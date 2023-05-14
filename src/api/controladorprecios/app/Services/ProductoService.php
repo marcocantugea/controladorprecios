@@ -7,6 +7,7 @@ use App\Contractors\Models\Producto;
 use App\Contractors\IMapper;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
+use App\DTOs\CategoriaDTO;
 use App\DTOs\ProductoDTO;
 use App\Mappers\ProductoMapper;
 use Exception;
@@ -17,10 +18,12 @@ class ProductoService implements IProductosService
 {
     private IProductosRepository $productoRepository;
     private IMapper $productoMapper;
+    private IMapper $categoriasMapper;
 
-    public function __construct(IProductosRepository $productRepository,IMapper $productoMapper) {
+    public function __construct(IProductosRepository $productRepository,IMapper $productoMapper,IMapper $categoriasMapper) {
         $this->productoRepository = $productRepository;
         $this->productoMapper=$productoMapper;
+        $this->categoriasMapper=$categoriasMapper;
     }
 
     public function addProduct(ProductoDTO $producto)
@@ -38,6 +41,7 @@ class ProductoService implements IProductosService
             $producto=$this->productoRepository->getById($id);
             if(count($producto)==0 )throw new Exception("producto not found");
             $productoDto=$this->productoMapper->reverse($producto[0]);
+            $productoDto->categorias=$this->getCategorias($id);
             return $productoDto;
         } catch (\Throwable $th) {
             throw $th;
@@ -74,7 +78,21 @@ class ProductoService implements IProductosService
         }
         
         try {
-            $this->productoRepository->updateProductoByProperty($id,$updateFields);
+            if(count($updateFields)>0) $this->productoRepository->updateProductoByProperty($id,$updateFields);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        $categoriasDTO=[];
+        //proiedades de categorias agrega
+        if(array_key_exists('categorias',$propertyValue)){
+            $categoriasDTO = array_map(function($item){
+                return new CategoriaDTO($item['nombre'],publicId:$item['publicId']);
+            },$propertyValue['categorias']);
+        }       
+        
+        try {
+            if(count($categoriasDTO)>0 ) $this->productoRepository->assignCategoryToProduct($id,$categoriasDTO);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -113,7 +131,9 @@ class ProductoService implements IProductosService
             $productosDTOFound=[];
 
             foreach ($productosFound as $item) {
-                array_push($productosDTOFound,$this->productoMapper->reverse($item));
+                $producto=$this->productoMapper->reverse($item);
+                $producto->categorias=$this->getCategorias($producto->publicId);
+                array_push($productosDTOFound,$producto);
             }
 
             $response=[
@@ -127,5 +147,27 @@ class ProductoService implements IProductosService
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    private function assignCategory($id, array $categoryDtos){
+        try {
+            $this->productoRepository->assignCategoryToProduct($id,$categoryDtos);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    private function getCategorias($id): array{
+
+        $categorias=[];
+
+        $getCatetorias= $this->productoRepository->getCategoriasOfProducto($id);
+
+        foreach ($getCatetorias as $value) {
+            $categorias[]=$this->categoriasMapper->map($value);
+        }
+
+        return $categorias;
+
     }
 }

@@ -6,7 +6,9 @@ use App\Contractors\IMapper;
 use App\Contractors\Repositories\IProductosRepository;
 use App\Mappers\ProductoMapper;
 use App\Contractors\Models\Producto;
+use App\DTOs\CategoriaDTO;
 use App\DTOs\ProductoDTO;
+use App\Mappers\CategoriaMapper;
 use App\Repositories\ProductosRepository;
 use App\Services\ProductoService;
 use Exception;
@@ -18,6 +20,7 @@ class ProductoServiceTests extends TestCase
     protected ProductoService $productoService;
     protected IProductosRepository $productosRepositoryMock;
     protected IMapper $productoMapperMock;
+    protected IMapper $categoriaMapperMock;
     
     protected function setUp(): void
     {
@@ -26,14 +29,18 @@ class ProductoServiceTests extends TestCase
        
        $this->productosRepositoryMock=$this->getMockBuilder(ProductosRepository::class)
                                                 ->setConstructorArgs(array($this->db))
-                                                ->onlyMethods(['add','getById','getProductos','updateProductoByProperty'])
+                                                ->onlyMethods(['add','getById','getProductos','updateProductoByProperty','getCategoriasOfProducto'])
                                                 ->getMock();
 
        $this->productoMapperMock=$this->getMockBuilder(ProductoMapper::class)
                                         ->onlyMethods(['map','reverse'])
                                         ->getMock();
 
-       $this->productoService= new ProductoService($this->productosRepositoryMock,$this->productoMapperMock);
+        $this->categoriaMapperMock= $this->getMockBuilder(CategoriaMapper::class)
+                                            ->onlyMethods(['map','reverse'])
+                                            ->getMock();
+
+       $this->productoService= new ProductoService($this->productosRepositoryMock,$this->productoMapperMock,$this->categoriaMapperMock);
     }
 
     public function test_ShouldAddProducto_Success(){
@@ -94,6 +101,7 @@ class ProductoServiceTests extends TestCase
 
         $this->productosRepositoryMock->method('getById')->willReturn([$modelStdClass]);
         $this->productoMapperMock->method('reverse')->willReturn($productoDTO);
+        $this->productosRepositoryMock->method('getCategoriasOfProducto')->willReturn([]);
 
         $productoReturned= $this->productoService->getProducto(uniqid());
 
@@ -126,12 +134,31 @@ class ProductoServiceTests extends TestCase
 
     public function test_ShouldGetProductos_Success_NoFilters(){
         
-        $this->productosRepositoryMock->method('getProductos')->willReturn($this->getMockProducts());
+        $productosMocked=$this->getMockProducts();
+        $this->productosRepositoryMock->method('getProductos')->willReturn($productosMocked);
+        $this->productosRepositoryMock->method('getCategoriasOfProducto')->willReturn([]);
+        $this->productoMapperMock->method('reverse')->willReturn($this->returnCallback(function($item){
+            $productos=array_filter($this->getMockProducts(),function($producto) use ($item){
+                return $producto->nombre==$item->nombre;
+            });
+            $producto=current($productos);
+            return new ProductoDTO(
+                $producto->publicId= uniqid(),
+                $producto->nombre,
+                $producto->descripcion,
+                $producto->codigo,
+                $producto->sku,
+                $producto->sku,
+                $producto->ean
+            );
+        }))
+        ;
 
         $productosFound=$this->productoService->getProductos([]);
 
         $this->assertEquals(count($this->getMockProducts()),$productosFound['totalRecordsFound']);
         $this->assertEquals(count($this->getMockProducts()),count($productosFound['data']));
+        
 
     }
 
@@ -144,6 +171,7 @@ class ProductoServiceTests extends TestCase
         $returnItems=json_decode(json_encode($productoToReturn));
 
         $this->productosRepositoryMock->method('getProductos')->willReturn($returnItems);
+        $this->productosRepositoryMock->method('getCategoriasOfProducto')->willReturn([]);
 
         $productoDTOReturn=new ProductoDTO(
             $productoToReturn[0]->nombre,
@@ -176,6 +204,7 @@ class ProductoServiceTests extends TestCase
         $returnItems=json_decode(json_encode($productoToReturn));
 
         $this->productosRepositoryMock->method('getProductos')->willReturn($returnItems);
+        $this->productosRepositoryMock->method('getCategoriasOfProducto')->willReturn([]);
 
         $productoDTOReturn=new ProductoDTO(
             $productoToReturn[0]->nombre,
@@ -208,6 +237,7 @@ class ProductoServiceTests extends TestCase
         $returnItems=json_decode(json_encode($productoToReturn));
 
         $this->productosRepositoryMock->method('getProductos')->willReturn($returnItems);
+        $this->productosRepositoryMock->method('getCategoriasOfProducto')->willReturn([]);
 
         $productoDTOReturn=new ProductoDTO(
             $productoToReturn[0]->nombre,
@@ -240,6 +270,7 @@ class ProductoServiceTests extends TestCase
         $returnItems=json_decode(json_encode($productoToReturn));
 
         $this->productosRepositoryMock->method('getProductos')->willReturn($returnItems);
+        $this->productosRepositoryMock->method('getCategoriasOfProducto')->willReturn([]);
 
         $productoDTOReturn=new ProductoDTO(
             $productoToReturn[0]->nombre,

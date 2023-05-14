@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Models\Producto;
+use App\DTOs\CategoriaDTO;
 use DateTime;
 use Illuminate\Database\MySqlConnection;
 use Exception;
@@ -97,10 +98,50 @@ class ProductosRepository implements IProductosRepository
             'fecha_eliminado'
         )->skip($offset)->take(500)->get();
 
-
     }
 
     public function updateProductoByProperty(string $id,array $fieldValue){
         $this->db->table('productos')->where('publicId',$id)->update($fieldValue);
+    }
+
+    public function assignCategoryToProduct(string $id, array $categoriaDto)
+    {
+        //validamos que los objetos del array sean CategoriaDTO
+        foreach ($categoriaDto as $value) if(!$value instanceof CategoriaDTO) throw new Exception("item in the array is not a categoria dto");
+
+        //obtenemos el id del productos y los ids de las categorias.
+        $idProducto= $this->db->table('productos')->where('publicId',$id)->first('id')->id;
+        //obtenemos los ids de las categorias
+        $categoriasPublicIds= array_map(function($item){
+            return $item->publicId;
+        },$categoriaDto);
+
+        $categoriesIds=$this->db->table('categorias')->whereIn('publicId',$categoriasPublicIds)->get('id');
+
+        $insertValues=[];
+
+        foreach ($categoriesIds as $value) {
+            $insertValues[]=["productoId"=>$idProducto,"categoriaId"=>$value->id];
+        }
+
+        //insertamos valores en la tabla
+        $this->db->table('productoscategorias')->insert($insertValues);
+
+    }
+
+    public function getCategoriasOfProducto($id){
+
+        return $this->db->table('productoscategorias')
+                         ->join('productos','productoscategorias.productoId','productos.Id')
+                         ->join('categorias','productoscategorias.categoriaId','categorias.Id')
+                         ->Where('productos.publicId',$id)
+                         ->select(
+                            'categorias.publicId',
+                            'categorias.nombre',
+                            'categorias.activo',
+                            'categorias.created_at',
+                            'categorias.updated_at',
+                            'categorias.fecha_eliminado'
+                         )->get();
     }
 }
