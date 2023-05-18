@@ -9,8 +9,10 @@ interface ICategoriaService{
     function addCategoria(CategoriaDTO $dto);
     function updateCategoria(CategoriaDTO $dto);
     function deleteCategoria($id);
-    function getCategoria($id);
-    function getCategorias(string $nombre);
+    function getCategoria($id,bool $addSubCategorias=false);
+    function getCategorias(string $nombre,bool $addSubCategorias=false);
     function addSubCategoria($id,CategoriaDTO $subCategoria);
+    function addSubCategorias($id,array $subCategoriasDTO);
+    function getSubCategorias($id,bool $loadChilds=false):array;
 
 }

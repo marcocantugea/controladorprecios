@@ -14,6 +14,7 @@ class CategoriaDTO
     public ?DateTime $updated_at;
     public ?DateTime $fecha_eliminado;
     public bool $esSubCategoria=false;
+    public ?array $subcategoria=[];
 
     public function __construct(
         string $nombre,

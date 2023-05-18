@@ -10,6 +10,9 @@ use App\Services\CategoriaService;
 use Tests\TestCase;
 use DateTime;
 use Exception;
+use FastRoute\RouteParser\Std;
+use stdClass;
+use Throwable;
 
 class CategoriasServiceTests extends TestCase
 {
@@ -25,7 +28,16 @@ class CategoriasServiceTests extends TestCase
        $this->db=$this->app->make('db')->connection();
        
        $this->categoriaRepositoryMock=$this->getMockBuilder(ICategoriaRepository::class)
-                                                ->onlyMethods(['add','update','delete','getById','searchCategory','addSubCategoria'])
+                                                ->onlyMethods(['add',
+                                                            'update',
+                                                            'delete',
+                                                            'getById',
+                                                            'searchCategory',
+                                                            'addSubCategoria',
+                                                            'addSubCategorias',
+                                                            'getSubCategoria',
+                                                            'hasSubCategorias'
+                                                            ])
                                                 ->getMock();
 
        $this->categoriaMapper=$this->getMockBuilder(IMapper::class)
@@ -130,7 +142,87 @@ class CategoriasServiceTests extends TestCase
 
         $this->categoriaRepositoryMock->expects($this->once())->method('addSubCategoria');
 
-        $this->categoriaService->addSubCategory(uniqid(),new CategoriaDTO("nombre"));
+        $this->categoriaService->addSubCategoria(uniqid(),new CategoriaDTO("nombre"));
+    }
+
+    public function test_ShouldAddSubCategorias_Success(){
+
+        $this->categoriaMapper->expects($this->once())
+                            ->method('map')
+                            ->willReturn(new Categoria());
+
+        $this->categoriaRepositoryMock->expects($this->once())->method('addSubCategorias');
+
+        $this->categoriaService->addSubCategorias(uniqid(),[new CategoriaDTO("nombre")]);
+    }
+
+    public function test_ShouldgetSubCategorias_Succcess_NoSubChilds(){
+
+        $this->categoriaRepositoryMock->expects($this->once())
+                                        ->method('getSubCategoria')
+                                        ->willReturn([new stdClass(),new stdClass()])
+                                        ;
+        $this->categoriaRepositoryMock->expects($this->atLeastOnce())
+                                        ->method('hasSubCategorias')
+                                        ->willReturn(false)
+                                        ;
+                                        
+        $this->categoriaMapper->expects($this->atLeastOnce())
+        ->method('reverse')
+        ->willReturn($this->returnCallback(function()
+            {
+                $obj=new CategoriaDTO("nombre");
+                $obj->publicId=uniqid();
+                return $obj;
+            }
+        ));
+
+        $subcategorias=$this->categoriaService->getSubCategorias(uniqid());
+
+        $this->assertEquals(2,count($subcategorias));
+
+    }
+
+    public function test_ShouldgetSubCategorias_Succcess_SubChilds(){
+
+        $parentId=uniqid();
+
+        $categoria1=new Categoria();
+        $categoria1->publicId=uniqid();
+        $categoria1->nombre="categoria1";
+
+        $categoria2=new Categoria();
+        $categoria2->publicId=uniqid();
+        $categoria2->nombre="categoria2";
+
+        $childCategoria1= new CategoriaDTO("categoriahijo1");
+        $childCategoria1->publicId=uniqid();
+
+        $this->categoriaRepositoryMock->expects($this->atLeastOnce())
+                                        ->method('getSubCategoria')
+                                        ->willReturn($this->returnCallback(function($item) use ($parentId,$categoria1,$categoria2,$childCategoria1){
+                                            if($item==$parentId) return [$categoria1, $categoria2];
+                                            if($item==$categoria1->publicId) return [$childCategoria1];
+                                            return [];
+                                        }))
+                                        ;
+        $this->categoriaRepositoryMock->expects($this->atLeastOnce())
+                                        ->method('hasSubCategorias')
+                                        ->willReturn(true)
+                                        ;
+                                        
+        $this->categoriaMapper->expects($this->atLeastOnce())
+        ->method('reverse')
+        ->willReturn($this->returnCallback(function()
+            {
+                $obj=new CategoriaDTO("nombre");
+                $obj->publicId=uniqid();
+                return $obj;
+            }
+        ));
+
+        $subcategorias=$this->categoriaService->getSubCategorias($parentId,true);
+        $this->assertEquals(2,count($subcategorias));
     }
 
 }

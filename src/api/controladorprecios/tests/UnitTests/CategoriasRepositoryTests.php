@@ -169,4 +169,143 @@ class CategoriasRepositoryTests extends TestCase
         $this->db->table('categorias')->where('publicId',$subCategorias[0]->childId)->delete();
     }
 
+    public function test_ShouldAddSubCategorias(){
+        
+        $model= new Categoria(); 
+        $model->publicId=uniqid();
+        $model->nombre="categoriaPadre1";
+
+        $this->db->table('categorias')->insert(
+            [
+                'publicID'=>$model->publicId,
+                'nombre'=>$model->nombre,
+                'activo'=>true,
+                'created_at'=>new DateTime('now')
+            ]
+        );
+
+        $subCategoria= new Categoria();
+        $subCategoria->nombre="categoriaHijo";
+
+        $subCategoria1=new Categoria();
+        $subCategoria1->nombre='categoriaHijo1';
+
+        $subCategoria2=new Categoria();
+        $subCategoria2->nombre='categoriaHijo2';
+
+        $subcategorias=[$subCategoria,$subCategoria1,$subCategoria2];
+
+        $this->categoriaRepository->addSubCategorias($model->publicId,$subcategorias);
+
+        $subCategoriasFound= $this->db->table('subcategorias')
+        ->join('categorias as parent','subcategorias.categoriaId','parent.Id')
+        ->join('categorias as child','subcategorias.subcategoriaId','child.Id')
+        ->where('parent.publicId',$model->publicId)
+        ->select('parent.publicId as parentId','child.publicId as childId','child.nombre')
+        ->get();
+
+        $this->assertGreaterThan(1,count($subCategoriasFound));
+        $this->assertEquals($model->publicId,$subCategoriasFound[0]->parentId);
+        $this->assertEquals($subCategoria->nombre,$subCategoriasFound[0]->nombre);
+
+        $this->db->table('subcategorias')->delete();
+        $this->db->table('categorias')->where('nombre',$model->nombre)->delete();
+    }
+
+
+    public function test_ShouldGetSubCategoria(){
+        $model= new Categoria(); 
+        $model->publicId=uniqid();
+        $model->nombre="categoriaPadre283";
+
+        $this->db->table('categorias')->insert(
+            [
+                'publicID'=>$model->publicId,
+                'nombre'=>$model->nombre,
+                'activo'=>true,
+                'created_at'=>new DateTime('now')
+            ]
+        );
+
+        $subCategoria= new Categoria();
+        $subCategoria->nombre="categoriaHijo1-283";
+
+        $subCategoria1=new Categoria();
+        $subCategoria1->nombre='categoriaHijo2-283';
+
+        $subCategoria2=new Categoria();
+        $subCategoria2->nombre='categoriaHijo3-283';
+
+        $subcategorias=[$subCategoria,$subCategoria1,$subCategoria2];
+
+        $this->categoriaRepository->addSubCategorias($model->publicId,$subcategorias);
+
+        $subcategoriasFound= $this->categoriaRepository->getSubCategoria($model->publicId);
+        $this->assertGreaterThanOrEqual(3,count($subcategoriasFound));
+        foreach ($subcategoriasFound as $value) {
+            $this->assertTrue(str_contains($value->nombre,'-283'));
+        }
+
+        $this->db->table('subcategorias')->delete();
+        $this->db->table('categorias')->where('publicId',$model->publicId)->delete();
+    }
+
+
+    public function test_ShouldhasSubCategorias(){
+        $model= new Categoria(); 
+        $model->publicId=uniqid();
+        $model->nombre="categoriaPadre284";
+
+        $this->db->table('categorias')->insert(
+            [
+                'publicID'=>$model->publicId,
+                'nombre'=>$model->nombre,
+                'activo'=>true,
+                'created_at'=>new DateTime('now')
+            ]
+        );
+
+        $subCategoria= new Categoria();
+        $subCategoria->nombre="categoriaHijo1-284";
+
+        $subCategoria1=new Categoria();
+        $subCategoria1->nombre='categoriaHijo2-284';
+
+        $subCategoria2=new Categoria();
+        $subCategoria2->nombre='categoriaHijo3-284';
+
+        $subcategorias=[$subCategoria,$subCategoria1,$subCategoria2];
+
+        $this->categoriaRepository->addSubCategorias($model->publicId,$subcategorias);
+
+        $hasSubcategorias=$this->categoriaRepository->hasSubCategorias($model->publicId);
+
+        $this->assertTrue($hasSubcategorias);
+
+        $this->db->table('subcategorias')->delete();
+        $this->db->table('categorias')->where('publicId',$model->publicId)->delete();
+    }
+
+
+    public function test_ShouldhasSubCategorias_noSubCategorias(){
+        $model= new Categoria(); 
+        $model->publicId=uniqid();
+        $model->nombre="categoriaPadre285";
+
+        $this->db->table('categorias')->insert(
+            [
+                'publicID'=>$model->publicId,
+                'nombre'=>$model->nombre,
+                'activo'=>true,
+                'created_at'=>new DateTime('now')
+            ]
+        );
+
+        $hasSubcategorias=$this->categoriaRepository->hasSubCategorias($model->publicId);
+
+        $this->assertFalse($hasSubcategorias);
+
+        $this->db->table('categorias')->where('publicId',$model->publicId)->delete();
+    }
+
 }

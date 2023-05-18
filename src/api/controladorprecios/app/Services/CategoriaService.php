@@ -43,20 +43,24 @@ class CategoriaService implements ICategoriaService
         }
     }
 
-    public function getCategoria($id){
+    public function getCategoria($id,bool $addSubCategorias=false){
         try {
-            return $this->mapper->reverse($this->repository->getById($id));
+            $categoriaDto=$this->mapper->reverse($this->repository->getById($id));
+            if($this->repository->hasSubCategorias($id)) $categoriaDto->subcategoria= $this->getSubCategorias($id,$addSubCategorias);
+            return $categoriaDto;
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    public function getCategorias(string $nombre){
+    public function getCategorias(string $nombre,bool $addSubCategorias=false){
         try {
             $catetorias= $this->repository->searchCategory($nombre,false);
             $dtos=[];
             foreach ($catetorias as $value) {
-                array_push($dtos,$this->mapper->reverse($value));
+                $categoria=$this->mapper->reverse($value);
+                if($this->repository->hasSubCategorias($categoria->publicId)) $categoria->subcategoria=$this->getSubCategorias($categoria->publicId,$addSubCategorias);
+                array_push($dtos,$categoria);
             }
             return $dtos;
         } catch (\Throwable $th) {
@@ -68,6 +72,38 @@ class CategoriaService implements ICategoriaService
         try {
             $categoriaModel= $this->mapper->map($subCategoria);
             $this->repository->addSubCategoria($id,$categoriaModel);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addSubCategorias($id,array $subCategoriasDTO){
+        try {
+            $subcategorias=[];
+            foreach ($subCategoriasDTO as $value) {
+                if(!$value instanceof CategoriaDTO) throw new \Exception("invalid item categoria ");
+                
+                $subcategorias[]=$this->mapper->map($value);
+            }
+            $this->repository->addSubCategorias($id,$subcategorias);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getSubCategorias($id,bool $loadChilds=false):array{
+        try {
+            $subcategoriasFound=$this->repository->getSubCategoria($id);
+            $subcategoriasDto=[];
+            foreach ($subcategoriasFound as $value) {
+                $item=$this->mapper->reverse($value);
+                if($this->repository->hasSubCategorias($item->publicId) && $loadChilds){
+                    $subCategoriasHijos=$this->getSubCategorias($item->publicId,$loadChilds);
+                    $item->subcategoria=$subCategoriasHijos;
+                }
+                $subcategoriasDto[]=$item;
+            }
+            return $subcategoriasDto;
         } catch (\Throwable $th) {
             throw $th;
         }
