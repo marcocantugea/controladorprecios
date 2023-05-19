@@ -141,7 +141,8 @@ class ProductosRepository implements IProductosRepository
                             'categorias.activo',
                             'categorias.created_at',
                             'categorias.updated_at',
-                            'categorias.fecha_eliminado'
+                            'categorias.fecha_eliminado',
+                            'categorias.esSubcategoria',
                          )->get();
     }
 }
