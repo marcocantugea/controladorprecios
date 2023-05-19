@@ -70,14 +70,15 @@ class CategoriaRepository implements ICategoriaRepository
 
     public function searchCategory(string $nombre,bool $esSubcategoria=false){
         $query=$this->db->table('categorias')->where('esSubcategoria',$esSubcategoria);
-        if(!empty($nombre)) $query->where('nombre','like',$nombre,true);
+        if(!empty($nombre)) $query->where('nombre','like',$nombre);
         $query->select(
                         'publicId',
                         'nombre',
                         'activo',
                         'created_at',
                         'updated_at',
-                        'fecha_eliminado'
+                        'fecha_eliminado',
+                        'esSubcategoria'
         );
 
         return $query->get();
@@ -141,7 +142,8 @@ class CategoriaRepository implements ICategoriaRepository
                                 'catHija.activo',
                                 'catHija.created_at',
                                 'catHija.updated_at',
-                                'catHija.fecha_eliminado'
+                                'catHija.fecha_eliminado',
+                                'catHija.esSubcategoria'
                             ])
                             ->get();
     }

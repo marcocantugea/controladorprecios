@@ -13,6 +13,6 @@ class Categoria
     public ?DateTime $created_at;
     public ?DateTime $updated_at;
     public ?DateTime $fecha_eliminado;
-    public bool $esSubCategoria=false;
-    public ?array $subCategoria;
+    public bool $esSubcategoria=false;
+    public ?array $subcategoria;
 }

@@ -68,7 +68,7 @@ class CategoriaController extends BaseController
         $nombre= empty($request->query('nombre')) ? "" : $request->query('nombre');
         try {
             $addChilds=boolval($request->query('childs'));
-            return $this->service->getCategorias($nombre,$addChilds);
+            return new Response($this->stdResponse(data:$this->service->getCategorias($nombre,$addChilds)));
         } catch (\Throwable $th) {
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }

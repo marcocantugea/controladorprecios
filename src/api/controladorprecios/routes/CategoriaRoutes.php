@@ -16,7 +16,8 @@ class CategoriaRoutes
         $router->post("api/categoria/{id}/subcategoria",'CategoriaController@addSubCategoria');
         $router->post("api/categoria/{id}/subcategorias",'CategoriaController@addSubCategorias');
         $router->get("api/categoria/{id}/subcategorias",'CategoriaController@getSubCategorias');
-        
+        $router->delete("api/categoria/subcategoria/{id}",'CategoriaController@deleteCategoria');
+        $router->put("api/categoria/subcategoria/{id}",'CategoriaController@updateCategoria');
     }
     
 }

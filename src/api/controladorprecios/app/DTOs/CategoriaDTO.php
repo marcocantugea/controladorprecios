@@ -13,7 +13,7 @@ class CategoriaDTO
     public ?DateTime $created_at;
     public ?DateTime $updated_at;
     public ?DateTime $fecha_eliminado;
-    public bool $esSubCategoria=false;
+    public bool $esSubcategoria=false;
     public ?array $subcategoria=[];
 
     public function __construct(
@@ -31,6 +31,6 @@ class CategoriaDTO
         $this->updated_at=(empty($updated_at)) ? null : $updated_at;
         $this->fecha_eliminado=(empty($fecha_eliminado)) ? null : $fecha_eliminado;
         $this->publicId=$publicId;
-        $this->esSubCategoria=$esSubCategoria;
+        $this->esSubcategoria=$esSubCategoria;
     }
 }
