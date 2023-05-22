@@ -28,6 +28,11 @@
             <file>./tests/UnitTests/CategoriasMapperTests.php</file>
             <file>./tests/UnitTests/CategoriasServiceTests.php</file>
         </testsuite>
+        <testsuite name="Atributos">
+            <file>./tests/UnitTests/AtributosRepositoryTests.php</file>
+            <file>./tests/UnitTests/AtributoMapperTests.php</file>
+            <file>./tests/UnitTests/AtributosServiceTests.php</file>
+        </testsuite>
         <testsuite name="All">
             <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
             <file>./tests/UnitTests/ProductoServiceTests.php</file>
@@ -35,6 +40,9 @@
             <file>./tests/UnitTests/CategoriasRepositoryTests.php</file>
             <file>./tests/UnitTests/CategoriasMapperTests.php</file>
             <file>./tests/UnitTests/CategoriasServiceTests.php</file>
+            <file>./tests/UnitTests/AtributosRepositoryTests.php</file>
+            <file>./tests/UnitTests/AtributoMapperTests.php</file>
+            <file>./tests/UnitTests/AtributosServiceTests.php</file>
         </testsuite>
     </testsuites>
    <php>
