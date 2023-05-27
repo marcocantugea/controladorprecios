@@ -16,16 +16,14 @@ return new class extends Migration
             $table->unsignedBigInteger('productoId');
             $table->unsignedBigInteger('atributoId');
             $table->string('valor');
-            $table->unsignedBigInteger('unidadmedidaId');
-            $table->unsignedBigInteger('marcaId');
+            $table->unsignedBigInteger('unidadmedidaId')->default(0);
+            $table->unsignedBigInteger('marcaId')->default(0);
             $table->boolean("activo")->default(true);
             $table->dateTime("fecha_eliminado")->nullable();
             $table->timestamps();
             $table->foreign('productoId')->references('id')->on('productos');
             $table->foreign('atributoId')->references('id')->on('atributos');
             $table->foreign('unidadmedidaId')->references('id')->on('unidadesmedidas')->nullable();
-            $table->foreign('marcaId')->references('id')->on('marcas')->nullable();
-            
         });
     }
 

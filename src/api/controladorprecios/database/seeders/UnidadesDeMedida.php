@@ -14,6 +14,7 @@ class UnidadesDeMedida extends Seeder
     public function run(): void
     {
         DB::table('unidadesmedidas')->insert([
+            ['publicId'=>'ffffffff','codigo'=>'N/A','unidadMedida'=>'No Aplicable','created_at'=>new \DateTime('now')],
             ['publicId'=>'cc719852','codigo'=>'BAG','unidadMedida'=>'Bag','created_at'=>new \DateTime('now')],
             ['publicId'=>'cc719afa','codigo'=>'BKT','unidadMedida'=>'Bucket','created_at'=>new \DateTime('now')],
             ['publicId'=>'cc719cc6','codigo'=>'BND','unidadMedida'=>'Bundle','created_at'=>new \DateTime('now')],

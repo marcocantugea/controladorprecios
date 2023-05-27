@@ -8,7 +8,9 @@ use App\Contractors\IMapper;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
 use App\DTOs\CategoriaDTO;
+use App\DTOs\ProductoAtributoDTO;
 use App\DTOs\ProductoDTO;
+use App\DTOs\UnidadMedidaDTO;
 use App\Mappers\ProductoMapper;
 use Exception;
 use Illuminate\Database\MySqlConnection;
@@ -98,6 +100,22 @@ class ProductoService implements IProductosService
         }
 
         //TODO: add update to other properties 
+        if(array_key_exists('atributos',$propertyValue)){    
+            $atributos = array_map(function($item) use ($id){
+                    $productoAtributoDto=new ProductoAtributoDTO($id,$item['atributoId'],$item['valor']);
+                    $unidadMedida=null;
+                    if(isset($item['unidadMedida'])){
+                            $productoAtributoDto->unidadMedida= new UnidadMedidaDTO($item['unidadMedida']['codigo'],"",publicId: $item['unidadMedida']['publicId']);
+                    }
+                    return $productoAtributoDto;
+                },$propertyValue['atributos']);
+            try {
+                if(count($atributos)>0) $this->productoRepository->assignAtributoToProduct($id,$atributos);
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+        }
+
     }
 
     public function deleteProducto($id){

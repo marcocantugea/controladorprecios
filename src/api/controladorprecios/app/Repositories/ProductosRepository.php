@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Models\Producto;
+use App\DTOs\AtributoDTO;
 use App\DTOs\CategoriaDTO;
+use App\DTOs\ProductoAtributoDTO;
 use DateTime;
 use Illuminate\Database\MySqlConnection;
 use Exception;
@@ -127,6 +129,36 @@ class ProductosRepository implements IProductosRepository
         //insertamos valores en la tabla
         $this->db->table('productoscategorias')->insert($insertValues);
 
+    }
+
+    public function assignAtributoToProduct(string $id, array $atributosDto){
+        
+
+        //obtenemos el id del productos y los ids de las categorias.
+        $idProducto= $this->db->table('productos')->where('publicId',$id)->first('id')->id;
+
+        foreach ($atributosDto as $key=> $value){
+            if(!$value instanceof ProductoAtributoDTO) throw new Exception("item in the array is not a atributo dto");
+            $idAtributo = $this->db->table('atributos')->where('publicId',$value->atributoId)->first('id')->id;
+            
+            $idUoM=0;
+            if(!empty($value->unidadMedida)){
+                $idUoM=$this->db->table('unidadesmedidas')->where('publicId',$value->unidadMedida->publicId)->first('id')->id;
+            }else{
+                $idUoM=$this->db->table('unidadesmedidas')->where('publicId','ffffffff')->first('id')->id;
+            }
+            
+            $values=[
+                'productoId'=>$idProducto,
+                'atributoId'=>$idAtributo,
+                'valor'=>$value->valor,
+                'activo'=>true,
+                "unidadmedidaId"=>$idUoM
+            ];
+
+            $this->db->table('productosatributosvalores')->insert($values);
+        } 
+        
     }
 
     public function getCategoriasOfProducto($id){
