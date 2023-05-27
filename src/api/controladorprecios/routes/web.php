@@ -4,8 +4,10 @@
 
 use Routes\AtributoRoutes;
 use Routes\CategoriaRoutes;
+use Routes\MarcaRoutes;
 use Routes\ProductoRoutes;
 
 ProductoRoutes::setRoutes($router);
 CategoriaRoutes::setRoutes($router);
 AtributoRoutes::setRoutes($router);
+MarcaRoutes::setRoutes($router);

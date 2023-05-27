@@ -31,6 +31,7 @@ class MarcasRepository implements IMarcaRepository{
 
     public function delete($id)
     {
+        if(empty($id)) throw new Exception("invalid product id", 1);
         $this->db->table('marcas')->where('publicId',$id)->update([
             'activo'=>false,
             'fecha_eliminado'=>new DateTime('now')
@@ -62,6 +63,29 @@ class MarcasRepository implements IMarcaRepository{
                             'fecha_eliminado'
                         ])
                         ->first();
+    }
+
+    public function getMarcas(array $serachParams) :array{
+        $atributosQuery=$this->db->table('marcas');
+
+        $likeFiels=[
+            'marca'
+        ];
+
+        foreach ($serachParams as $key => $value) {
+            $operator='=';
+            if(in_array($key,$likeFiels)) $operator='like';
+            $atributosQuery=$atributosQuery->where($key,$operator,$value);
+        }
+
+        return $atributosQuery->select([
+            'publicId',
+            'marca',
+            'activo',
+            'created_at',
+            'updated_at',
+            'fecha_eliminado'
+        ])->get()->toArray();
     }
 
 }

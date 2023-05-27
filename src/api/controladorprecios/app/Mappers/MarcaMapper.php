@@ -30,7 +30,10 @@ class MarcaMapper implements IMapper
     public function reverse($model)
     {
         if(!isset($model->marca)) return null;
-        return new MarcaDTO($model->marca,$model->publicId,$model->activo);
+        $dto=new MarcaDTO($model->marca);
+        if(isset($model->publicId)) $dto->publicId=$model->publicId;
+        if(isset($model->activo)) $dto->activo=$model->activo;
+        return $dto;
     }
 
     private function setDateTime($dateItem){

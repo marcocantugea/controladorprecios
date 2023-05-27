@@ -5,11 +5,14 @@ namespace App\Services;
 use App\Factories\CategoriaServiceFactory;
 use App\Factories\ProductoServiceFactory;
 use App\Factories\AtibutosServiceFactory;
+use App\Factories\MarcasServiceFactory;
 use App\Mappers\AtributoMapper;
 use App\Mappers\CategoriaMapper;
+use App\Mappers\MarcaMapper;
 use App\Mappers\ProductoMapper;
 use App\Repositories\AtributosRepository;
 use App\Repositories\CategoriaRepository;
+use App\Repositories\MarcasRepository;
 use App\Repositories\ProductosRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +30,10 @@ class ServicesContainer
             CategoriaMapper::class => new CategoriaMapper(),
             AtributoMapper::class=> new AtributoMapper(),
             AtributosRepository::class=> new AtributosRepository(DB::connection()),
-            AtributosService::class=> AtibutosServiceFactory::get()
+            AtributosService::class=> AtibutosServiceFactory::get(),
+            MarcaMapper::class=> new MarcaMapper(),
+            MarcasRepository::class => new MarcasRepository(DB::connection()),
+            MarcasService::class=> MarcasServiceFactory::get()
         ];
     }
 

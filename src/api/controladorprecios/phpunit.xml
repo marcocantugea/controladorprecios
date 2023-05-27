@@ -33,6 +33,15 @@
             <file>./tests/UnitTests/AtributoMapperTests.php</file>
             <file>./tests/UnitTests/AtributosServiceTests.php</file>
         </testsuite>
+        <testsuite name="UnidadMedidas">
+            <file>./tests/UnitTests/UnidadMedidasMapperTest.php</file>
+            <file>./tests/UnitTests/UnidadMedidasRepositoryTests.php</file>
+        </testsuite>
+        <testsuite name="Marcas">
+            <file>./tests/UnitTests/MarcaMapperTests.php</file>
+            <file>./tests/UnitTests/MarcasRepositoryTests.php</file>
+            <file>./tests/UnitTests/MarcasServiceTests.php</file>
+        </testsuite>
         <testsuite name="All">
             <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
             <file>./tests/UnitTests/ProductoServiceTests.php</file>
@@ -43,6 +52,11 @@
             <file>./tests/UnitTests/AtributosRepositoryTests.php</file>
             <file>./tests/UnitTests/AtributoMapperTests.php</file>
             <file>./tests/UnitTests/AtributosServiceTests.php</file>
+            <file>./tests/UnitTests/UnidadMedidasMapperTest.php</file>
+            <file>./tests/UnitTests/UnidadMedidasRepositoryTests.php</file>
+            <file>./tests/UnitTests/MarcaMapperTests.php</file>
+            <file>./tests/UnitTests/MarcasRepositoryTests.php</file>
+            <file>./tests/UnitTests/MarcasServiceTests.php</file>
         </testsuite>
     </testsuites>
    <php>
