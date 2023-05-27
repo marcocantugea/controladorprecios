@@ -12,4 +12,5 @@ interface IProductosRepository extends IRepository{
     function assignCategoryToProduct(string $id,array $categoriaDto);
     function getCategoriasOfProducto($id);
     function assignAtributoToProduct(string $id, array $atributosDto);
+    function getAtributosOfProducto($id);
 }

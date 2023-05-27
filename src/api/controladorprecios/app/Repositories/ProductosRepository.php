@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Contractors\Models\Atributo;
 use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Models\Producto;
 use App\DTOs\AtributoDTO;
@@ -184,5 +185,38 @@ class ProductosRepository implements IProductosRepository
                             'categorias.fecha_eliminado',
                             'categorias.esSubcategoria',
                          )->get();
+    }
+
+    public function getAtributosOfProducto($id){
+        return $this->db->table('productosatributosvalores')
+                            ->join('productos','productosatributosvalores.productoId','productos.Id')
+                            ->join('atributos','productosatributosvalores.atributoId','atributos.Id')
+                            ->join('unidadesmedidas','productosatributosvalores.unidadmedidaId','unidadesmedidas.id')
+                            ->leftJoin('marcas','productosatributosvalores.marcaId','marcas.id')
+                            ->where('productos.publicId',$id)
+                            ->select([
+                                'atributos.publicId as atributoPublicId',
+                                'atributos.atributo',
+                                'productosatributosvalores.valor',
+                                'atributos.activo as atributoActivo',
+                                'atributos.created_at as atributoCreated_at',
+                                'atributos.updated_at as atributoUpdate_at',
+                                'atributos.fecha_eliminado as atributoFecha_eliminado',
+                                'atributos.esSubatributo',
+                                'unidadesmedidas.publicId as unidadesmedidasPublicId',
+                                'unidadesmedidas.codigo',
+                                'unidadesmedidas.unidadMedida',
+                                'unidadesmedidas.activo as unidadMedidaActivo',
+                                'unidadesmedidas.created_at as unidadMedidaCreated_at',
+                                'unidadesmedidas.updated_at as unidadMedidaUpdate_at',
+                                'unidadesmedidas.fecha_eliminado as unidadMedidaFecha_eliminado',
+                                'marcas.publicId as marcaPublicId',
+                                'marcas.marca',
+                                'marcas.activo as marcaActivo',
+                                'marcas.created_at as marcaCreated_at',
+                                'marcas.updated_at as marcaUpdated_at',
+                                'marcas.fecha_eliminado as marcaFecha_eliminado'
+                            ])
+                            ->get();
     }
 }

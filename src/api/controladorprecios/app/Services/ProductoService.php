@@ -7,6 +7,7 @@ use App\Contractors\Models\Producto;
 use App\Contractors\IMapper;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
+use App\DTOs\AtributoDTO;
 use App\DTOs\CategoriaDTO;
 use App\DTOs\MarcaDTO;
 use App\DTOs\ProductoAtributoDTO;
@@ -45,6 +46,7 @@ class ProductoService implements IProductosService
             if(count($producto)==0 )throw new Exception("producto not found");
             $productoDto=$this->productoMapper->reverse($producto[0]);
             $productoDto->categorias=$this->getCategorias($id);
+            $productoDto->atributos=$this->getAtributos($id);
             return $productoDto;
         } catch (\Throwable $th) {
             throw $th;
@@ -157,6 +159,7 @@ class ProductoService implements IProductosService
             foreach ($productosFound as $item) {
                 $producto=$this->productoMapper->reverse($item);
                 $producto->categorias=$this->getCategorias($producto->publicId);
+                $producto->atributos =$this->getAtributos($producto->publicId);
                 array_push($productosDTOFound,$producto);
             }
 
@@ -193,5 +196,17 @@ class ProductoService implements IProductosService
 
         return $categorias;
 
+    }
+
+    private function getAtributos($id) :array {
+        $atributos=[];
+        $itemsFound=$this->productoRepository->getAtributosOfProducto($id)->map(function($item) use ($id){
+            $atributoDTO= new ProductoAtributoDTO($id,$item->atributoPublicId,$item->valor);
+            $atributoDTO->atributo=$item->atributo;
+            $atributoDTO->unidadMedida=new UnidadMedidaDTO($item->codigo,$item->unidadMedida,$item->unidadesmedidasPublicId);
+            $atributoDTO->marca= (!empty($item->marcaPublicId)) ? new MarcaDTO($item->marca,$item->marcaPublicId,$item->marcaActivo) : null;
+            return $atributoDTO;
+        })->toArray();
+        return $itemsFound;
     }
 }
