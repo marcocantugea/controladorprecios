@@ -8,6 +8,7 @@ use App\Contractors\IMapper;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
 use App\DTOs\CategoriaDTO;
+use App\DTOs\MarcaDTO;
 use App\DTOs\ProductoAtributoDTO;
 use App\DTOs\ProductoDTO;
 use App\DTOs\UnidadMedidaDTO;
@@ -102,10 +103,15 @@ class ProductoService implements IProductosService
         //TODO: add update to other properties 
         if(array_key_exists('atributos',$propertyValue)){    
             $atributos = array_map(function($item) use ($id){
-                    $productoAtributoDto=new ProductoAtributoDTO($id,$item['atributoId'],$item['valor']);
+                    $valor = (!isset($item['valor'])) ? "" : $item['valor'];
+                    $productoAtributoDto=new ProductoAtributoDTO($id,$item['atributoId'],$valor);
                     $unidadMedida=null;
                     if(isset($item['unidadMedida'])){
                             $productoAtributoDto->unidadMedida= new UnidadMedidaDTO($item['unidadMedida']['codigo'],"",publicId: $item['unidadMedida']['publicId']);
+                    }
+                    $marca=null;
+                    if(isset($item['marca'])){
+                        $productoAtributoDto->marca= new MarcaDTO($item['marca']['marca'],publicId:$item['marca']['publicId']);
                     }
                     return $productoAtributoDto;
                 },$propertyValue['atributos']);

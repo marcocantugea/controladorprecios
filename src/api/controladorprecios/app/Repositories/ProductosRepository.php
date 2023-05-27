@@ -147,13 +147,21 @@ class ProductosRepository implements IProductosRepository
             }else{
                 $idUoM=$this->db->table('unidadesmedidas')->where('publicId','ffffffff')->first('id')->id;
             }
+
+            $marcaId=0;
+            if(!empty($value->marca)){
+                $value->valor=$this->db->table('marcas')->where('publicId',$value->marca->publicId)->first('marca')->marca;
+                $marcaId= $this->db->table('marcas')->where('publicId',$value->marca->publicId)->first('id')->id;
+            }
             
             $values=[
                 'productoId'=>$idProducto,
                 'atributoId'=>$idAtributo,
                 'valor'=>$value->valor,
                 'activo'=>true,
-                "unidadmedidaId"=>$idUoM
+                "unidadmedidaId"=>$idUoM,
+                'marcaId'=>$marcaId
+
             ];
 
             $this->db->table('productosatributosvalores')->insert($values);
