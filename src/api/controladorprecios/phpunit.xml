@@ -42,6 +42,12 @@
             <file>./tests/UnitTests/MarcasRepositoryTests.php</file>
             <file>./tests/UnitTests/MarcasServiceTests.php</file>
         </testsuite>
+        <testsuite name="Usuarios">
+            <file>./tests/UnitTests/UsuariosRepositoryTests.php</file>
+        </testsuite>
+        <testsuite name="Auth">
+            <file>./tests/UnitTests/AuthServiceTests.php</file>
+        </testsuite>
         <testsuite name="All">
             <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
             <file>./tests/UnitTests/ProductoServiceTests.php</file>
@@ -57,6 +63,8 @@
             <file>./tests/UnitTests/MarcaMapperTests.php</file>
             <file>./tests/UnitTests/MarcasRepositoryTests.php</file>
             <file>./tests/UnitTests/MarcasServiceTests.php</file>
+            <file>./tests/UnitTests/UsuariosRepositoryTests.php</file>
+            <file>./tests/UnitTests/AuthServiceTests.php</file>
         </testsuite>
     </testsuites>
    <php>

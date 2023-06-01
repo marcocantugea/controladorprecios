@@ -6,14 +6,17 @@ use App\Factories\CategoriaServiceFactory;
 use App\Factories\ProductoServiceFactory;
 use App\Factories\AtibutosServiceFactory;
 use App\Factories\MarcasServiceFactory;
+use App\Factories\UsuariosServiceFactory;
 use App\Mappers\AtributoMapper;
 use App\Mappers\CategoriaMapper;
 use App\Mappers\MarcaMapper;
 use App\Mappers\ProductoMapper;
+use App\Mappers\UsuarioMapper;
 use App\Repositories\AtributosRepository;
 use App\Repositories\CategoriaRepository;
 use App\Repositories\MarcasRepository;
 use App\Repositories\ProductosRepository;
+use App\Repositories\UsuariosRepository;
 use Illuminate\Support\Facades\DB;
 
 class ServicesContainer 
@@ -33,7 +36,11 @@ class ServicesContainer
             AtributosService::class=> AtibutosServiceFactory::get(),
             MarcaMapper::class=> new MarcaMapper(),
             MarcasRepository::class => new MarcasRepository(DB::connection()),
-            MarcasService::class=> MarcasServiceFactory::get()
+            MarcasService::class=> MarcasServiceFactory::get(),
+            UsuariosRepository::class=>new UsuariosRepository(DB::connection('users')),
+            UsuarioMapper::class=>new UsuarioMapper(),
+            AuthService::class=> new AuthService(new UsuariosRepository(DB::connection('users')),new UsuarioMapper()),
+            UsuariosService::class=>UsuariosServiceFactory::get()
         ];
     }
 
