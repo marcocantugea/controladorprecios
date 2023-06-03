@@ -43,7 +43,7 @@ class UnidadMedidaRepository  implements IRepository
 
     public function getById($id)
     {
-        if(empty($id)) throw new Exception("invalid product id", 1);
+        if(empty($id)) throw new Exception("invalid id", 1);
         return $this->db->table('unidadesmedidas')
         ->where('publicId',$id)
         ->select([

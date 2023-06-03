@@ -78,8 +78,7 @@ class UsuariosRepository implements IUsuariosRepository
     public function getUsuario(string $user){
         if(empty($user)) throw new Exception("invalid product id", 1);
         return $this->db->table('usuarios')
-        ->where('user',$user)
-        ->where('active',true)
+        ->where(['user'=>$user],['active'=>true])
         ->select([
             'publicId',
             'user',

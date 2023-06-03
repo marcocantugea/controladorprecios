@@ -48,6 +48,10 @@
         <testsuite name="Auth">
             <file>./tests/UnitTests/AuthServiceTests.php</file>
         </testsuite>
+        <testsuite name="Proveedores">
+            <file>./tests/UnitTests/ProveedorMapperTests.php</file>
+            <file>./tests/UnitTests/ProveedoresRepositoryTests.php</file>
+        </testsuite>
         <testsuite name="All">
             <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
             <file>./tests/UnitTests/ProductoServiceTests.php</file>
@@ -65,6 +69,8 @@
             <file>./tests/UnitTests/MarcasServiceTests.php</file>
             <file>./tests/UnitTests/UsuariosRepositoryTests.php</file>
             <file>./tests/UnitTests/AuthServiceTests.php</file>
+            <file>./tests/UnitTests/ProveedorMapperTests.php</file>
+            <file>./tests/UnitTests/ProveedoresRepositoryTests.php</file>
         </testsuite>
     </testsuites>
    <php>

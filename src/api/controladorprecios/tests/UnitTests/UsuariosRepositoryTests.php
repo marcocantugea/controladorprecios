@@ -72,7 +72,8 @@ class UsuariosRepositoryTests extends TestCase
         $response=$this->repository->getById(uniqid());
     }
 
-    public function test_ShouldGetUserByName(){
+    public function test_ShouldGetUsuarioByName(){
+        $user="usuario1";
         $fields=[
             'publicId',
             'user',
@@ -86,10 +87,10 @@ class UsuariosRepositoryTests extends TestCase
 
         $queryBuilder=$this->createMock(\Illuminate\Database\Query\Builder::class);
         $this->MysqlConnection->expects($this->atLeastOnce())->method('table')->with("usuarios")->willReturn($queryBuilder);
-        $queryBuilder->expects($this->atLeastOnce())->method('where')->with("user","usuario1")->willReturn($queryBuilder);
+        $queryBuilder->expects($this->atLeastOnce())->method('where')->with(['user'=>$user],['active'=>true])->willReturn($queryBuilder);
         $queryBuilder->expects($this->atLeastOnce())->method('select')->with($fields)->willReturn($queryBuilder);
         $queryBuilder->expects($this->atLeastOnce())->method('first');
-        $response=$this->repository->getUsuario("usuario1");
+        $response=$this->repository->getUsuario($user);
     }
 
 }
