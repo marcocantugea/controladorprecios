@@ -30,8 +30,8 @@ class ProveedorController extends BaseController{
             $jsonParsed=$this->validateJsonContent($request);
             $dto= $this->mapper->reverse($jsonParsed);
             if(empty($dto))  return new Response($this->stdResponse(false,true,"no valid content"),400);
-            $this->service->addProveedor($dto);
-            return new Response($this->stdResponse());
+            $proveedor=$this->service->addProveedor($dto);
+            return new Response($this->stdResponse(data:$proveedor));
         } catch (\Throwable $th) {
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }

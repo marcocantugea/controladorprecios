@@ -17,4 +17,5 @@ interface IProveedorRepository extends IRepository{
     function addProveedorMarca(ProveedorMarca $model);
     function addProveedorProducto(ProveedorProducto $model);
     function getProveedores(array $searchParams,int $limit=500,int $offset=0,bool $showDeleted=true);
+    function getProveedorByCode(string $code);
 }

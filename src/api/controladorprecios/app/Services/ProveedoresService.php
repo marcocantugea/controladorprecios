@@ -27,6 +27,8 @@ class ProveedoresService  implements IProveedoresService
         try {
             $model= $this->proveedorMapper->map($proveedor);
             $this->repository->add($model);
+            $proveedor=$this->repository->getProveedorByCode($model->codigo);
+            return $this->proveedorMapper->reverse($proveedor);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -124,7 +126,7 @@ class ProveedoresService  implements IProveedoresService
                                             $item->proveedorCreated_at,
                                             $item->proveedorUpdated_at,
                                             $item->ProveedorFecha_eliminado);
-
+                if(!empty($item->nombre)){
                 $proveedorModel->infoBasic=new ProveedorInfoBasic($item->nombre,
                                                                     $item->rasonSocial,
                                                                     $item->RFC,
@@ -134,9 +136,9 @@ class ProveedoresService  implements IProveedoresService
                                                                     $item->infoBasicCreated_at,
                                                                     $item->infoBasicUpdated_at,
                                                                     $item->infoBasicFecha_eliminado);
-                
+                }
                 $proveedor=$this->proveedorMapper->reverse($proveedorModel);
-                $proveedor->infoBasic = $this->proveedorInfoBasicMapper->reverse($proveedorModel->infoBasic);
+                if(!empty($item->nombre)) $proveedor->infoBasic = $this->proveedorInfoBasicMapper->reverse($proveedorModel->infoBasic);
 
                 return $proveedor;
             });

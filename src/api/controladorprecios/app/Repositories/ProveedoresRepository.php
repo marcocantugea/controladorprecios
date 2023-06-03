@@ -174,7 +174,7 @@ class ProveedoresRepository implements IProveedorRepository{
     }
     
     public function getProveedores(array $searchParams,int $limit=500,int $offset=0,bool $showDeleted=true){
-        $query= $this->db->table('proveedoresInfoBasic')->join('proveedores','proveedoresInfoBasic.proveedorId','proveedores.id');
+        $query= $this->db->table('proveedores')->leftJoin('proveedoresInfoBasic','proveedoresInfoBasic.proveedorId','proveedores.id');
 
         foreach ($searchParams as $key => [$value,$operator]) {
             $query->where($key,empty($operator) ? '=' : $operator,$value);
@@ -203,6 +203,23 @@ class ProveedoresRepository implements IProveedorRepository{
         ])->skip($offset)->take($limit);
 
         return $query->get();
+    }
+
+    public function getProveedorByCode(string $codigo){
+        return $this->db->table('proveedores')
+        ->where('codigo',$codigo)
+        ->select([
+            'id',
+            'publicId',
+            'codigo',
+            'nombreCorto',
+            'activo',
+            'created_at',
+            'updated_at',
+            'fecha_eliminado'
+        ])
+        ->first()
+        ;
     }
 
 }
