@@ -6,16 +6,20 @@ use App\Factories\CategoriaServiceFactory;
 use App\Factories\ProductoServiceFactory;
 use App\Factories\AtibutosServiceFactory;
 use App\Factories\MarcasServiceFactory;
+use App\Factories\ProveedoresServiceFactory;
 use App\Factories\UsuariosServiceFactory;
 use App\Mappers\AtributoMapper;
 use App\Mappers\CategoriaMapper;
 use App\Mappers\MarcaMapper;
 use App\Mappers\ProductoMapper;
+use App\Mappers\ProveedorInfoBasicMapper;
+use App\Mappers\ProveedorMapper;
 use App\Mappers\UsuarioMapper;
 use App\Repositories\AtributosRepository;
 use App\Repositories\CategoriaRepository;
 use App\Repositories\MarcasRepository;
 use App\Repositories\ProductosRepository;
+use App\Repositories\ProveedoresRepository;
 use App\Repositories\UsuariosRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -40,7 +44,11 @@ class ServicesContainer
             UsuariosRepository::class=>new UsuariosRepository(DB::connection('users')),
             UsuarioMapper::class=>new UsuarioMapper(),
             AuthService::class=> new AuthService(new UsuariosRepository(DB::connection('users')),new UsuarioMapper()),
-            UsuariosService::class=>UsuariosServiceFactory::get()
+            UsuariosService::class=>UsuariosServiceFactory::get(),
+            ProveedoresReporitory::class=>new ProveedoresRepository(DB::connection()),
+            ProveedorMapper::class=> new ProveedorMapper(),
+            ProveedorInfoBasicMapper::class=>new ProveedorInfoBasicMapper(),
+            ProveedoresService::class=>ProveedoresServiceFactory::get()
         ];
     }
 

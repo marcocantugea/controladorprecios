@@ -99,7 +99,7 @@ class ProductosRepository implements IProductosRepository
             'created_at',
             'updated_at',
             'fecha_eliminado'
-        )->skip($offset)->take(500)->get();
+        )->skip($offset)->take($limit)->get();
 
     }
 
