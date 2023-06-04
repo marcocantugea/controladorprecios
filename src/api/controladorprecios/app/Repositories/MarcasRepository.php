@@ -55,6 +55,7 @@ class MarcasRepository implements IMarcaRepository{
         return $this->db->table('marcas')
                         ->where('publicId',$id)
                         ->select([
+                            'id',
                             'publicId',
                             'marca',
                             'activo',

@@ -5,10 +5,12 @@ namespace App\Services;
 use App\Contractors\IMapper;
 use App\Contractors\Models\Proveedor;
 use App\Contractors\Models\ProveedorInfoBasic;
+use App\Contractors\Repositories\IMarcaRepository;
 use App\Contractors\Repositories\IProveedorRepository;
 use App\Contractors\Services\IProveedoresService;
 use App\DTOs\ProveedorDTO;
 use App\DTOs\ProveedorInfoBasicDTO as DTOsProveedorInfoBasicDTO;
+use App\DTOs\ProveedorMarcaDTO;
 use Exception;
 
 class ProveedoresService  implements IProveedoresService
@@ -16,11 +18,20 @@ class ProveedoresService  implements IProveedoresService
     private IProveedorRepository $repository;
     private IMapper $proveedorMapper;
     private IMapper $proveedorInfoBasicMapper;
+    private IMapper $proveedorMarcaMapper;
+    private IMarcaRepository $marcaRepository;
 
-    public function __construct(IProveedorRepository $repository, IMapper $proveedorMapper, IMapper $proveedorInfoBasicMapper) {
+    public function __construct(IProveedorRepository $repository,
+    IMapper $proveedorMapper, 
+    IMapper $proveedorInfoBasicMapper, 
+    IMapper $proveedorMarcaMapper,
+    IMarcaRepository $marcaRepository
+    ) {
         $this->repository=$repository;
         $this->proveedorMapper=$proveedorMapper;
         $this->proveedorInfoBasicMapper=$proveedorInfoBasicMapper;
+        $this->proveedorMarcaMapper=$proveedorMarcaMapper;
+        $this->marcaRepository=$marcaRepository;
     }
 
     public function addProveedor(ProveedorDTO $proveedor){
@@ -151,6 +162,40 @@ class ProveedoresService  implements IProveedoresService
             ];
 
             return $response;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addProveedorMarca(ProveedorMarcaDTO $proveedorMarca){
+        try {
+            $proveedorMarca->proveedorId= $this->repository->getById($proveedorMarca->proveedorPublicId)->id;
+            $proveedorMarca->marcaId=$this->marcaRepository->getById($proveedorMarca->marca->publicId)->id;
+            $model=$this->proveedorMarcaMapper->map($proveedorMarca);
+            if(empty($model)) throw new Exception("invalid model creation");
+            $this->repository->addProveedorMarca($model);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addProveedorMarcas(array $proveedorMarcas){
+        try {
+            array_walk($proveedorMarcas,function($item){
+                if(!$item instanceof ProveedorMarcaDTO) throw new Exception("invalid value proveedor marca");
+                $this->addProveedorMarca($item);
+            });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getMarcasByProveedor(string $proveedorId){
+        try {
+            $items=$this->repository->getMarcasByProveedor($proveedorId)->map(function($item) use($proveedorId){
+                return new ProveedorMarcaDTO($proveedorId,$item->marcaPublicId,$item->marca);
+            });
+            return $items;
         } catch (\Throwable $th) {
             throw $th;
         }

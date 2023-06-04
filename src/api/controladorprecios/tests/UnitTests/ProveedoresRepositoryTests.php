@@ -414,6 +414,16 @@ class ProveedoresRepositoryTests extends TestCase{
 
         $this->queryBuilder->expects($this->once())
                             ->method('insert');
+
+        $this->queryBuilder->expects($this->once())
+        ->method('where')
+        ->with(['proveedorId'=>$model->proveedorId,'marcaId'=>$model->marcaId])
+        ->willReturn($this->queryBuilder);
+
+        $this->queryBuilder->expects($this->once())
+        ->method('exists')
+        ->willReturn(false)
+        ;
         
         $this->con->expects($this->atLeastOnce())
                     ->method('table')
@@ -608,5 +618,27 @@ class ProveedoresRepositoryTests extends TestCase{
         $items= $this->repository->getProveedores([],$limit,$offset,true);
 
 
+    }
+
+    public function test_ShouldDeleteProveedorMarca(){
+        $id=uniqid();
+
+        $this->queryBuilder->expects($this->atLeastOnce())
+                            ->method('where')
+                            ->with('publicId',$id)
+                            ->willReturn($this->queryBuilder)
+                            ;
+
+        $this->queryBuilder->expects($this->once())
+        ->method('update')
+        ;
+           
+        $this->con->expects($this->atLeastOnce())
+                    ->method('table')
+                    ->with('proveedoresmarcas')
+                    ->willReturn($this->queryBuilder)
+                    ;
+
+        $this->repository->deleteProveedorMarca($id);
     }
 }

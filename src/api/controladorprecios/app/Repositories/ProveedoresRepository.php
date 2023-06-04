@@ -151,6 +151,12 @@ class ProveedoresRepository implements IProveedorRepository{
     }
 
     public function addProveedorMarca(ProveedorMarca $model){
+        
+        $exist=$this->db->table('proveedoresmarcas')->where(['proveedorId'=>$model->proveedorId,'marcaId'=>$model->marcaId])
+        ->whereNull('fecha_eliminado')
+        ->exists();
+
+        if($exist) throw new Exception("proveedor and marca already added");
         $this->db->table('proveedoresmarcas')->insert(
             [
                 'proveedorId'=>$model->proveedorId,
@@ -159,6 +165,15 @@ class ProveedoresRepository implements IProveedorRepository{
                 'created_at'=>new DateTime('now')
             ]
         );
+    }
+
+    public function deleteProveedorMarca($id){
+        if(empty($id)) throw new Exception("invalid id", 1);
+        $this->db->table('proveedoresmarcas')->where('publicId',$id)
+        ->update([
+            'activo'=>false,
+            'fecha_eliminado'=> new DateTime('now')
+        ]);
     }
 
     public function addProveedorProducto(ProveedorProducto $model)
@@ -219,6 +234,40 @@ class ProveedoresRepository implements IProveedorRepository{
             'fecha_eliminado'
         ])
         ->first()
+        ;
+    }
+
+    public function getMarcasByProveedor(string $proveedorId){
+        return $this->db->table('proveedores')
+        ->leftJoin('proveedoresmarcas','proveedoresmarcas.proveedorId','proveedores.id')
+        ->leftJoin('marcas','proveedoresmarcas.marcaId','marcas.id')
+        ->where(['proveedores.publicId'=>$proveedorId])
+        ->whereNull('proveedoresmarcas.fecha_eliminado')
+        ->select([
+            'proveedoresmarcas.id as proveedoresmarcasId',
+            'marcas.publicId as marcaPublicId',
+            'marcas.marca',
+            'marcas.activo as marcaActivo'
+        ])
+        ->get()
+        ;
+
+    }
+
+    public function getProveedorMarcaByIds(string $proveedorId, string $marcaId){
+        return $this->db->table('proveedores')
+        ->leftJoin('proveedoresmarcas','proveedoresmarcas.proveedorId','proveedores.id')
+        ->leftJoin('marcas','marca.Id','proveedoresmarcas.marcaId')
+        ->where(['proveedores.publicId'=>$proveedorId,'marcas.publicId'=>$marcaId])
+        ->whereNull('proveedoresmarcas.fecha_eliminado')
+        ->select([
+            'proveedoresmarcas.id as proveedoresmarcasId',
+            'proveedores.publicId as proveedorPublicid',
+            'marcas.publicId as marcaPublicId',
+            'proveedoresmarcas.activo as proveedoresmarcasActivo',
+            'proveedoresmarcas.created_at'
+        ])
+        ->get()
         ;
     }
 

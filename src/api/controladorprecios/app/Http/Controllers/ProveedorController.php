@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Contractors\IMapper;
+use App\Contractors\Models\ProveedorMarca;
 use App\Contractors\Services\IProveedoresService;
 use App\DTOs\ProveedorDTO;
 use App\Mappers\ProveedorInfoBasicMapper;
 use App\Mappers\ProveedorMapper;
+use App\Mappers\ProveedorMarcaMapper;
 use App\Services\ProveedoresService;
 use App\Services\ServicesContainer;
 use Illuminate\Http\Response;
@@ -17,11 +19,13 @@ class ProveedorController extends BaseController{
     private IProveedoresService $service;
     private IMapper $mapper;
     private IMapper $proveedorBasicInfoMapper;
+    private IMapper $proveedorMarcaMapper;
 
     public function __construct() {
         $this->service= ServicesContainer::getService(ProveedoresService::class);
         $this->mapper= ServicesContainer::getService(ProveedorMapper::class);
         $this->proveedorBasicInfoMapper= ServicesContainer::getService(ProveedorInfoBasicMapper::class);
+        $this->proveedorMarcaMapper=ServicesContainer::getService(ProveedorMarcaMapper::class);
     }
 
 
@@ -140,4 +144,36 @@ class ProveedorController extends BaseController{
         }
     }
 
+    public function updatePropiedadesProveedor(Request $request,$id){
+
+        try {
+            $jsonParsed=$this->validateJsonContent($request);
+            if(isset($jsonParsed->marcas)){
+                $dtos=[];
+                foreach ($jsonParsed->marcas as $value) {
+                    $value->proveedorPublicId=$id;
+                    $dto=$this->proveedorMarcaMapper->reverse($value);
+                    if(empty($dto)) continue;
+                    array_push($dtos,$dto);
+                }
+                
+                if(empty($dto)) return new Response($this->stdResponse(false,true,"no valid content"),400);
+                $this->service->addProveedorMarcas($dtos);
+                return new Response($this->stdResponse());
+            }
+            
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
+
+    public function getMarcasProveedor($id){
+        try {
+            if(empty($id)) return new Response($this->stdResponse(false,true,"no valid content"),400);
+            $items=$this->service->getMarcasByProveedor($id);
+            return new Response($this->stdResponse(data:$items));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }

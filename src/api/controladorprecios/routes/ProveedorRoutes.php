@@ -16,6 +16,8 @@ class ProveedorRoutes{
             $router->delete('api/proveedor/basicInfo/{id}','ProveedorController@deleteProveedorBasicInfo');
             $router->get('api/proveedor/{id}','ProveedorController@getProveedor');
             $router->get('api/proveedores','ProveedorController@getProveedores');
+            $router->patch('api/proveedor/{id}/marcas','ProveedorController@updatePropiedadesProveedor');
+            $router->get('api/proveedor/{id}/marcas','ProveedorController@getMarcasProveedor');
         });
     }
 
