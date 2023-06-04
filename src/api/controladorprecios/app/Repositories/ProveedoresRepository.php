@@ -178,6 +178,8 @@ class ProveedoresRepository implements IProveedorRepository{
 
     public function addProveedorProducto(ProveedorProducto $model)
     {
+        $exist=$this->db->table('proveedoresproductos')->where(['productoId'=>$model->productoId,'proveedorId'=>$model->proveedorId])->whereNull('fecha_eliminado')->exists();
+        if($exist) throw new Exception("record producto-proveedor already exist");
         $this->db->table('proveedoresproductos')->insert(
             [
                 'proveedorId'=>$model->proveedorId,

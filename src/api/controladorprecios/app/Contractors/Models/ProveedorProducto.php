@@ -13,6 +13,8 @@ class ProveedorProducto
     public ?DateTime $created_at;
     public ?DateTime $updated_at;
     public ?Datetime $fecha_eliminado;
+    public ?string $proveedorPublicId;
+    public ?string $productoPublicId;
 
     public ?Proveedor $proveedor;
     public ?Producto $producto;

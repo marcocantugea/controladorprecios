@@ -5,13 +5,16 @@ namespace App\Services;
 use App\Contractors\Data\IRepository;
 use App\Contractors\Models\Producto;
 use App\Contractors\IMapper;
+use App\Contractors\Models\ProveedorProducto;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
+use App\Contractors\Repositories\IProveedorRepository;
 use App\DTOs\AtributoDTO;
 use App\DTOs\CategoriaDTO;
 use App\DTOs\MarcaDTO;
 use App\DTOs\ProductoAtributoDTO;
 use App\DTOs\ProductoDTO;
+use App\DTOs\ProveedorProductoDTO;
 use App\DTOs\UnidadMedidaDTO;
 use App\Mappers\ProductoMapper;
 use Exception;
@@ -21,13 +24,22 @@ use PHPUnit\Framework\Constraint\Operator;
 class ProductoService implements IProductosService
 {
     private IProductosRepository $productoRepository;
+    private IProveedorRepository $proveedorRepository;
     private IMapper $productoMapper;
     private IMapper $categoriasMapper;
+    private IMapper $proveedorProductoMapper;
 
-    public function __construct(IProductosRepository $productRepository,IMapper $productoMapper,IMapper $categoriasMapper) {
+    public function __construct(IProductosRepository $productRepository,
+    IMapper $productoMapper,
+    IMapper $categoriasMapper,
+    IProveedorRepository $proveedorRepository,
+    IMapper $proveedorProductoMapper
+    ) {
         $this->productoRepository = $productRepository;
         $this->productoMapper=$productoMapper;
         $this->categoriasMapper=$categoriasMapper;
+        $this->proveedorRepository=$proveedorRepository;
+        $this->proveedorProductoMapper=$proveedorProductoMapper;
     }
 
     public function addProduct(ProductoDTO $producto)
@@ -124,6 +136,17 @@ class ProductoService implements IProductosService
             }
         }
 
+        if(array_key_exists('proveedor',$propertyValue)){
+            if(!isset($propertyValue['proveedor']['proveedorPublicId'])) throw new Exception("invalid proveedor id");
+            $dto=new ProveedorProductoDTO($propertyValue['proveedor']['proveedorPublicId'],$id);
+            try {
+                $this->assignProveedor($dto);
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+            
+        }
+
     }
 
     public function deleteProducto($id){
@@ -208,5 +231,17 @@ class ProductoService implements IProductosService
             return $atributoDTO;
         })->toArray();
         return $itemsFound;
+    }
+
+    public function assignProveedor(ProveedorProductoDTO $proveedorProducto){
+        try {
+            $proveedorProducto->productoId= $this->productoRepository->getById($proveedorProducto->productoPublicId)->first()->id;
+            $proveedorProducto->proveedorId= $this->proveedorRepository->getById($proveedorProducto->proveedorPublicId)->id;
+            if(empty($proveedorProducto->productoId) || empty($proveedorProducto->proveedorId)) throw new Exception("invalid id of producto or proveedor");
+            $model=$this->proveedorProductoMapper->map($proveedorProducto);
+            $this->proveedorRepository->addProveedorProducto($model);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

@@ -66,6 +66,7 @@ class ProductosRepository implements IProductosRepository
         return $this->db->table('productos')
         ->where('publicId',$id)
         ->select(
+            'id',
             'publicId',
             'nombre',
             'descripcion',

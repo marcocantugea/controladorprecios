@@ -15,6 +15,7 @@ use App\Mappers\ProductoMapper;
 use App\Mappers\ProveedorInfoBasicMapper;
 use App\Mappers\ProveedorMapper;
 use App\Mappers\ProveedorMarcaMapper;
+use App\Mappers\ProveedorProductoMapper;
 use App\Mappers\UsuarioMapper;
 use App\Repositories\AtributosRepository;
 use App\Repositories\CategoriaRepository;
@@ -50,7 +51,8 @@ class ServicesContainer
             ProveedorMapper::class=> new ProveedorMapper(),
             ProveedorInfoBasicMapper::class=>new ProveedorInfoBasicMapper(),
             ProveedoresService::class=>ProveedoresServiceFactory::get(),
-            ProveedorMarcaMapper::class=>new ProveedorMarcaMapper()
+            ProveedorMarcaMapper::class=>new ProveedorMarcaMapper(),
+            ProveedorProductoMapper::class=> new ProveedorProductoMapper()
         ];
     }
 

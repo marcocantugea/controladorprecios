@@ -6,32 +6,40 @@ use App\Contractors\IMapper;
 use App\Contractors\Models\Proveedor;
 use App\Contractors\Models\ProveedorInfoBasic;
 use App\Contractors\Repositories\IMarcaRepository;
+use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Repositories\IProveedorRepository;
 use App\Contractors\Services\IProveedoresService;
 use App\DTOs\ProveedorDTO;
 use App\DTOs\ProveedorInfoBasicDTO as DTOsProveedorInfoBasicDTO;
 use App\DTOs\ProveedorMarcaDTO;
+use App\DTOs\ProveedorProductoDTO;
 use Exception;
 
 class ProveedoresService  implements IProveedoresService
 {
-    private IProveedorRepository $repository;
     private IMapper $proveedorMapper;
     private IMapper $proveedorInfoBasicMapper;
     private IMapper $proveedorMarcaMapper;
+    private IMapper $proveedorProductoMapper;
+    private IProveedorRepository $repository;
     private IMarcaRepository $marcaRepository;
+    private IProductosRepository $productoRepository;
 
     public function __construct(IProveedorRepository $repository,
     IMapper $proveedorMapper, 
     IMapper $proveedorInfoBasicMapper, 
     IMapper $proveedorMarcaMapper,
-    IMarcaRepository $marcaRepository
+    IMarcaRepository $marcaRepository,
+    IProductosRepository $productoRepository,
+    IMapper $proveedorProductoMapper
     ) {
         $this->repository=$repository;
         $this->proveedorMapper=$proveedorMapper;
         $this->proveedorInfoBasicMapper=$proveedorInfoBasicMapper;
         $this->proveedorMarcaMapper=$proveedorMarcaMapper;
         $this->marcaRepository=$marcaRepository;
+        $this->productoRepository=$productoRepository;
+        $this->proveedorProductoMapper=$proveedorProductoMapper;
     }
 
     public function addProveedor(ProveedorDTO $proveedor){
@@ -220,6 +228,29 @@ class ProveedoresService  implements IProveedoresService
             array_walk($proveedorMarcas,function($item){
                 if(!$item instanceof ProveedorMarcaDTO) throw new Exception("invalid value proveedor marca");
                 $this->deleteProveedorMarca($item);
+            });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addProveedorProducto(ProveedorProductoDTO $proveedorProducto){
+        try {
+            $proveedorProducto->productoId= $this->productoRepository->getById($proveedorProducto->productoPublicId)->first()->id;
+            $proveedorProducto->proveedorId= $this->repository->getById($proveedorProducto->proveedorPublicId)->id;
+            if(empty($proveedorProducto->productoId) || empty($proveedorProducto->proveedorId)) throw new Exception("invalid id of producto or proveedor");
+            $model=$this->proveedorProductoMapper->map($proveedorProducto);
+            $this->repository->addProveedorProducto($model);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addProveedorProductos(array $proveedorProductosDTO){
+        try {
+            array_walk($proveedorProductosDTO,function($item){
+                if(!$item instanceof ProveedorProductoDTO) throw new Exception("invalid value proveedor producto");
+                $this->addProveedorProducto($item);
             });
         } catch (\Throwable $th) {
             throw $th;

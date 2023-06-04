@@ -3,6 +3,7 @@
 namespace App\Contractors\Services;
 
 use App\DTOs\ProductoDTO;
+use App\DTOs\ProveedorProductoDTO;
 
 interface IProductosService {
 
@@ -11,4 +12,5 @@ interface IProductosService {
     function updateProducto(ProductoDTO $producto);
     function getProductos(array $searchParams,int $limit=500,int $offset=0);
     function updateProductoByProperty($id,array $propertyValue);
+    function assignProveedor(ProveedorProductoDTO $proveedorProducto);
 }

@@ -9,6 +9,7 @@ use App\DTOs\ProveedorDTO;
 use App\Mappers\ProveedorInfoBasicMapper;
 use App\Mappers\ProveedorMapper;
 use App\Mappers\ProveedorMarcaMapper;
+use App\Mappers\ProveedorProductoMapper;
 use App\Services\ProveedoresService;
 use App\Services\ServicesContainer;
 use Illuminate\Http\Response;
@@ -20,12 +21,14 @@ class ProveedorController extends BaseController{
     private IMapper $mapper;
     private IMapper $proveedorBasicInfoMapper;
     private IMapper $proveedorMarcaMapper;
+    private IMapper $proveedorProductoMapper;
 
     public function __construct() {
         $this->service= ServicesContainer::getService(ProveedoresService::class);
         $this->mapper= ServicesContainer::getService(ProveedorMapper::class);
         $this->proveedorBasicInfoMapper= ServicesContainer::getService(ProveedorInfoBasicMapper::class);
         $this->proveedorMarcaMapper=ServicesContainer::getService(ProveedorMarcaMapper::class);
+        $this->proveedorProductoMapper=ServicesContainer::getService(ProveedorProductoMapper::class);
     }
 
 
@@ -159,9 +162,21 @@ class ProveedorController extends BaseController{
                 
                 if(empty($dto)) return new Response($this->stdResponse(false,true,"no valid content"),400);
                 $this->service->addProveedorMarcas($dtos);
-                return new Response($this->stdResponse());
             }
-            
+
+            if(isset($jsonParsed->productos)){
+                $dtos=[];
+                foreach ($jsonParsed->productos as $value) {
+                    $value->proveedorPublicId=$id;
+                    $dto=$this->proveedorProductoMapper->reverse($value);
+                    if(empty($dto)) continue;
+                    array_push($dtos,$dto);
+                }
+                
+                if(empty($dto)) return new Response($this->stdResponse(false,true,"no valid content"),400);
+                $this->service->addProveedorProductos($dtos);
+            }
+            return new Response($this->stdResponse());
         } catch (\Throwable $th) {
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }

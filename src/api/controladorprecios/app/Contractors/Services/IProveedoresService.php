@@ -5,6 +5,7 @@ namespace App\Contractors\Services;
 use App\DTOs\ProveedorDTO;
 use App\DTOs\ProveedorInfoBasicDTO;
 use App\DTOs\ProveedorMarcaDTO;
+use App\DTOs\ProveedorProductoDTO;
 
 interface IProveedoresService {
     
@@ -21,4 +22,6 @@ interface IProveedoresService {
     function getMarcasByProveedor(string $proveedorId);
     function deleteProveedorMarca(ProveedorMarcaDTO $proveedorMarca);
     function deleteProveedorMarcas(array $proveedorMarcas);
+    function addProveedorProducto(ProveedorProductoDTO $proveedorProducto);
+    function addProveedorProductos(array $proveedorProductosDTO);
 }
