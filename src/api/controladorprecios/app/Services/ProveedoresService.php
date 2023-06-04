@@ -95,6 +95,7 @@ class ProveedoresService  implements IProveedoresService
     public function getProveedor($id){
         try {
             $proveedorModel=$this->repository->getById($id);
+            if(empty($proveedorModel)) throw new Exception("no found");
             $proveedor=$this->proveedorMapper->reverse($proveedorModel);
             $proveedor->infoBasic=$this->proveedorInfoBasicMapper->reverse($this->repository->getInfoBasicByProveedor($proveedorModel->publicId));
             return $proveedor;
