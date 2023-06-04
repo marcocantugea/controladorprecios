@@ -19,4 +19,6 @@ interface IProveedoresService {
     function addProveedorMarca(ProveedorMarcaDTO $proveedorMarca);
     function addProveedorMarcas(array $proveedorMarcas);
     function getMarcasByProveedor(string $proveedorId);
+    function deleteProveedorMarca(ProveedorMarcaDTO $proveedorMarca);
+    function deleteProveedorMarcas(array $proveedorMarcas);
 }

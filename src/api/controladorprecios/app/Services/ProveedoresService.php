@@ -201,4 +201,28 @@ class ProveedoresService  implements IProveedoresService
             throw $th;
         }
     }
+
+    public function deleteProveedorMarca(ProveedorMarcaDTO $proveedorMarca){
+        try {
+            if(empty($proveedorMarca->proveedorPublicId) || empty($proveedorMarca->marca->publicId))
+                throw new Exception("invalid ids");
+
+            $item=$this->repository->getProveedorMarcaByIds($proveedorMarca->proveedorPublicId,$proveedorMarca->marca->publicId);
+            if(empty($item)) throw new Exception("proveedor marca not found");
+            $this->repository->deleteProveedorMarca($item->proveedoresmarcasId);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteProveedorMarcas(array $proveedorMarcas){
+        try {
+            array_walk($proveedorMarcas,function($item){
+                if(!$item instanceof ProveedorMarcaDTO) throw new Exception("invalid value proveedor marca");
+                $this->deleteProveedorMarca($item);
+            });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

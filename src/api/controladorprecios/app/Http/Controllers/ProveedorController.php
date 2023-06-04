@@ -176,4 +176,26 @@ class ProveedorController extends BaseController{
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
+
+    public function deleteProveedorMarcas(Request $request,$id){
+        try {
+            $jsonParsed=$this->validateJsonContent($request);
+            if(isset($jsonParsed->marcas)){
+                $dtos=[];
+                foreach ($jsonParsed->marcas as $value) {
+                    $value->proveedorPublicId=$id;
+                    $dto=$this->proveedorMarcaMapper->reverse($value);
+                    if(empty($dto)) continue;
+                    array_push($dtos,$dto);
+                }
+                
+                if(empty($dto)) return new Response($this->stdResponse(false,true,"no valid content"),400);
+                $this->service->deleteProveedorMarcas($dtos);
+                return new Response($this->stdResponse());
+            }
+            
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }

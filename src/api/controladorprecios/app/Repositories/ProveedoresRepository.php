@@ -169,7 +169,7 @@ class ProveedoresRepository implements IProveedorRepository{
 
     public function deleteProveedorMarca($id){
         if(empty($id)) throw new Exception("invalid id", 1);
-        $this->db->table('proveedoresmarcas')->where('publicId',$id)
+        $this->db->table('proveedoresmarcas')->where('id',$id)
         ->update([
             'activo'=>false,
             'fecha_eliminado'=> new DateTime('now')
@@ -257,7 +257,7 @@ class ProveedoresRepository implements IProveedorRepository{
     public function getProveedorMarcaByIds(string $proveedorId, string $marcaId){
         return $this->db->table('proveedores')
         ->leftJoin('proveedoresmarcas','proveedoresmarcas.proveedorId','proveedores.id')
-        ->leftJoin('marcas','marca.Id','proveedoresmarcas.marcaId')
+        ->leftJoin('marcas','marcas.Id','proveedoresmarcas.marcaId')
         ->where(['proveedores.publicId'=>$proveedorId,'marcas.publicId'=>$marcaId])
         ->whereNull('proveedoresmarcas.fecha_eliminado')
         ->select([
@@ -267,7 +267,7 @@ class ProveedoresRepository implements IProveedorRepository{
             'proveedoresmarcas.activo as proveedoresmarcasActivo',
             'proveedoresmarcas.created_at'
         ])
-        ->get()
+        ->first()
         ;
     }
 
