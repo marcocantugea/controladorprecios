@@ -21,4 +21,6 @@ interface IProveedorRepository extends IRepository{
     function getMarcasByProveedor(string $proveedorId);
     function getProveedorMarcaByIds(string $proveedorId, string $marcaId);
     function deleteProveedorMarca($id);
+    function deleteProveedorProducto(ProveedorProducto $proveedorProducto);
+    function getProveedorProductos($id,int $limit=500,int $offset=0);
 }

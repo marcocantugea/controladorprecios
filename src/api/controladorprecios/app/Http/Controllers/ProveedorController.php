@@ -213,4 +213,39 @@ class ProveedorController extends BaseController{
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
+
+    public function deleteProveedorProducto(Request $request, $id){
+        try {
+            $jsonParsed=$this->validateJsonContent($request);
+            if(isset($jsonParsed->productos)){
+                $dtos=[];
+                foreach ($jsonParsed->productos as $value) {
+                    $value->proveedorPublicId=$id;
+                    $dto=$this->proveedorProductoMapper->reverse($value);
+                    if(empty($dto)) continue;
+                    array_push($dtos,$dto);
+                }
+                
+                if(empty($dto)) return new Response($this->stdResponse(false,true,"no valid content"),400);
+                $this->service->deleteProveedorProductos($dtos);
+                return new Response($this->stdResponse());
+            }
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
+
+    public function getProveedorProductos(Request $request,$id){
+        try {
+            if(empty($id)) return new Response($this->stdResponse(false,true,"no valid content"),400);
+            $limit=500;
+            $offset=0;
+            if(null!=$request->query('limit')) $limit=$request->query('limit');
+            if(null != $request->query('offset')) $offset=$request->query('offset');
+            $items=$this->service->getProveedorProductos($id,$limit,$offset);
+            return new Response($this->stdResponse(data:$items));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }

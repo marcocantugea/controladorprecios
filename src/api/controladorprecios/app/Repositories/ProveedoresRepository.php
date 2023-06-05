@@ -273,4 +273,39 @@ class ProveedoresRepository implements IProveedorRepository{
         ;
     }
 
+    public function deleteProveedorProducto(ProveedorProducto $proveedorProducto){
+        if(empty($proveedorProducto->proveedorId) || empty($proveedorProducto->productoId)) throw new Exception("invalid id", 1);
+        $this->db->table('proveedoresproductos')->where(['productoId'=>$proveedorProducto->productoId,'proveedorId'=>$proveedorProducto->proveedorId])
+        ->whereNull('fecha_eliminado')
+        ->update([
+            'activo'=>false,
+            'fecha_eliminado'=> new DateTime('now')
+        ]);
+    }
+
+    public function getProveedorProductos($id,int $limit=500,int $offset=0){
+        return $this->db->table('proveedores')
+        ->leftJoin('proveedoresproductos','proveedores.id','proveedoresproductos.proveedorId')
+        ->leftjoin('productos','proveedoresproductos.productoId','productos.Id')
+        ->where(['proveedores.publicId'=>$id])
+        ->whereNull('proveedoresproductos.fecha_eliminado')
+        ->select([
+            'proveedoresproductos.id as proveedoresproductosId',
+            'productos.id',
+            'productos.publicId',
+            'productos.nombre',
+            'productos.descripcion',
+            'productos.codigo',
+            'productos.sku',
+            'productos.upc',
+            'productos.ean',
+            'productos.activo',
+            'productos.created_at',
+            'productos.updated_at',
+            'productos.fecha_eliminado'
+        ])
+        ->skip($offset)
+        ->take($limit)
+        ->get();
+    }
 }

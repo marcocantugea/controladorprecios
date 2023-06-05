@@ -21,6 +21,7 @@ class ProveedoresService  implements IProveedoresService
     private IMapper $proveedorInfoBasicMapper;
     private IMapper $proveedorMarcaMapper;
     private IMapper $proveedorProductoMapper;
+    private IMapper $productoMapper;
     private IProveedorRepository $repository;
     private IMarcaRepository $marcaRepository;
     private IProductosRepository $productoRepository;
@@ -31,7 +32,8 @@ class ProveedoresService  implements IProveedoresService
     IMapper $proveedorMarcaMapper,
     IMarcaRepository $marcaRepository,
     IProductosRepository $productoRepository,
-    IMapper $proveedorProductoMapper
+    IMapper $proveedorProductoMapper,
+    IMapper $productoMapper
     ) {
         $this->repository=$repository;
         $this->proveedorMapper=$proveedorMapper;
@@ -40,6 +42,7 @@ class ProveedoresService  implements IProveedoresService
         $this->marcaRepository=$marcaRepository;
         $this->productoRepository=$productoRepository;
         $this->proveedorProductoMapper=$proveedorProductoMapper;
+        $this->productoMapper=$productoMapper;
     }
 
     public function addProveedor(ProveedorDTO $proveedor){
@@ -252,6 +255,51 @@ class ProveedoresService  implements IProveedoresService
                 if(!$item instanceof ProveedorProductoDTO) throw new Exception("invalid value proveedor producto");
                 $this->addProveedorProducto($item);
             });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteProveedorProducto(ProveedorProductoDTO $proveedorProducto){
+        try {
+            $proveedorProducto->productoId= $this->productoRepository->getById($proveedorProducto->productoPublicId)->first()->id;
+            $proveedorProducto->proveedorId= $this->repository->getById($proveedorProducto->proveedorPublicId)->id;
+            if(empty($proveedorProducto->productoId) || empty($proveedorProducto->proveedorId)) throw new Exception("invalid id of producto or proveedor");
+            $model=$this->proveedorProductoMapper->map($proveedorProducto);
+            $this->repository->deleteProveedorProducto($model);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteProveedorProductos(array $proveedorProductosDTO){
+        try {
+            array_walk($proveedorProductosDTO,function($item){
+                if(!$item instanceof ProveedorProductoDTO) throw new Exception("invalid value proveedor producto");
+                $this->deleteProveedorProducto($item);
+            });
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getProveedorProductos($id,int $limit=500,int $offset=0){
+        try {
+            if(empty($id)) throw new Exception("invalid id");
+            $items=$this->repository->getProveedorProductos($id,$limit,$offset)->map(
+                function($item) {
+                    return $this->productoMapper->reverse($item);
+                }
+            );
+
+            $response=[
+                'offset'=>$offset,
+                'limit'=>$limit,
+                'totalRecordsFound'=>count($items),
+                'data'=>$items
+            ];
+
+            return $response;
         } catch (\Throwable $th) {
             throw $th;
         }

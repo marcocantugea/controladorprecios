@@ -24,4 +24,7 @@ interface IProveedoresService {
     function deleteProveedorMarcas(array $proveedorMarcas);
     function addProveedorProducto(ProveedorProductoDTO $proveedorProducto);
     function addProveedorProductos(array $proveedorProductosDTO);
+    function deleteProveedorProducto(ProveedorProductoDTO $proveedorProducto);
+    function deleteProveedorProductos(array $proveedorProductosDTO);
+    function getProveedorProductos($id,int $limit=500,int $offset=0);
 }

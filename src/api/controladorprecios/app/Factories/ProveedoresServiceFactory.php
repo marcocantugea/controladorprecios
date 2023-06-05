@@ -2,6 +2,7 @@
 
 namespace App\Factories;
 
+use App\Mappers\ProductoMapper;
 use App\Mappers\ProveedorInfoBasicMapper;
 use App\Mappers\ProveedorMapper;
 use App\Mappers\ProveedorMarcaMapper;
@@ -28,7 +29,8 @@ class ProveedoresServiceFactory
             new ProveedorMarcaMapper(),
             new MarcasRepository(DB::connection()),
             new ProductosRepository(DB::connection()),
-            new ProveedorProductoMapper()
+            new ProveedorProductoMapper(),
+            new ProductoMapper()
             );
         }
     }
