@@ -2,6 +2,7 @@
 
 namespace App\Contractors\Models;
 
+use App\Helpers\DateTimeSetter;
 use DateTime;
 
 class Costo
@@ -43,20 +44,12 @@ class Costo
         $this->id=$id;
         $this->publicId=$publicId;
         $this->activo=$activo;
-        $this->created_at=$this->setDateTime($create_at);
-        $this->updated_at=$this->setDateTime($updated_at);
-        $this->fecha_eliminado=$this->setDateTime($fecha_eliminado);
-        $this->expira_en=$this->setDateTime($expira_en);
+        $this->created_at=DateTimeSetter::setDateTime($create_at);
+        $this->updated_at=DateTimeSetter::setDateTime($updated_at);
+        $this->fecha_eliminado=DateTimeSetter::setDateTime($fecha_eliminado);
+        $this->expira_en=DateTimeSetter::setDateTime($expira_en);
         $this->proveedor=$proveedor;
         $this->producto=$producto;
 
-    }
-
-
-    private function setDateTime($dateItem){
-        if($dateItem==null) return null;
-        if(is_string($dateItem)) return new DateTime($dateItem);
-        if($dateItem instanceof DateTime) return $dateItem;
-        return null;
     }
 }

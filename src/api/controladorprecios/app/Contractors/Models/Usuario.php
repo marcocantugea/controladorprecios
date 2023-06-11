@@ -2,6 +2,7 @@
 
 namespace App\Contractors\Models;
 
+use App\Helpers\DateTimeSetter;
 use DateTime;
 
 class Usuario 
@@ -23,17 +24,10 @@ class Usuario
         $this->hash=$hash;
         $this->email=$email;
         $this->active=$active;
-        $this->created_at=$this->setDateTime($created_at);
-        $this->updated_at=$this->setDateTime($updated_at);
-        $this->deleted_at= $this->setDateTime($deleted_at);
+        $this->created_at=DateTimeSetter::setDateTime($created_at);
+        $this->updated_at=DateTimeSetter::setDateTime($updated_at);
+        $this->deleted_at= DateTimeSetter::setDateTime($deleted_at);
 
-    }
-
-    private function setDateTime($dateItem){
-        if($dateItem==null) return null;
-        if(is_string($dateItem)) return new DateTime($dateItem);
-        if($dateItem instanceof DateTime) return $dateItem;
-        return null;
     }
 
 }

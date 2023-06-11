@@ -5,6 +5,7 @@ namespace App\Mappers;
 use App\Contractors\IMapper;
 use App\Contractors\Models\UnidadMedida;
 use App\DTOs\UnidadMedidaDTO;
+use App\Helpers\DateTimeSetter;
 use \DateTime;
 use stdClass;
 
@@ -16,9 +17,9 @@ class UnidadMedidaMapper  implements IMapper
         $model= new UnidadMedida($DTO->codigo,$DTO->unidadDeMedida);
         if(isset($DTO->publicId)) $model->publicId=$DTO->publicId;
         if(isset($DTO->activo)) $model->activo=boolval($DTO->activo);
-        if(isset($DTO->created_at)) $model->created_at=$this->setDateTime($DTO->created_at);
-        if(isset($DTO->updated_at)) $model->updated_at=$this->setDateTime($DTO->updated_at);
-        if(isset($DTO->fecha_eliminado)) $model->fecha_eliminado=$this->setDateTime($DTO->fecha_eliminado);
+        if(isset($DTO->created_at)) $model->created_at=DateTimeSetter::setDateTime($DTO->created_at);
+        if(isset($DTO->updated_at)) $model->updated_at=DateTimeSetter::setDateTime($DTO->updated_at);
+        if(isset($DTO->fecha_eliminado)) $model->fecha_eliminado=DateTimeSetter::setDateTime($DTO->fecha_eliminado);
 
         return $model;
     }
@@ -31,13 +32,5 @@ class UnidadMedidaMapper  implements IMapper
         if(isset($model->activo)) $dto->activo=boolval($model->activo);
 
         return $dto;
-    }
-
-    private function setDateTime($dateItem){
-        if($dateItem==null) return null;
-        if(is_string($dateItem)) return new DateTime($dateItem);
-        if($dateItem instanceof DateTime) return $dateItem;
-        if($dateItem instanceof stdClass) return new DateTime($dateItem->date);
-        return null;
     }
 }

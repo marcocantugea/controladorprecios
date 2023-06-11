@@ -5,6 +5,7 @@ namespace App\Mappers;
 use App\Contractors\IMapper;
 use App\Contractors\Models\Producto;
 use App\DTOs\ProductoDTO;
+use App\Helpers\DateTimeSetter;
 use stdClass;
 use DateTime;
 
@@ -30,25 +31,20 @@ class ProductoMapper implements IMapper
 
     /**
      * Map data to producto dto model
+     * @param Producto|stdClass $product
      * @return ProductoDTO
      */
     public function reverse($product){
-        $activo = empty($product->activo) ? true : boolval($product->activo);
-        $created_at=(empty($product->created_at))?null: new DateTime($product->created_at);
-        $updated_at=(empty($product->updated_at)) ? null :new DateTime($product->updated_at);
-        $fecha_eliminado=(empty($product->fecha_eliminado)) ? null :new DateTime($product->fecha_eliminado);
-        return new ProductoDTO(
-            $product->nombre,
-            $product->descripcion,
-            $product->codigo,
-            $product->sku,
-            $product->upc,
-            $product->ean,
-            $activo,
-            $created_at,
-            $updated_at,
-            $fecha_eliminado,
-            empty($product->publicId) ? null : $product->publicId
-        );
+        
+        $dto= new ProductoDTO($product->nombre,$product->descripcion,$product->codigo);
+        $dto->sku= $product->sku ?? null;
+        $dto->upc = $product->upc ?? null;
+        $dto->ean = $product->ean ?? null;
+        $dto->activo = isset($product->activo) ? boolval($product->activo) : false;
+        if(isset($product->created_at)) $dto->created_at= DateTimeSetter::setDateTime($product->created_at);
+        if(isset($product->updated_at)) $dto->updated_at= DateTimeSetter::setDateTime($product->updated_at);
+        $dto->publicId = $dto->publicId ?? null;
+
+        return $dto;
     }
 }
