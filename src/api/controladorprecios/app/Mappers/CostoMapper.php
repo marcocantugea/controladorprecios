@@ -7,6 +7,7 @@ use App\Contractors\Models\Costo;
 use App\Contractors\Models\Producto;
 use App\Contractors\Models\Proveedor;
 use App\DTOs\CostoDTO;
+use App\Helpers\DateTimeSetter;
 use stdClass;
 use DateTime;
 
@@ -25,10 +26,10 @@ class CostoMapper implements IMapper
         $model->id= $DTO->id ?? null;
         $model->publicId= $DTO->publicId ?? null;
         $model->activo = (property_exists($DTO,'activo')) ? boolval($DTO->activo) : false;
-        $model->created_at =(property_exists($DTO,'created_at')) ? $this->setDateTime($DTO->created_at) : null;
-        $model->updated_at = (property_exists($DTO,'updated_at')) ? $this->setDateTime($DTO->updated_at) : null;
-        $model->fecha_eliminado = (property_exists($DTO,'fecha_eliminado')) ? $this->setDateTime($DTO->fecha_eliminado) : null;
-        $model->expira_en = (property_exists($DTO,'expiraEn')) ? $this->setDateTime($DTO->expiraEn) : null;
+        $model->created_at =(property_exists($DTO,'created_at')) ? DateTimeSetter::setDateTime($DTO->created_at) : null;
+        $model->updated_at = (property_exists($DTO,'updated_at')) ? DateTimeSetter::setDateTime($DTO->updated_at) : null;
+        $model->fecha_eliminado = (property_exists($DTO,'fecha_eliminado')) ? DateTimeSetter::setDateTime($DTO->fecha_eliminado) : null;
+        $model->expira_en = (property_exists($DTO,'expiraEn')) ? DateTimeSetter::setDateTime($DTO->expiraEn) : null;
         $model->productoPublicId = $DTO->productoPublicId ?? null;
         $model->proveedorPublicId = $DTO->proveedorPublicId ?? null;
         
@@ -77,9 +78,9 @@ class CostoMapper implements IMapper
         $dto->codigoProveedor=(isset($model->codigoProveedor))? $model->codigoProveedor :  $model->proveedor?->codigo ?? null;
         $dto->nombreCorto=$nombreProveedor;
         $dto->nombreProducto= $nombreProducto;
-        $dto->expiraEn=(isset($model->expira_en)) ? $this->setDateTime($model->expira_en) : null;
-        $dto->created_at=(isset($model->created_at)) ? $this->setDateTime($model->created_at) : null;
-        $dto->fecha_eliminado=(isset($model->fecha_eliminado)) ? $this->setDateTime($model->fecha_eliminado) : null;
+        $dto->expiraEn=(isset($model->expira_en)) ? DateTimeSetter::setDateTime($model->expira_en) : null;
+        $dto->created_at=(isset($model->created_at)) ? DateTimeSetter::setDateTime($model->created_at) : null;
+        $dto->fecha_eliminado=(isset($model->fecha_eliminado)) ? DateTimeSetter::setDateTime($model->fecha_eliminado) : null;
         $dto->proveedorId = $model->proveedorId ?? null;
         $dto->productoId = $model->productoId ?? null;
         $dto->publicId = $model->publicId ?? null;
@@ -87,11 +88,4 @@ class CostoMapper implements IMapper
         return $dto;
     }
 
-    private function setDateTime($dateItem){
-        if($dateItem==null) return null;
-        if(is_string($dateItem)) return new DateTime($dateItem);
-        if($dateItem instanceof DateTime) return $dateItem;
-        if($dateItem instanceof stdClass) return new DateTime($dateItem->date);
-        return null;
-    }
 }
