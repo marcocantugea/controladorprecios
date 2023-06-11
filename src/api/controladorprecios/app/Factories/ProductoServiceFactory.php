@@ -5,6 +5,7 @@ namespace App\Factories;
 use App\Mappers\CategoriaMapper;
 use App\Mappers\ProductoMapper;
 use App\Mappers\ProveedorProductoMapper;
+use App\Repositories\CostosRepository;
 use App\Repositories\ProductosRepository;
 use App\Repositories\ProveedoresRepository;
 use App\Services\ProductoService;
@@ -26,7 +27,9 @@ class ProductoServiceFactory
             new ProductoMapper(),
             new CategoriaMapper(),
             new ProveedoresRepository(DB::connection()),
-            new ProveedorProductoMapper()
+            new ProveedorProductoMapper(),
+            CostosServiceFactory::get(),
+            new CostosRepository(DB::connection())
         );
         }
     }

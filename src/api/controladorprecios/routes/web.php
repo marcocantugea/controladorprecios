@@ -5,6 +5,7 @@
 use Routes\AtributoRoutes;
 use Routes\AuthRoutes;
 use Routes\CategoriaRoutes;
+use Routes\CostoRoutes;
 use Routes\MarcaRoutes;
 use Routes\ProductoRoutes;
 use Routes\ProveedorRoutes;
@@ -17,3 +18,4 @@ MarcaRoutes::setRoutes($router);
 UsuarioRoutes::setRoutes($router);
 AuthRoutes::setRoutes($router);
 ProveedorRoutes::setRoutes($router);
+CostoRoutes::setRoutes($router);

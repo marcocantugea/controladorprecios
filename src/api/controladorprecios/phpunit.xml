@@ -53,6 +53,10 @@
             <file>./tests/UnitTests/ProveedoresRepositoryTests.php</file>
             <file>./tests/UnitTests/ProveedorMarcaMapperTests.php</file>
         </testsuite>
+        <testsuite name="Costos">
+            <file>./tests/UnitTests/CostoMapperTests.php</file>
+            <file>./tests/UnitTests/CostosRepositoryTests.php</file>
+        </testsuite>
         <testsuite name="All">
             <file>./tests/UnitTests/ProductosRepositoryTests.php</file>
             <file>./tests/UnitTests/ProductoServiceTests.php</file>
@@ -73,6 +77,8 @@
             <file>./tests/UnitTests/ProveedorMapperTests.php</file>
             <file>./tests/UnitTests/ProveedoresRepositoryTests.php</file>
             <file>./tests/UnitTests/ProveedorMarcaMapperTests.php</file>
+            <file>./tests/UnitTests/CostoMapperTests.php</file>
+            <file>./tests/UnitTests/CostosRepositoryTests.php</file>
         </testsuite>
     </testsuites>
    <php>

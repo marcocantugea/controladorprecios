@@ -35,6 +35,7 @@ class ProveedorController extends BaseController{
     public function addProveedor(Request $request){
         try {
             $jsonParsed=$this->validateJsonContent($request);
+            if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->mapper->reverse($jsonParsed);
             if(empty($dto))  return new Response($this->stdResponse(false,true,"no valid content"),400);
             $proveedor=$this->service->addProveedor($dto);
@@ -47,6 +48,7 @@ class ProveedorController extends BaseController{
     public function addProveedorBasicInfo(Request $request, $id){
         try {
             $jsonParsed=$this->validateJsonContent($request);
+            if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->proveedorBasicInfoMapper->reverse($jsonParsed);
             if(empty($dto))  return new Response($this->stdResponse(false,true,"no valid content"),400);
             $dto->proveedor= new ProveedorDTO("","",publicId:$id);
@@ -60,6 +62,7 @@ class ProveedorController extends BaseController{
     public function updateProveedor(Request $request,$id){
         try {
             $jsonParsed=$this->validateJsonContent($request);
+            if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->mapper->reverse($jsonParsed);
             if(empty($dto))  return new Response($this->stdResponse(false,true,"no valid content"),400);
             $dto->publicId=$id;
@@ -73,6 +76,7 @@ class ProveedorController extends BaseController{
     public function updateProveedorInfoBasic(Request $request, $id){
         try {
             $jsonParsed=$this->validateJsonContent($request);
+            if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->proveedorBasicInfoMapper->reverse($jsonParsed);
             if(empty($dto))  return new Response($this->stdResponse(false,true,"no valid content"),400);
             $dto->publicId=$id;
@@ -151,6 +155,7 @@ class ProveedorController extends BaseController{
 
         try {
             $jsonParsed=$this->validateJsonContent($request);
+            if($jsonParsed instanceof Response) return $jsonParsed;
             if(isset($jsonParsed->marcas)){
                 $dtos=[];
                 foreach ($jsonParsed->marcas as $value) {
@@ -195,6 +200,7 @@ class ProveedorController extends BaseController{
     public function deleteProveedorMarcas(Request $request,$id){
         try {
             $jsonParsed=$this->validateJsonContent($request);
+            if($jsonParsed instanceof Response) return $jsonParsed;
             if(isset($jsonParsed->marcas)){
                 $dtos=[];
                 foreach ($jsonParsed->marcas as $value) {
@@ -217,6 +223,7 @@ class ProveedorController extends BaseController{
     public function deleteProveedorProducto(Request $request, $id){
         try {
             $jsonParsed=$this->validateJsonContent($request);
+            if($jsonParsed instanceof Response) return $jsonParsed;
             if(isset($jsonParsed->productos)){
                 $dtos=[];
                 foreach ($jsonParsed->productos as $value) {

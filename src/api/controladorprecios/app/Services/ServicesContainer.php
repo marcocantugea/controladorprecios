@@ -5,11 +5,13 @@ namespace App\Services;
 use App\Factories\CategoriaServiceFactory;
 use App\Factories\ProductoServiceFactory;
 use App\Factories\AtibutosServiceFactory;
+use App\Factories\CostosServiceFactory;
 use App\Factories\MarcasServiceFactory;
 use App\Factories\ProveedoresServiceFactory;
 use App\Factories\UsuariosServiceFactory;
 use App\Mappers\AtributoMapper;
 use App\Mappers\CategoriaMapper;
+use App\Mappers\CostoMapper;
 use App\Mappers\MarcaMapper;
 use App\Mappers\ProductoMapper;
 use App\Mappers\ProveedorInfoBasicMapper;
@@ -19,6 +21,7 @@ use App\Mappers\ProveedorProductoMapper;
 use App\Mappers\UsuarioMapper;
 use App\Repositories\AtributosRepository;
 use App\Repositories\CategoriaRepository;
+use App\Repositories\CostosRepository;
 use App\Repositories\MarcasRepository;
 use App\Repositories\ProductosRepository;
 use App\Repositories\ProveedoresRepository;
@@ -52,7 +55,10 @@ class ServicesContainer
             ProveedorInfoBasicMapper::class=>new ProveedorInfoBasicMapper(),
             ProveedoresService::class=>ProveedoresServiceFactory::get(),
             ProveedorMarcaMapper::class=>new ProveedorMarcaMapper(),
-            ProveedorProductoMapper::class=> new ProveedorProductoMapper()
+            ProveedorProductoMapper::class=> new ProveedorProductoMapper(),
+            CostoMapper::class => new CostoMapper(),
+            CostosRepository::class=> new CostosRepository(DB::connection()),
+            CostosService::class=> CostosServiceFactory::get()
         ];
     }
 

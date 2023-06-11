@@ -23,4 +23,6 @@ interface IProveedorRepository extends IRepository{
     function deleteProveedorMarca($id);
     function deleteProveedorProducto(ProveedorProducto $proveedorProducto);
     function getProveedorProductos($id,int $limit=500,int $offset=0);
+    function getProveedorProducto(string $idProveedor,string $idProducto);
+    function existProveedorProducto(string $idProveedor,string $idProducto);
 }

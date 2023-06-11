@@ -308,4 +308,37 @@ class ProveedoresRepository implements IProveedorRepository{
         ->take($limit)
         ->get();
     }
+
+    public function getProveedorProducto(string $idProveedor,string $idProducto){
+        return $this->db->table('proveedores')
+        ->leftJoin('proveedoresproductos','proveedores.id','proveedoresproductos.proveedorId')
+        ->leftjoin('productos','proveedoresproductos.productoId','productos.Id')
+        ->where(['proveedores.publicId'=>$idProveedor,"productos.publicId"=>$idProducto])
+        ->whereNull('proveedoresproductos.fecha_eliminado')
+        ->select([
+            'proveedoresproductos.id as proveedoresproductosId',
+            'productos.id',
+            'productos.publicId',
+            'productos.nombre',
+            'productos.descripcion',
+            'productos.codigo',
+            'productos.sku',
+            'productos.upc',
+            'productos.ean',
+            'productos.activo',
+            'productos.created_at',
+            'productos.updated_at',
+            'productos.fecha_eliminado'
+        ])
+        ->first();
+    }
+
+    public function existProveedorProducto(string $idProveedor,string $idProducto){
+        return $this->db->table('proveedores')
+        ->leftJoin('proveedoresproductos','proveedores.id','proveedoresproductos.proveedorId')
+        ->leftjoin('productos','proveedoresproductos.productoId','productos.Id')
+        ->where(['proveedores.publicId'=>$idProveedor,"productos.publicId"=>$idProducto])
+        ->whereNull('proveedoresproductos.fecha_eliminado')
+        ->exists();
+    }
 }
