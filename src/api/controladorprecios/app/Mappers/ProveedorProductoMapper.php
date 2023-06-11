@@ -5,6 +5,7 @@ namespace App\Mappers;
 use App\Contractors\IMapper;
 use App\Contractors\Models\ProveedorProducto;
 use App\DTOs\ProveedorProductoDTO;
+use App\Helpers\DateTimeSetter;
 use stdClass;
 use DateTime;
 
@@ -21,9 +22,9 @@ class ProveedorProductoMapper implements IMapper{
         $model=new ProveedorProducto($DTO->productoId,$DTO->proveedorId);
         $model->id=$DTO->id ?? null;
         $model->activo = (isset($DTO->activo)) ? boolval($DTO->activo) : false;
-        $model->created_at= (isset($DTO->created_at)) ? $this->setDateTime($DTO->created_ad) : null;
-        $model->updated_at= (isset($DTO->updated_at)) ? $this->setDateTime($DTO->updated_at) : null;
-        $model->fecha_eliminado= (isset($DTO->fecha_eliminado)) ? $this->setDateTime($DTO->fecha_eliminado) : null;
+        $model->created_at= (isset($DTO->created_at)) ? DateTimeSetter::setDateTime($DTO->created_ad) : null;
+        $model->updated_at= (isset($DTO->updated_at)) ? DateTimeSetter::setDateTime($DTO->updated_at) : null;
+        $model->fecha_eliminado= (isset($DTO->fecha_eliminado)) ? DateTimeSetter::setDateTime($DTO->fecha_eliminado) : null;
         $model->proveedorPublicId=$DTO->proveedorPublicId ?? null;
         $model->productoPublicId=$DTO->productoPublicId ?? null;
 
@@ -43,14 +44,6 @@ class ProveedorProductoMapper implements IMapper{
         $dto->codigo= $model->codigo ?? null;
 
         return $dto;
-    }
-
-    private function setDateTime($dateItem){
-        if($dateItem==null) return null;
-        if(is_string($dateItem)) return new DateTime($dateItem);
-        if($dateItem instanceof DateTime) return $dateItem;
-        if($dateItem instanceof stdClass) return new DateTime($dateItem->date);
-        return null;
     }
 
 }

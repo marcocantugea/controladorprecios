@@ -2,6 +2,7 @@
 
 namespace App\Contractors\Models;
 
+use App\Helpers\DateTimeSetter;
 use DateTime;
 
 class ProveedorInfoBasic
@@ -37,17 +38,9 @@ class ProveedorInfoBasic
         $this->id=$id;
         $this->publicId=$publicId;
         $this->activo=$activo;
-        $this->created_at=$this->setDateTime($created_at);
-        $this->updated_at=$this->setDateTime($updated_at);
-        $this->fecha_eliminado=$this->setDateTime($fecha_eliminado);
-    }
-
-    
-    private function setDateTime($dateItem){
-        if($dateItem==null) return null;
-        if(is_string($dateItem)) return new DateTime($dateItem);
-        if($dateItem instanceof DateTime) return $dateItem;
-        return null;
+        $this->created_at=DateTimeSetter::setDateTime($created_at);
+        $this->updated_at=DateTimeSetter::setDateTime($updated_at);
+        $this->fecha_eliminado=DateTimeSetter::setDateTime($fecha_eliminado);
     }
 
 }
