@@ -3,8 +3,9 @@
 namespace App\DTOs;
 
 use DateTime;
+use JsonSerializable;
 
-class ProductoDTO 
+class ProductoDTO implements JsonSerializable
 {
     public ?string $publicId;
     public string $nombre;
@@ -19,6 +20,7 @@ class ProductoDTO
     public ?DateTime $fecha_eliminado;
     public ?array $categorias;
     public ?array $atributos;
+    public ?array $equivalencias; 
  
     public function __construct(
         string $nombre, 
@@ -44,5 +46,12 @@ class ProductoDTO
         $this->updated_at=$updated_at;
         $this->fecha_eliminado=$fecha_eliminado;
         $this->publicId=$publicId;
+    }
+
+    public function jsonSerialize() : mixed
+    {
+        return array_filter((array) $this, function ($var) {
+            return !is_null($var);
+        });
     }
 }

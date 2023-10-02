@@ -43,7 +43,7 @@ class ProductoMapper implements IMapper
         $dto->activo = isset($product->activo) ? boolval($product->activo) : false;
         if(isset($product->created_at)) $dto->created_at= DateTimeSetter::setDateTime($product->created_at);
         if(isset($product->updated_at)) $dto->updated_at= DateTimeSetter::setDateTime($product->updated_at);
-        $dto->publicId = $dto->publicId ?? null;
+        $dto->publicId = $product->publicId ?? null;
 
         return $dto;
     }
