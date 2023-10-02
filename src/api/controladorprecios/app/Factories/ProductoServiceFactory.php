@@ -29,7 +29,8 @@ class ProductoServiceFactory
             new ProveedoresRepository(DB::connection()),
             new ProveedorProductoMapper(),
             CostosServiceFactory::get(),
-            new CostosRepository(DB::connection())
+            new CostosRepository(DB::connection()),
+            EquivalenciasServiceFactory::get()
         );
         }
     }
