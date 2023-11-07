@@ -2,6 +2,8 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use Routes\OrganizacionRoutes;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -17,6 +19,4 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['middleware' => 'auth'], function () use ($router) {
-    $router->post('api/organizacion','OrganizacionController@addOrganizacion');
-});
+OrganizacionRoutes::setRoutes($router);
