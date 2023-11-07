@@ -50,4 +50,12 @@ class OrganizacionController extends Controller
             return new Response($this->stdResponse(false,true,$th->getMessage()));
         }
     }
+
+    public function getOrganizaciones(){
+        try {
+            return new Response($this->stdResponse(data:$this->service->getOrganizaciones()));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()));
+        }
+    }
 }

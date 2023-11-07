@@ -45,4 +45,17 @@ class OrganizacionRepository
             'fecha_eliminado'=> new DateTime()
         ]);
     }
+
+    public function getOrganizaciones(){
+        return DB::table($this::TABLE_ORG)->whereNull('fecha_eliminado')
+        ->select([
+            'publicId',
+            'nombre',
+            'descripcion',
+            'codigo',
+            'created_at',
+            'updated_at',
+            'fecha_eliminado'
+        ])->get();
+    }
 }

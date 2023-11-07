@@ -44,4 +44,18 @@ class OrganizacionService
             throw $th;
         }
     }
+
+    public function getOrganizaciones(){
+        try {
+            $data=$this->repository->getOrganizaciones();
+            $dtos=[];
+            $data->each(function($item) use (&$dtos) {
+                array_push($dtos, $this->mapper->reverse($item));
+            });
+
+            return $dtos;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
