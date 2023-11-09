@@ -7,11 +7,14 @@ use App\Contractors\Models\Producto;
 use App\Contractors\IMapper;
 use App\Contractors\Models\ProveedorProducto;
 use App\Contractors\Repositories\ICostosRepository;
+use App\Contractors\Repositories\IProductoOrganizacionRepository;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Repositories\IProveedorRepository;
 use App\Contractors\Services\ICostosService;
 use App\Contractors\Services\IEquivalenciasService;
+use App\Contractors\Services\IProductoOrganizacion;
+use App\Contractors\Wrappers\IOrganizacionWrapper;
 use App\DTOs\AtributoDTO;
 use App\DTOs\CategoriaDTO;
 use App\DTOs\CostoDTO;
@@ -35,6 +38,7 @@ class ProductoService implements IProductosService
     private IMapper $categoriasMapper;
     private IMapper $proveedorProductoMapper;
     private IEquivalenciasService  $equivalenciaService;
+    private IProductoOrganizacion $productoOrganizacionService;
 
     public function __construct(IProductosRepository $productRepository,
     IMapper $productoMapper,
@@ -43,7 +47,8 @@ class ProductoService implements IProductosService
     IMapper $proveedorProductoMapper,
     ICostosService $costoService,
     ICostosRepository $costoRepository,
-    IEquivalenciasService $equivalenciaService
+    IEquivalenciasService $equivalenciaService,
+    IProductoOrganizacion $productoOrganizacionService
     ) {
         $this->productoRepository = $productRepository;
         $this->productoMapper=$productoMapper;
@@ -53,6 +58,7 @@ class ProductoService implements IProductosService
         $this->costoService=$costoService;
         $this->costoRepository=$costoRepository;
         $this->equivalenciaService=$equivalenciaService;
+        $this->productoOrganizacionService=$productoOrganizacionService;
     }
 
     public function addProduct(ProductoDTO $producto)
@@ -73,6 +79,7 @@ class ProductoService implements IProductosService
             $productoDto->categorias=$this->getCategorias($id);
             $productoDto->atributos=$this->getAtributos($id);
             $productoDto->equivalencias=$this->getEquivalencias($id);
+            $productoDto->organizaciones=$this->getOrganizaciones($id);
             return $productoDto;
         } catch (\Throwable $th) {
             throw $th;
@@ -209,6 +216,7 @@ class ProductoService implements IProductosService
                 $producto->categorias=$this->getCategorias($producto->publicId);
                 $producto->atributos =$this->getAtributos($producto->publicId);
                 $producto->equivalencias=$this->getEquivalencias(($producto->publicId));
+                $producto->orgnizaciones=$this->getOrganizaciones($producto->publicId);
                 array_push($productosDTOFound,$producto);
             }
 
@@ -288,5 +296,9 @@ class ProductoService implements IProductosService
 
     public function getEquivalencias($productoId){
         return $this->equivalenciaService->getEquivalenciasByProducto($productoId)->toArray();
+    }
+
+    public function getOrganizaciones($productoId){
+        return $this->productoOrganizacionService->getOrganizaciones($productoId);
     }
 }

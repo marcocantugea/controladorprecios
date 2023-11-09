@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contractors\Services\IProductosService;
 use App\Mappers\ProductoMapper;
 use App\Services\ProductoService;
 use App\Services\ServicesContainer;
@@ -18,10 +19,10 @@ class ProductoController extends BaseController
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(IProductosService $productoService,ProductoMapper $mapper)
     {
-        $this->service= ServicesContainer::getService(ProductoService::class);
-        $this->mapper= ServicesContainer::getService(ProductoMapper::class);
+        $this->service= $productoService;
+        $this->mapper= $mapper;
     }
 
     public function addProducto(Request $request){
