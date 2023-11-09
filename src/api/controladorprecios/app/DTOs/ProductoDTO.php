@@ -4,6 +4,7 @@ namespace App\DTOs;
 
 use DateTime;
 use JsonSerializable;
+use stdClass;
 
 class ProductoDTO implements JsonSerializable
 {
@@ -21,6 +22,7 @@ class ProductoDTO implements JsonSerializable
     public ?array $categorias;
     public ?array $atributos;
     public ?array $equivalencias; 
+    public ?array $organizaciones;
  
     public function __construct(
         string $nombre, 

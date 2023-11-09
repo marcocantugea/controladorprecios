@@ -15,9 +15,9 @@ class UsuarioController extends BaseController{
     private IUsuariosService $service;
     private IMapper $mapper;
 
-    public function __construct() {
-        $this->service= ServicesContainer::getService(UsuariosService::class);
-        $this->mapper=ServicesContainer::getService(UsuarioMapper::class);
+    public function __construct(IUsuariosService $usuarioService, UsuarioMapper $mapper) {
+        $this->service= $usuarioService;
+        $this->mapper=$mapper;
     }
 
     public function addUsuario(Request $request){

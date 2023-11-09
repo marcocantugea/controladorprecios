@@ -16,9 +16,9 @@ class AtributoController extends BaseController
     private IAtributosService $service;
     private IMapper $mapper;
 
-    public function __construct() {
-        $this->service= ServicesContainer::getService(AtributosService::class);
-        $this->mapper= ServicesContainer::getService(AtributoMapper::class);
+    public function __construct(IAtributosService $atributoService, AtributoMapper $mapper) {
+        $this->service= $atributoService;
+        $this->mapper= $mapper;
     }
 
     public function addAtributo(Request $request){

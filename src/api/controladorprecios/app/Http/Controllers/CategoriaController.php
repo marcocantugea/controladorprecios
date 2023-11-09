@@ -16,9 +16,9 @@ class CategoriaController extends BaseController
     private ICategoriaService $service;
     private IMapper $mapper;
 
-    public function __construct() {
-        $this->service= ServicesContainer::getService(CategoriaService::class);
-        $this->mapper= ServicesContainer::getService(CategoriaMapper::class);
+    public function __construct(ICategoriaService $categoriaService,CategoriaMapper $mapper) {
+        $this->service= $categoriaService;
+        $this->mapper=$mapper;
     }
 
     public function addCategoria(Request $request){

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contractors\Services\IAuthService;
 use App\Services\AuthService;
 use App\Services\ServicesContainer;
 use Exception;
@@ -12,8 +13,8 @@ class AuthController extends BaseController{
 
     private AuthService $authService;
 
-    public function __construct() {
-        $this->authService= ServicesContainer::getService(AuthService::class);
+    public function __construct(IAuthService $authService) {
+        $this->authService= $authService;
     }
 
     public function AuthUsuario(Request $request){
