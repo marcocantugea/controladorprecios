@@ -17,15 +17,15 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
-        $this->app->singleton(OrganizacionMapper::class,function($app){
+        $this->app->scoped(OrganizacionMapper::class,function($app){
             return new OrganizacionMapper();
         });
 
-        $this->app->singleton(OrganizacionRepository::class,function($app){
+        $this->app->scoped(OrganizacionRepository::class,function($app){
             return new OrganizacionRepository();
         });
 
-        $this->app->singleton(OrganizacionService::class,function($app){
+        $this->app->scoped(OrganizacionService::class,function($app){
             return new OrganizacionService($app[OrganizacionRepository::class],$app[OrganizacionMapper::class]);
         });
     }

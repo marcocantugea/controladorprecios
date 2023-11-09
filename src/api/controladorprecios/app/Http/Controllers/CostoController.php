@@ -15,9 +15,9 @@ class CostoController extends BaseController
     private IMapper $mapper;
     private ICostosService $service;
 
-    public function __construct() {
-        $this->mapper= ServicesContainer::getService(CostoMapper::class);
-        $this->service= ServicesContainer::getService(CostosService::class);
+    public function __construct(ICostosService $costoService,CostoMapper $mapper) {
+        $this->mapper= $mapper;
+        $this->service= $costoService;
     }
 
     public function addCosto(Request $request){

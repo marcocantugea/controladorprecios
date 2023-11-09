@@ -27,6 +27,7 @@ class BasicAuthenticate
         try {
             $service=AuthServiceFactory::get();
             $service->AuthenticatedUser($credentials[0],$credentials[1]);
+            $_SESSION['token']=$token;
         } catch (\Throwable $th) {
             return response('Unauthorized.', 401);
         }

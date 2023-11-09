@@ -16,9 +16,9 @@ class EquivalenciaController extends BaseController
     private IEquivalenciasService $service;
     private IMapper $mapper;
 
-    public function __construct() {
-        $this->service=ServicesContainer::getService(EquivalenciasService::class);
-        $this->mapper=ServicesContainer::getService(EquivalenciaMapper::class);
+    public function __construct(IEquivalenciasService $equivalenciaService,EquivalenciaMapper $mapper ) {
+        $this->service=$equivalenciaService;
+        $this->mapper=$mapper;
     }
 
     public function addEquivalencia(Request $request){

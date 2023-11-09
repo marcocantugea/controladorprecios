@@ -23,12 +23,18 @@ class ProveedorController extends BaseController{
     private IMapper $proveedorMarcaMapper;
     private IMapper $proveedorProductoMapper;
 
-    public function __construct() {
-        $this->service= ServicesContainer::getService(ProveedoresService::class);
-        $this->mapper= ServicesContainer::getService(ProveedorMapper::class);
-        $this->proveedorBasicInfoMapper= ServicesContainer::getService(ProveedorInfoBasicMapper::class);
-        $this->proveedorMarcaMapper=ServicesContainer::getService(ProveedorMarcaMapper::class);
-        $this->proveedorProductoMapper=ServicesContainer::getService(ProveedorProductoMapper::class);
+    public function __construct(
+        IProveedoresService $service,
+        ProveedorMapper $mapper,
+        ProveedorInfoBasicMapper $proveedorBasicInfoMapper,
+        ProveedorMarcaMapper $proveedorMarcaMapper,
+        ProveedorProductoMapper $proveedorProductoMapper
+    ) {
+        $this->service= $service;
+        $this->mapper= $mapper;
+        $this->proveedorBasicInfoMapper= $proveedorBasicInfoMapper;
+        $this->proveedorMarcaMapper=$proveedorMarcaMapper;
+        $this->proveedorProductoMapper=$proveedorProductoMapper;
     }
 
 

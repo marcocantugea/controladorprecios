@@ -15,9 +15,9 @@ class MarcaController extends BaseController{
     private IMarcasService $service;
     private IMapper $mapper;
 
-    public function __construct() {
-        $this->service= ServicesContainer::getService(MarcasService::class);
-        $this->mapper= ServicesContainer::getService(MarcaMapper::class);
+    public function __construct(IMarcasService $marcaService,MarcaMapper $mapper) {
+        $this->service=$marcaService;
+        $this->mapper= $mapper;
     }
 
     public function addMarca(Request $request){
