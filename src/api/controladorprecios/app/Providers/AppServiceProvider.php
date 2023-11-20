@@ -9,6 +9,7 @@ use App\Contractors\Repositories\IAtributoRepository;
 use App\Contractors\Repositories\ICategoriaRepository;
 use App\Contractors\Repositories\ICostosRepository;
 use App\Contractors\Repositories\IEquivalenciasRepository;
+use App\Contractors\Repositories\IListaPreciosProductoRepository;
 use App\Contractors\Repositories\IListaPreciosRepository;
 use App\Contractors\Repositories\IMarcaRepository;
 use App\Contractors\Repositories\IProductoOrganizacionRepository;
@@ -20,6 +21,7 @@ use App\Contractors\Services\IAuthService;
 use App\Contractors\Services\ICategoriaService;
 use App\Contractors\Services\ICostosService;
 use App\Contractors\Services\IEquivalenciasService;
+use App\Contractors\Services\IListaPreciosProductoService;
 use App\Contractors\Services\IListaPreciosService;
 use App\Contractors\Services\IMarcasService;
 use App\Contractors\Services\IProductoOrganizacion;
@@ -32,6 +34,7 @@ use App\Mappers\CategoriaMapper;
 use App\Mappers\CostoMapper;
 use App\Mappers\EquivalenciaMapper;
 use App\Mappers\ListaPreciosMapper;
+use App\Mappers\ListaPreciosProductoMapper;
 use App\Mappers\MarcaMapper;
 use App\Mappers\ProductoMapper;
 use App\Mappers\ProductoOrganizacionMapper;
@@ -44,6 +47,7 @@ use App\Repositories\AtributosRepository;
 use App\Repositories\CategoriaRepository;
 use App\Repositories\CostosRepository;
 use App\Repositories\EquivalenciasRepository;
+use App\Repositories\ListaPreciosProductoRepository;
 use App\Repositories\ListaPreciosRepository;
 use App\Repositories\MarcasRepository;
 use App\Repositories\ProductoOrganizacionRepository;
@@ -55,6 +59,7 @@ use App\Services\AuthService;
 use App\Services\CategoriaService;
 use App\Services\CostosService;
 use App\Services\EquivalenciasService;
+use App\Services\ListaPreciosProductoService;
 use App\Services\ListaPreciosService;
 use App\Services\MarcasService;
 use App\Services\ProductoOrganizacion;
@@ -246,5 +251,22 @@ class AppServiceProvider extends ServiceProvider
         $this->app->scoped(IListaPreciosService::class,function($app){
             return new ListaPreciosService($app[ListaPreciosMapper::class],$app[IListaPreciosRepository::class]);
         });
+
+        $this->app->scoped(ListaPreciosProductoMapper::class,function($app){
+            return new ListaPreciosProductoMapper();
+        });
+
+        $this->app->scoped(IListaPreciosProductoRepository::class,function($app){
+            return new ListaPreciosProductoRepository(DB::connection(),$app[ListaPreciosProductoMapper::class]);
+        });
+
+         $this->app->scoped(IListaPreciosProductoService::class,function($app){
+             return new ListaPreciosProductoService(
+                $app[IListaPreciosProductoRepository::class],
+                $app[ListaPreciosProductoMapper::class],
+                $app[IListaPreciosRepository::class],
+                $app[IProductosRepository::class]
+             );
+         });
     }
 }

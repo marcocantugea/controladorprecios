@@ -40,7 +40,7 @@ class ListaPreciosMapper implements IMapper
      */
     public function reverse($model){
         $dto = new ListaPreciosDTO();
-        if(isset($model->publicId)) $dto->publicId= $model->publicid;
+        if(isset($model->publicid)) $dto->publicId= $model->publicid;
         $dto->descripcion= $model->descripcion;
         $dto->codigo= $model->codigo;
         $dto->activo= $model->activo;
