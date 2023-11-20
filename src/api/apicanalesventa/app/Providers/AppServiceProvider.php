@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contractors\Services\IAuthService;
+use App\Contractors\Wrappers\IAuth;
+use App\Services\AuthService;
+use App\Wrappers\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,6 +17,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->scoped(IAuth::class,function($app){
+            return new Auth();
+        });
+
+        $this->app->scoped(IAuthService::class,function($app){
+            return new AuthService($app[IAuth::class]);
+        });
     }
 }
