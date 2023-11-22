@@ -157,4 +157,24 @@ class ListaPreciosProductoService implements IListaPreciosProductoService
             throw $th;
         }
     }
+
+    public function getListaPreciosPorProducto($productoId)
+    {
+        try {
+            $models=$this->repository->getListaPreciosByProducto($productoId);
+            $dtos=[];
+            array_walk($models,function($model) use (&$dtos){
+                $info=$this->mapper->reverse($model);
+                $dto=[
+                    'listaPid'=>$info->listaPid
+                ];
+                
+                array_push($dtos,$dto);
+            });
+
+            return $dtos;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

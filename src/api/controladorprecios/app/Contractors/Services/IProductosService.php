@@ -13,4 +13,5 @@ interface IProductosService {
     function getProductos(array $searchParams,int $limit=500,int $offset=0);
     function updateProductoByProperty($id,array $propertyValue);
     function assignProveedor(ProveedorProductoDTO $proveedorProducto);
+    function getListaPrecios($pid);
 }

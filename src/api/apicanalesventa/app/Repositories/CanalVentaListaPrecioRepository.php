@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Contractors\IMapper;
+use App\Contractors\Models\CanalVenta;
 use App\Contractors\Repositories\ICanalVentaListaPrecioRepository;
 use App\Mappers\CanalVentaListaPrecioMapper;
 use App\Contractors\Models\CanalVentaListaPrecio;
+use App\Mappers\CanalesVentaMapper;
 use DateTime;
 use Exception;
 use Illuminate\Database\MySqlConnection;
@@ -15,10 +17,12 @@ class CanalVentaListaPrecioRepository implements ICanalVentaListaPrecioRepositor
     private const TABLE_NAME='canalventa_listaprecio';
     private MySqlConnection $db;
     private IMapper $mapper;
+    private IMapper $canalVentaMapper;
 
-    public function __construct(MySqlConnection $connection, CanalVentaListaPrecioMapper $mapper) {
+    public function __construct(MySqlConnection $connection, CanalVentaListaPrecioMapper $mapper, CanalesVentaMapper $canalVentaMapper) {
         $this->db= $connection;
         $this->mapper=$mapper;
+        $this->canalVentaMapper=$canalVentaMapper;
     }
     
     /**
@@ -82,6 +86,30 @@ class CanalVentaListaPrecioRepository implements ICanalVentaListaPrecioRepositor
         $models=[];
         $data->each(function($item) use (&$models){
             $model=$this->mapper->map($item);
+            array_push($models,$model);
+        });
+
+        return $models;
+    }
+
+    public function getCanalVentaPorListaPrecio($listaPid)
+    {
+        if(empty($listaPid)) throw new Exception('invalid lista id');
+        $data=$this->db->table($this::TABLE_NAME)
+            ->join('canalesventa','canalesventa.Id','=',$this::TABLE_NAME.'.canalventaId')
+            ->where($this::TABLE_NAME.'.listaPid',$listaPid)
+            ->whereNull($this::TABLE_NAME.'.fecha_eliminado')
+            ->whereNull('canalesventa.fecha_eliminado')
+            ->select([
+                'canalesventa.Id',
+                'canalesventa.publicId',
+                'canalesventa.nombre',
+                'canalesventa.codigo'
+            ])->get();
+
+        $models=[];
+        $data->each(function($item) use (&$models){
+            $model = $this->canalVentaMapper->map($item);
             array_push($models,$model);
         });
 

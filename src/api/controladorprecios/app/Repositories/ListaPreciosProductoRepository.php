@@ -219,4 +219,30 @@ final class ListaPreciosProductoRepository implements IListaPreciosProductoRepos
         return $models;
         
     }
+
+
+    /**
+     * Get listas precios by producto
+     * @param string $productoPid
+     * @return array|null
+     */
+    public function getListaPreciosByProducto($productoPid)
+    {
+        $data= $this->db->table(self::TABLE)->where('productoPId',$productoPid)->whereNull('fecha_eliminado')
+        ->select($this->getListaPreciosModelFields())
+        ->get();
+
+        $models=[];
+        $data->each(function($item) use (&$models){
+            $model=$this->mapper->map($item);
+            array_push($models,$model);
+        });
+
+        return $models;
+    }
+
+    public function getListaPreciosModelFields(){
+        return array_keys(get_class_vars(get_class(new ListaPreciosProducto("",0,""))));
+    }
+
 }

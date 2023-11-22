@@ -217,6 +217,7 @@ class AppServiceProvider extends ServiceProvider
             $app[ICostosRepository::class],
             $app[IEquivalenciasService::class]
             ,$app[IProductoOrganizacion::class]
+            ,$app[IListaPreciosProductoService::class]
             );
         });
 

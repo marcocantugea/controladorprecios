@@ -53,11 +53,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->scoped(ICanalVentaListaPrecioRepository::class,function($app){
-            return new CanalVentaListaPrecioRepository(DB::connection(),$app[CanalVentaListaPrecioMapper::class]);
+            return new CanalVentaListaPrecioRepository(DB::connection(),$app[CanalVentaListaPrecioMapper::class],$app[CanalesVentaMapper::class]);
         });
 
         $this->app->scoped(ICanalVentaListaPrecioService::class,function($app){
-            return new CanalVentaListaPreciosService($app[ICanalVentaListaPrecioRepository::class],$app[CanalVentaListaPrecioMapper::class]);
+            return new CanalVentaListaPreciosService($app[ICanalVentaListaPrecioRepository::class],$app[CanalVentaListaPrecioMapper::class],$app[CanalesVentaMapper::class]);
         });
     }
 }

@@ -6,16 +6,19 @@ use App\Contractors\IMapper;
 use App\Contractors\Repositories\ICanalVentaListaPrecioRepository;
 use App\Contractors\Services\ICanalVentaListaPrecioService;
 use App\DTOs\CanalVentaListaPrecioDTO;
+use App\Mappers\CanalesVentaMapper;
 use Exception;
 
 class CanalVentaListaPreciosService implements ICanalVentaListaPrecioService
 {
     private ICanalVentaListaPrecioRepository $repository;
     private IMapper $mapper;
+    private IMapper $canalVentaMapper;
 
-    public function __construct(ICanalVentaListaPrecioRepository $repository,IMapper $mapper) {
+    public function __construct(ICanalVentaListaPrecioRepository $repository,IMapper $mapper,CanalesVentaMapper $canalVentaMapper) {
         $this->repository = $repository;
         $this->mapper=$mapper;
+        $this->canalVentaMapper=$canalVentaMapper;
     }
 
     /**
@@ -70,5 +73,21 @@ class CanalVentaListaPreciosService implements ICanalVentaListaPrecioService
         } catch (\Throwable $th) {
             throw $th;
         }   
+    }
+
+    public function getCanalesPorListaPrecios($listaPid)
+    {
+        try {
+            $models=$this->repository->getCanalVentaPorListaPrecio($listaPid);
+            $dtos=[];
+            array_walk($models,function($model) use (&$dtos){
+                $dto=$this->canalVentaMapper->reverse($model);
+                array_push($dtos,$dto);
+            });
+
+            return $dtos;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

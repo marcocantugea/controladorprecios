@@ -23,6 +23,7 @@ class ProductoDTO implements JsonSerializable
     public ?array $atributos;
     public ?array $equivalencias; 
     public ?array $organizaciones;
+    public ?array $listaPrecios;
  
     public function __construct(
         string $nombre, 

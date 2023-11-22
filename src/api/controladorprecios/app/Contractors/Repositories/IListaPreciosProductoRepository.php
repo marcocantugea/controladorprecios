@@ -11,4 +11,5 @@ interface IListaPreciosProductoRepository extends IRepository{
     function addProductosAListaPrecios(array $models);
     function getProductoPrecio($listaPid,$productoPid);
     function getProductoPrecios($productoId);
+    function getListaPreciosByProducto($productoPid);
 }
