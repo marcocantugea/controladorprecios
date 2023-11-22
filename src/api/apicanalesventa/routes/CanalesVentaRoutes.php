@@ -16,6 +16,9 @@ final class CanalesVentaRoutes
             $router->get('api/canalesventa',self::CONTROLLER_NAME.'@getCanalesVenta');
             $router->get('api/canalventa/{pid}',self::CONTROLLER_NAME.'@getCanalVenta');
             $router->delete('api/canalventa/{pid}',self::CONTROLLER_NAME.'@deleteCanalVenta');
+            $router->post('api/canalventa/{pid}/listaprecios',self::CONTROLLER_NAME.'@addListaPrecioACanal');
+            $router->delete('api/canalventa/listaprecios/{pid}',self::CONTROLLER_NAME.'@deleteListaPrecioACanal');
+            $router->get('api/canalventa/{pid}/listaprecios',self::CONTROLLER_NAME.'@getListaPreciosByCanal');
         });
         
     }
