@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contractors\IMapper;
 use App\Contractors\Models\ListaPrecio;
+use App\Contractors\Models\ListaPreciosProducto;
 use App\Contractors\Repositories\IListaPreciosRepository;
 use App\DTOs\ListaPreciosDTO;
 use DateTime;

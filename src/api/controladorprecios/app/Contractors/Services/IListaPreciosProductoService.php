@@ -12,4 +12,5 @@ interface IListaPreciosProductoService {
     function addProductosAListaPrecios(array $dtos);
     function getProductoPrecio($listaPid,$productoPid);
     function getProductoPrecios($productoId);
+    function getListaPreciosPorProducto($productoId);
 }

@@ -13,6 +13,7 @@ use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Repositories\IProveedorRepository;
 use App\Contractors\Services\ICostosService;
 use App\Contractors\Services\IEquivalenciasService;
+use App\Contractors\Services\IListaPreciosProductoService;
 use App\Contractors\Services\IProductoOrganizacion;
 use App\Contractors\Wrappers\IOrganizacionWrapper;
 use App\DTOs\AtributoDTO;
@@ -39,6 +40,7 @@ class ProductoService implements IProductosService
     private IMapper $proveedorProductoMapper;
     private IEquivalenciasService  $equivalenciaService;
     private IProductoOrganizacion $productoOrganizacionService;
+    private IListaPreciosProductoService $listaPreciosProductoService;
 
     public function __construct(IProductosRepository $productRepository,
     IMapper $productoMapper,
@@ -48,7 +50,8 @@ class ProductoService implements IProductosService
     ICostosService $costoService,
     ICostosRepository $costoRepository,
     IEquivalenciasService $equivalenciaService,
-    IProductoOrganizacion $productoOrganizacionService
+    IProductoOrganizacion $productoOrganizacionService,
+    IListaPreciosProductoService $listaPreciosProductoService
     ) {
         $this->productoRepository = $productRepository;
         $this->productoMapper=$productoMapper;
@@ -59,6 +62,7 @@ class ProductoService implements IProductosService
         $this->costoRepository=$costoRepository;
         $this->equivalenciaService=$equivalenciaService;
         $this->productoOrganizacionService=$productoOrganizacionService;
+        $this->listaPreciosProductoService=$listaPreciosProductoService;
     }
 
     public function addProduct(ProductoDTO $producto)
@@ -80,6 +84,7 @@ class ProductoService implements IProductosService
             $productoDto->atributos=$this->getAtributos($id);
             $productoDto->equivalencias=$this->getEquivalencias($id);
             $productoDto->organizaciones=$this->getOrganizaciones($id);
+            $productoDto->listaPrecios=$this->getListaPrecios($id);
             return $productoDto;
         } catch (\Throwable $th) {
             throw $th;
@@ -217,6 +222,7 @@ class ProductoService implements IProductosService
                 $producto->atributos =$this->getAtributos($producto->publicId);
                 $producto->equivalencias=$this->getEquivalencias(($producto->publicId));
                 $producto->orgnizaciones=$this->getOrganizaciones($producto->publicId);
+                $producto->listaPrecios=$this->getListaPrecios($producto->publicId);
                 array_push($productosDTOFound,$producto);
             }
 
@@ -300,5 +306,27 @@ class ProductoService implements IProductosService
 
     public function getOrganizaciones($productoId){
         return $this->productoOrganizacionService->getOrganizaciones($productoId);
+    }
+
+    public function getListaPrecios($pid){
+        return $this->listaPreciosProductoService->getListaPreciosPorProducto($pid);
+    }
+
+    public function getProductoSimple($pid): ProductoDTO{
+        $producto=$this->productoRepository->getById($pid)->first();
+        if(empty($producto))throw new Exception("producto not found");
+        $productoDto=$this->productoMapper->reverse($producto);
+        return $productoDto;
+    }
+
+    public function getProductosSimple(array $productosPid) : array{
+        
+        $productosDtos=[];
+        array_walk($productosPid,function($pid) use (&$productosDtos){
+            $producto=$this->getProductoSimple($pid);
+            if(!empty($producto)) array_push($productosDtos,$producto);
+        });
+        
+        return $productosDtos;
     }
 }

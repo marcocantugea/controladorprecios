@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'productos'),
 
     /*
     |--------------------------------------------------------------------------
@@ -68,6 +68,22 @@ return [
             'strict' => env('DB_STRICT_MODE_USERS', true),
             'engine' => env('DB_ENGINE_USERS'),
             'timezone' => env('DB_TIMEZONE_USERS', '+00:00'),
+        ],
+
+        'productos' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_PRODUCTOS', '127.0.0.1'),
+            'port' => env('DB_PORT_PRODUCTOS', 3306),
+            'database' => env('DB_DATABASE_PRODUCTOS', 'forge'),
+            'username' => env('DB_USERNAME_PRODUCTOS', 'forge'),
+            'password' => env('DB_PASSWORD_PRODUCTOS', ''),
+            'unix_socket' => env('DB_SOCKET_PRODUCTOS', ''),
+            'charset' => env('DB_CHARSET_PRODUCTOS', 'utf8mb4'),
+            'collation' => env('DB_COLLATION_PRODUCTOS', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX_PRODUCTOS', ''),
+            'strict' => env('DB_STRICT_MODE_PRODUCTOS', true),
+            'engine' => env('DB_ENGINE_PRODUCTOS'),
+            'timezone' => env('DB_TIMEZONE_PRODUCTOS', '+00:00'),
         ],
 
         'pgsql' => [

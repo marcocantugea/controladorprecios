@@ -19,7 +19,8 @@ class ListaPreciosRoutes{
             $router->get('api/listaprecios/{listaPId}/productos',self::CONTROLLER.'@getProductosPorListaPrecio');
             $router->post('api/listaprecios/productos',self::CONTROLLER.'@addProductosListaPrecios');
             $router->get('api/listaprecios/{pid}/producto/{productoPid}',self::CONTROLLER.'@getProductoPrecio');
-            $router->get('api/listaprecios/producto/{productoPId}',self::CONTROLLER.'@getProductoPrecios');
+            $router->get('api/listaprecios/producto/{productoPId}/precios',self::CONTROLLER.'@getProductoPrecios');
+            $router->get('api/listaprecios/producto/{productoPId}/',self::CONTROLLER.'@getListaPreciosPorProducto');
         });
     }    
 }

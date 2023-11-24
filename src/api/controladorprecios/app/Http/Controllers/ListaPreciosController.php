@@ -133,4 +133,13 @@ final class ListaPreciosController extends BaseController
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
+
+    public function getListaPreciosPorProducto($productoPId){
+        try {
+            $data=$this->listaPreciosProductoService->getListaPreciosPorProducto($productoPId);
+            return new Response($this->stdResponse(data:$data));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }
