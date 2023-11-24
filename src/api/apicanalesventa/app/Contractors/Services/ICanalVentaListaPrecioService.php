@@ -8,5 +8,5 @@ interface ICanalVentaListaPrecioService{
     function deleteCanalVentaListaPrecio($pid);
     function getListaPreciosPorCanal($pid);
     function getCanalesPorListaPrecios($listaPid);
-    
+    function getListaPrecioPorCanal($pid,$listaPid);
 }

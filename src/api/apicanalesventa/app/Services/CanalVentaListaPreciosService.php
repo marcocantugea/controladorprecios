@@ -5,8 +5,14 @@ namespace App\Services;
 use App\Contractors\IMapper;
 use App\Contractors\Repositories\ICanalVentaListaPrecioRepository;
 use App\Contractors\Services\ICanalVentaListaPrecioService;
+use App\Contractors\Services\IListaPreciosService;
+use App\Contractors\Services\IProductoService;
 use App\DTOs\CanalVentaListaPrecioDTO;
+use App\DTOs\ListaPreciosDetalleDTO;
+use App\DTOs\ListaPreciosDTO;
+use App\Helpers\DateTimeSetter;
 use App\Mappers\CanalesVentaMapper;
+use DateTime;
 use Exception;
 
 class CanalVentaListaPreciosService implements ICanalVentaListaPrecioService
@@ -14,11 +20,15 @@ class CanalVentaListaPreciosService implements ICanalVentaListaPrecioService
     private ICanalVentaListaPrecioRepository $repository;
     private IMapper $mapper;
     private IMapper $canalVentaMapper;
+    private IListaPreciosService $listaPreciosService;
+    private IProductoService $productoService;
 
-    public function __construct(ICanalVentaListaPrecioRepository $repository,IMapper $mapper,CanalesVentaMapper $canalVentaMapper) {
+    public function __construct(ICanalVentaListaPrecioRepository $repository,IMapper $mapper,CanalesVentaMapper $canalVentaMapper,IListaPreciosService $listaPreciosService,IProductoService $productoService) {
         $this->repository = $repository;
         $this->mapper=$mapper;
         $this->canalVentaMapper=$canalVentaMapper;
+        $this->listaPreciosService=$listaPreciosService;
+        $this->productoService=$productoService;
     }
 
     /**
@@ -84,6 +94,50 @@ class CanalVentaListaPreciosService implements ICanalVentaListaPrecioService
                 $dto=$this->canalVentaMapper->reverse($model);
                 array_push($dtos,$dto);
             });
+
+            return $dtos;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    function getListaPrecioPorCanal($pid,$listaPid){
+        try {
+            if(empty($pid) || empty($listaPid)) throw new Exception('invalid id or lista id');
+            $listas= $this->repository->getListasPrecioPorCanalVenta($pid);
+            $dtos=[];
+            foreach ($listas as $lista) {
+                if($lista->listaPid!=$listaPid) continue;
+                $response=$this->listaPreciosService->getListaPreciosHeader($listaPid);
+                $listaPrecioInicio=DateTimeSetter::setDateTime($response->fecha_inicia);
+                $listaPrecioFin=DateTimeSetter::setDateTime($response->fecha_expira);
+                $todayDate=new DateTime();
+                if($todayDate<$listaPrecioInicio && $todayDate>$listaPrecioFin) continue;
+                $listaHeader= new ListaPreciosDTO();
+                $listaHeader->publicId=$response->publicId;
+                $listaHeader->descripcion=$response->descripcion;
+                $listaHeader->codigo=$response->codigo;
+                $listaHeader->activo=$response->activo;
+                $listaHeader->fechaInicio=DateTimeSetter::setDateTime($response->fecha_inicia);
+                $listaHeader->fechaExpira=DateTimeSetter::setDateTime($response->fecha_expira);
+
+                //get detail prices
+                $productos=$this->listaPreciosService->getListaPreciosProductos($listaPid);
+                $listaProductos=[];
+                array_walk($productos,function($item) use (&$listaProductos){
+                    $producto=new ListaPreciosDetalleDTO();
+                    $producto->publicId=$item->publicId;
+                    $producto->productoId=$item->productoPId;
+                    $producto->precio=$item->precio;
+                    $producto->activo=$item->activo;
+                    $producto->producto=$this->productoService->getProductoSimple($item->productoPId);
+
+                    array_push($listaProductos,$producto);
+
+                });
+                $listaHeader->precios=$listaProductos;
+                array_push($dtos,$listaHeader);
+            }
 
             return $dtos;
         } catch (\Throwable $th) {

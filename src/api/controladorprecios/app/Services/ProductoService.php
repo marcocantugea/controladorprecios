@@ -311,4 +311,22 @@ class ProductoService implements IProductosService
     public function getListaPrecios($pid){
         return $this->listaPreciosProductoService->getListaPreciosPorProducto($pid);
     }
+
+    public function getProductoSimple($pid): ProductoDTO{
+        $producto=$this->productoRepository->getById($pid)->first();
+        if(empty($producto))throw new Exception("producto not found");
+        $productoDto=$this->productoMapper->reverse($producto);
+        return $productoDto;
+    }
+
+    public function getProductosSimple(array $productosPid) : array{
+        
+        $productosDtos=[];
+        array_walk($productosPid,function($pid) use (&$productosDtos){
+            $producto=$this->getProductoSimple($pid);
+            if(!empty($producto)) array_push($productosDtos,$producto);
+        });
+        
+        return $productosDtos;
+    }
 }

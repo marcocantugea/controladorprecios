@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'productos'),
+    'default' => env('DB_CONNECTION', 'organizaciones'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,6 +84,38 @@ return [
             'strict' => env('DB_STRICT_MODE_PRODUCTOS', true),
             'engine' => env('DB_ENGINE_PRODUCTOS'),
             'timezone' => env('DB_TIMEZONE_PRODUCTOS', '+00:00'),
+        ],
+
+        'canalesventa' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_CANALESVENTA', '127.0.0.1'),
+            'port' => env('DB_PORT_CANALESVENTA', 3306),
+            'database' => env('DB_DATABASE_CANALESVENTA', 'forge'),
+            'username' => env('DB_USERNAME_CANALESVENTA', 'forge'),
+            'password' => env('DB_PASSWORD_CANALESVENTA', ''),
+            'unix_socket' => env('DB_SOCKET_CANALESVENTA', ''),
+            'charset' => env('DB_CHARSET_CANALESVENTA', 'utf8mb4'),
+            'collation' => env('DB_COLLATION_CANALESVENTA', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX_CANALESVENTA', ''),
+            'strict' => env('DB_STRICT_MODE_CANALESVENTA', true),
+            'engine' => env('DB_ENGINE_CANALESVENTA'),
+            'timezone' => env('DB_TIMEZONE_CANALESVENTA', '+00:00'),
+        ],
+
+        'organizaciones' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_ORG', '127.0.0.1'),
+            'port' => env('DB_PORT_ORG', 3306),
+            'database' => env('DB_DATABASE_ORG', 'forge'),
+            'username' => env('DB_USERNAME_ORG', 'forge'),
+            'password' => env('DB_PASSWORD_ORG', ''),
+            'unix_socket' => env('DB_SOCKET_ORG', ''),
+            'charset' => env('DB_CHARSET_ORG', 'utf8mb4'),
+            'collation' => env('DB_COLLATION_ORG', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX_ORG', ''),
+            'strict' => env('DB_STRICT_MODE_ORG', true),
+            'engine' => env('DB_ENGINE_ORG'),
+            'timezone' => env('DB_TIMEZONE_ORG', '+00:00'),
         ],
 
         'pgsql' => [

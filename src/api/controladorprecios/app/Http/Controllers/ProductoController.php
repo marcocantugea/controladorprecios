@@ -103,5 +103,29 @@ class ProductoController extends BaseController
         } catch (\Throwable $th) {
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
-    }    
+    }
+    
+    public function getProductoSimple($pid){
+        try {
+            $producto=$this->service->getProductoSimple($pid);
+            return new Response($this->stdResponse(data:$producto));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
+
+    public function getProductosSimple(Request $request){
+        try {
+            $searchParams= $request->query();
+            $jsonParsed=json_encode($searchParams);
+            $items=json_decode($jsonParsed);
+            if(!isset($items->productos)) return new Response($this->stdResponse(false,true,'missing productos parameter'),400);
+            $productosIds= explode(',',$items->productos);
+            $data= $this->service->getProductosSimple($productosIds);
+            return new Response($this->stdResponse(data:$data));
+        return new Response($this->stdResponse(data:$productosIds));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }

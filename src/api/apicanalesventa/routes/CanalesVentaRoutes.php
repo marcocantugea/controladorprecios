@@ -20,6 +20,7 @@ final class CanalesVentaRoutes
             $router->delete('api/canalventa/listaprecios/{pid}',self::CONTROLLER_NAME.'@deleteListaPrecioACanal');
             $router->get('api/canalventa/{pid}/listaprecios',self::CONTROLLER_NAME.'@getListaPreciosByCanal');
             $router->get('api/canalventa/listaprecios/{listaPid}',self::CONTROLLER_NAME.'@getCanalVentaPorListaPrecios');
+            $router->get('api/canalventa/{pid}/listaprecio/{listaPid}',self::CONTROLLER_NAME.'@getListaPrecioPorCanal');
         });
         
     }

@@ -126,4 +126,13 @@ final class CanalesVentaController extends Controller
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
+
+    public function getListaPrecioPorCanal($pid,$listaPid){
+        try {
+            $data= $this->canalVentaListaPrecioService->getListaPrecioPorCanal($pid,$listaPid);
+            return new Response($this->stdResponse(data:$data));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }
