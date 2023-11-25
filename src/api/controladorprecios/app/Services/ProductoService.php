@@ -329,4 +329,26 @@ class ProductoService implements IProductosService
         
         return $productosDtos;
     }
+
+    /**
+     * Add several productos
+     * @param array $productosDTOs
+     * @return array|null
+     */
+    public function addProductos(array $productosDTOs)
+    {
+       try {
+            $models=[];
+            array_walk($productosDTOs,function($dto) use (&$models){
+                $model=$this->productoMapper->map($dto);
+                array_push($models,$model);
+            });
+
+            $publicIds=$this->productoRepository->addServalProductos($models);
+
+            return $publicIds;
+       } catch (\Throwable $th) {
+            throw $th;
+       }
+    }
 }

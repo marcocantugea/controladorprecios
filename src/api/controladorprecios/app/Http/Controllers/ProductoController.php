@@ -128,4 +128,24 @@ class ProductoController extends BaseController
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
+
+    public function addSeveralProductos(Request $request){
+        try {
+            $jsonParsed= $this->validateJsonContent($request);
+            if(! is_array($jsonParsed)) return new Response($this->stdResponse(false,true,"invalid payload"),400);
+
+            $dtos=[];
+            array_walk($jsonParsed,function($item) use (&$dtos){
+                $productoDto= $this->mapper->reverse($item);
+                if(!empty($productoDto)) array_push($dtos,$productoDto);
+            });
+            
+            $publicIds=[];
+            if(count($dtos)>0) $publicIds= $this->service->addProductos($dtos);
+
+            return new Response($this->stdResponse(data:$publicIds));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }

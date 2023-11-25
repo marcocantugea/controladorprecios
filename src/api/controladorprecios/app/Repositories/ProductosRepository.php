@@ -220,4 +220,31 @@ class ProductosRepository implements IProductosRepository
                             ])
                             ->get();
     }
+
+    public function addServalProductos(array $productosModels)
+    {
+        $publicIds=[];
+        $ids=[];
+        foreach ($productosModels as $model) {
+            if(!$model instanceof Producto) throw new Exception("model is not instance of Producto", 1);
+            $id=$this->db->table('productos')->insertGetId(
+                [
+                    'publicId'=> uniqid(),
+                    'nombre'=>$model->nombre,
+                    'descripcion'=>$model->descripcion,
+                    'codigo'=>$model->codigo,
+                    'sku'=>$model->sku,
+                    'upc'=>$model->upc,
+                    'ean'=>$model->ean,
+                    'created_at'=>new DateTime('now')
+                ]
+            );
+
+            array_push($ids,$id);
+        }
+
+        $publicIds=$this->db->table('productos')->whereNull('fecha_eliminado')->whereIn('id',$ids)->select('publicId')->get()->toArray();
+
+        return $publicIds;
+    }
 }
