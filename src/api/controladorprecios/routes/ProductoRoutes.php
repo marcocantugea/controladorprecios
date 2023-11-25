@@ -18,6 +18,7 @@ class ProductoRoutes
             $router->patch('api/producto/{id}',self::CONTROLLER_NAME.'@updateProductoByProperty');
             $router->get('api/producto/{pid}/detail/off',self::CONTROLLER_NAME.'@getProductoSimple');
             $router->get('api/productos/detail/off',self::CONTROLLER_NAME.'@getProductosSimple');
+            $router->post('api/productos',self::CONTROLLER_NAME.'@addSeveralProductos');
         });
     }
     

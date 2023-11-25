@@ -16,4 +16,5 @@ interface IProductosService {
     function getListaPrecios($pid);
     function getProductoSimple($pid): ProductoDTO;
     function getProductosSimple(array $productosPid) : array;
+    function addProductos(array $productosDTOs);
 }
