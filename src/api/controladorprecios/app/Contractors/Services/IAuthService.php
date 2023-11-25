@@ -6,8 +6,12 @@ use App\DTOs\UsuarioDTO;
 
 interface IAuthService{
 
-    function AuthenticatedUser(string $user, string $password);
-    function AddUser(UsuarioDTO $usuario);
-    function updateUserPassword(UsuarioDTO $usuario);
-    function activateUser($id);
+   /**
+     * Authenticated User with given token
+     * @param string $user
+     * @param string $password
+     * @param string $token
+     * @return void
+     */
+    function AuthenticatedUser(string $user, string $password,string $token);
 }

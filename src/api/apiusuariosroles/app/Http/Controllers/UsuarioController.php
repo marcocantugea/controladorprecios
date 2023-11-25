@@ -10,7 +10,7 @@ use App\Services\UsuariosService;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
-class UsuarioController extends BaseController{
+class UsuarioController extends Controller{
 
     private IUsuariosService $service;
     private IMapper $mapper;

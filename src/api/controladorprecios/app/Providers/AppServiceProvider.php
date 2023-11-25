@@ -15,7 +15,6 @@ use App\Contractors\Repositories\IMarcaRepository;
 use App\Contractors\Repositories\IProductoOrganizacionRepository;
 use App\Contractors\Repositories\IProductosRepository;
 use App\Contractors\Repositories\IProveedorRepository;
-use App\Contractors\Repositories\IUsuariosRepository;
 use App\Contractors\Services\IAtributosService;
 use App\Contractors\Services\IAuthService;
 use App\Contractors\Services\ICategoriaService;
@@ -27,7 +26,7 @@ use App\Contractors\Services\IMarcasService;
 use App\Contractors\Services\IProductoOrganizacion;
 use App\Contractors\Services\IProductosService;
 use App\Contractors\Services\IProveedoresService;
-use App\Contractors\Services\IUsuariosService;
+use App\Contractors\Wrappers\IAuthWrapper;
 use App\Contractors\Wrappers\IOrganizacionWrapper;
 use App\Mappers\AtributoMapper;
 use App\Mappers\CategoriaMapper;
@@ -42,7 +41,6 @@ use App\Mappers\ProveedorInfoBasicMapper;
 use App\Mappers\ProveedorMapper;
 use App\Mappers\ProveedorMarcaMapper;
 use App\Mappers\ProveedorProductoMapper;
-use App\Mappers\UsuarioMapper;
 use App\Repositories\AtributosRepository;
 use App\Repositories\CategoriaRepository;
 use App\Repositories\CostosRepository;
@@ -53,7 +51,6 @@ use App\Repositories\MarcasRepository;
 use App\Repositories\ProductoOrganizacionRepository;
 use App\Repositories\ProductosRepository;
 use App\Repositories\ProveedoresRepository;
-use App\Repositories\UsuariosRepository;
 use App\Services\AtributosService;
 use App\Services\AuthService;
 use App\Services\CategoriaService;
@@ -65,7 +62,7 @@ use App\Services\MarcasService;
 use App\Services\ProductoOrganizacion;
 use App\Services\ProductoService;
 use App\Services\ProveedoresService;
-use App\Services\UsuariosService;
+use App\Wrappers\AuthWrapper;
 use App\Wrappers\OrganizacionWrapper;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
@@ -123,20 +120,12 @@ class AppServiceProvider extends ServiceProvider
             return new MarcasService($app[IMarcaRepository::class],$app[MarcaMapper::class]);
         });
 
-        $this->app->scoped(UsuarioMapper::class,function($app){
-            return new UsuarioMapper();
-        });
-
-        $this->app->scoped(IUsuariosRepository::class,function($app){
-            return new UsuariosRepository(DB::connection('users'));
-        });
-
-        $this->app->scoped(IUsuariosService::class,function($app){
-            return new UsuariosService($app[IUsuariosRepository::class],$app[UsuarioMapper::class]);
+        $this->app->scoped(IAuthWrapper::class,function($app){
+            return new AuthWrapper();
         });
 
         $this->app->scoped(IAuthService::class,function($app){
-            return new AuthService($app[IUsuariosRepository::class],$app[UsuarioMapper::class]);
+            return new AuthService($app[IAuthWrapper::class]);
         });
 
         $this->app->scoped(ICategoriaRepository::class,function($app){

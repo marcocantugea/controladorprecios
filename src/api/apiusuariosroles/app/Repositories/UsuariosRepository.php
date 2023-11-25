@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Contractors\Models\Usuario;
 use App\Contractors\Repositories\IUsuariosRepository;
-use App\Models\User;
 use DateTime;
 use Exception;
 use Illuminate\Database\MySqlConnection;

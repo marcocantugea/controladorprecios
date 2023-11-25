@@ -17,7 +17,8 @@ class Usuario
     public ?DateTime $updated_at;
     public ?DateTime $deleted_at;
 
-    public function __construct(string $user, int $id=null, string $publicId=null, string $hash = null,string $email=null,bool $active=false,$created_at=null,$updated_at=null,$deleted_at=null) {
+    
+    public function __construct(string $user=null, int $id=null, string $publicId=null, string $hash = null,string $email=null,bool $active=false,$created_at=null,$updated_at=null,$deleted_at=null) {
         $this->user=$user;
         $this->id=$id;
         $this->publicId=$publicId;

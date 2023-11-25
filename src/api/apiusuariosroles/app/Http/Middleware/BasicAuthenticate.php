@@ -9,14 +9,13 @@ use Illuminate\Http\Request;
 
 class BasicAuthenticate
 {
-
+ 
     private IAuthService $authService;
 
     public function __construct(IAuthService $authService) {
         $this->authService=$authService;
     }
 
- 
      /**
      * Handle an incoming request.
      *
@@ -33,7 +32,7 @@ class BasicAuthenticate
         $parseAuth=base64_decode($token);
         $credentials=explode(":",$parseAuth);
         try {
-            $this->authService->AuthenticatedUser($credentials[0],$credentials[1],$token);
+            $this->authService->AuthenticatedUser($credentials[0],$credentials[1]);
             $_SESSION['token']=$token;
         } catch (\Throwable $th) {
             return response('Unauthorized.', 401);

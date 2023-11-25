@@ -2,6 +2,9 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use Routes\AuthRoutes;
+use Routes\UsuarioRoutes;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -13,6 +16,9 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+// $router->get('/', function () use ($router) {
+//     return $router->app->version();
+// });
+
+AuthRoutes::setRoutes($router);
+UsuarioRoutes::setRoutes($router);

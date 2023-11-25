@@ -1,8 +1,8 @@
 <?php
 
-namespace  App\Contractors\Repositories;
+namespace App\Contractors\Repositories;
 
-use App\Contractors\Data\IRepository;
+use App\Contractors\Repositories\IRepository;
 
 interface IUsuariosRepository extends IRepository{
 
