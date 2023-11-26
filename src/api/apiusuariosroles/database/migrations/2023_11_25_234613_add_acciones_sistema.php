@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('users')->create('usuarios', function (Blueprint $table) {
+        Schema::create('acciones_sistema', function (Blueprint $table) {
             $table->id();
             $table->uuid('publicId');
-            $table->string('user');
-            $table->string('hash');
-            $table->string('email');
-            $table->boolean('active');
+            $table->string('accion');
+            $table->boolean('activo');
             $table->timestamps();
-            $table->dateTime('deleted_at')->nullable();
+            $table->dateTime('fecha_eliminado')->nullable();
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('acciones_sistema');
     }
 };

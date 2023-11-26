@@ -15,14 +15,14 @@ class AddBaseUsers extends Seeder
     public function run(): void
     {
         DB::connection('users')->table('usuarios')->insert(
-            ['publicId'=>uniqid(),
+            ['publicId'=>'95765b2da765',
             'user'=>'admin',
             'hash'=>password_hash('macarena',PASSWORD_DEFAULT),
             'active'=>true,
             'created_at'=>new DateTime('now'),
             'email'=>'email@server.com'
             ],
-            ['publicId'=>uniqid(),
+            ['publicId'=>'e59eb791ceca',
             'user'=>'superuser',
             'hash'=>password_hash('superuser',PASSWORD_DEFAULT),
             'active'=>true,

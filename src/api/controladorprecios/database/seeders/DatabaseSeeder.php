@@ -17,8 +17,7 @@ class DatabaseSeeder extends Seeder
          //$this->call('UsersTableSeeder');
          $this->call([
             AtributosIniciales::class,
-            UnidadesDeMedida::class,
-            UsuariosDefaults::class
+            UnidadesDeMedida::class
          ]);
     }
 }
