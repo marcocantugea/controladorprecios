@@ -27,6 +27,12 @@ class AuthService implements IAuthService
 
         if(!password_verify($password,$userObj->hash)) throw new Exception("invalid password");
 
+        $acciones=$this->userRepository->getAcciones($userObj->publicId);
+        $accionesList=[];
+        foreach ($acciones as $accion) {
+            array_push($accionesList,$accion->accion);
+        }
+        $userObj->actions=$accionesList;
         return $userObj;
 
         } catch (\Throwable $th) {

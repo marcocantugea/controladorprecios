@@ -10,6 +10,12 @@ use Illuminate\Database\MySqlConnection;
 
 class UsuariosRepository implements IUsuariosRepository
 {
+    private const TABLE='usuarios';
+    private const TABLE_ROL='roles_sistema';
+    private const TABLE_USUARIO_ROL='usuario_rol';
+    private const TABLE_ROL_ACCIONES='roles_acciones_sistema';
+    private const TABLE_ACCIONES='acciones_sistema';
+
     private MySqlConnection $db;
 
     public function __construct(MySqlConnection $db) {
@@ -119,5 +125,23 @@ class UsuariosRepository implements IUsuariosRepository
         ]);
 
         
+    }
+
+    public function getAcciones($pid)
+    {
+        if(empty($pid)) throw new Exception('invalid id');
+        $acciones=$this->db->table($this::TABLE_USUARIO_ROL)
+        ->join($this::TABLE_ROL_ACCIONES,$this::TABLE_ROL_ACCIONES.'.rolId','=',$this::TABLE_USUARIO_ROL.'.rolId')
+        ->join($this::TABLE_ACCIONES,$this::TABLE_ACCIONES.'.Id','=',$this::TABLE_ROL_ACCIONES.'.accionId')
+        ->select($this::TABLE_ACCIONES.'.accion')
+        ->where('usuarioPid',$pid)
+        ->whereNull($this::TABLE_USUARIO_ROL.'.fecha_eliminado')
+        ->whereNull($this::TABLE_ROL_ACCIONES.'.fecha_eliminado')
+        ->whereNull($this::TABLE_ACCIONES.'.fecha_eliminado')
+        ->get($this::TABLE_ACCIONES.'.accion')
+        ->toArray()
+        ;
+
+        return $acciones;
     }
 }

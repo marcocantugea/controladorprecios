@@ -21,8 +21,8 @@ class AuthController extends Controller{
             if(!isset($jsonParsed->user) || !isset($jsonParsed->password)) 
                 return new Response($this->stdResponse(false,true,"no user or pasword data found"),400);
 
-            $this->authService->AuthenticatedUser($jsonParsed->user,$jsonParsed->password);
-            $token=['token'=>base64_encode($jsonParsed->user.":".$jsonParsed->password)];
+            $user=$this->authService->AuthenticatedUser($jsonParsed->user,$jsonParsed->password);
+            $token=['token'=>base64_encode($jsonParsed->user.":".$jsonParsed->password),'actions'=>$user->actions];
             return new Response($this->stdResponse(data:$token));
         } catch (\Throwable $th) {
             return new Response($this->stdResponse(false,true,$th->getMessage()),400);
