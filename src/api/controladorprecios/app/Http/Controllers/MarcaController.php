@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contractors\IMapper;
 use App\Contractors\Services\IMarcasService;
+use App\Enums\AccionsEnums;
 use App\Mappers\MarcaMapper;
 use App\Services\MarcasService;
 use App\Services\ServicesContainer;
@@ -22,6 +23,7 @@ class MarcaController extends BaseController{
 
     public function addMarca(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_MARCA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= json_decode($request->getContent());
             if($jsonParsed==null) return new Response($this->stdResponse(false,true,"invalid request"),400);
             $marcaDto= $this->mapper->reverse($jsonParsed);
@@ -35,6 +37,7 @@ class MarcaController extends BaseController{
 
     public function updateMarca(Request $request, $id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_MARCA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= json_decode($request->getContent());
             if($jsonParsed==null) return new Response($this->stdResponse(false,true,"invalid request"),400);
             $marcaDto= $this->mapper->reverse($jsonParsed);
@@ -49,6 +52,7 @@ class MarcaController extends BaseController{
 
     public function deleteMarca($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_MARCA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             if(empty($id)) return new Response($this->stdResponse(false,true,"invalid request"),400);
             $this->service->deleteMarca($id);
             return new Response($this->stdResponse());
@@ -59,6 +63,7 @@ class MarcaController extends BaseController{
 
     public function getMarca($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_MARCA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             if(empty($id)) return new Response($this->stdResponse(false,true,"invalid request"),400);
             $dto=$this->service->getMarca($id);
             return new Response($this->stdResponse(data:$dto));
@@ -69,7 +74,7 @@ class MarcaController extends BaseController{
 
     public function getMarcas(Request $request){
         try {
-            
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_MARCA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $searchParams= $request->query();
             $productosSearchParams=[];
             foreach ($searchParams as $key => $value) {

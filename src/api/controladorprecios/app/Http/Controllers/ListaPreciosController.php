@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contractors\IMapper;
 use App\Contractors\Services\IListaPreciosProductoService;
 use App\Contractors\Services\IListaPreciosService;
+use App\Enums\AccionsEnums;
 use App\Mappers\ListaPreciosMapper;
 use App\Mappers\ListaPreciosProductoMapper;
 use Illuminate\Http\Response;
@@ -30,6 +31,7 @@ final class ListaPreciosController extends BaseController
 
     public function addListaPrecio(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= $this->validateJsonContent($request);
             $dto= $this->listaPrecioMapper->reverse($jsonParsed);
             $this->service->addListaPrecios($dto);
@@ -42,6 +44,7 @@ final class ListaPreciosController extends BaseController
 
     public function updateListaPrecio(Request $request,$pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= $this->validateJsonContent($request);
             $dto=$this->listaPrecioMapper->reverse($jsonParsed);
             $dto->publicId=$pid;
@@ -54,6 +57,7 @@ final class ListaPreciosController extends BaseController
 
     public function deleteListaPrecios($pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $this->service->deleteListaPrecios($pid);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -63,6 +67,7 @@ final class ListaPreciosController extends BaseController
 
     public function getListaPrecios($pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data= $this->service->getListaPreciosById($pid);
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {
@@ -72,6 +77,7 @@ final class ListaPreciosController extends BaseController
 
     public function getListasPrecios(){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data= $this->service->getListasPrecios();
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {
@@ -81,6 +87,7 @@ final class ListaPreciosController extends BaseController
 
     public function addProductoListaPrecios(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= $this->validateJsonContent($request);
             $dto= $this->listaPrecioProductoMapper->reverse($jsonParsed);
             $publicId=$this->listaPreciosProductoService->addListaPrecioProducto($dto);
@@ -92,6 +99,7 @@ final class ListaPreciosController extends BaseController
 
     public function addProductosListaPrecios(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= $this->validateJsonContent($request);
             $dtos=[];
             foreach ($jsonParsed as $item) {
@@ -108,6 +116,7 @@ final class ListaPreciosController extends BaseController
 
     public function getProductosPorListaPrecio($listaPId){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data = $this->listaPreciosProductoService->getProductosPorListaPrecios($listaPId);
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {
@@ -117,6 +126,7 @@ final class ListaPreciosController extends BaseController
 
     public function getProductoPrecio($pid,$productoPid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data= $this->listaPreciosProductoService->getProductoPrecio($pid,$productoPid);
             return new Response($this->stdResponse(data:$data));
 
@@ -127,6 +137,7 @@ final class ListaPreciosController extends BaseController
 
     public function getProductoPrecios($productoPId){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data= $this->listaPreciosProductoService->getProductoPrecios($productoPId);
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {
@@ -136,6 +147,7 @@ final class ListaPreciosController extends BaseController
 
     public function getListaPreciosPorProducto($productoPId){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_LISTAPRECIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data=$this->listaPreciosProductoService->getListaPreciosPorProducto($productoPId);
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {

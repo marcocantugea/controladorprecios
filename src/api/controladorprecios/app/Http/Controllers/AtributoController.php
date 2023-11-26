@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contractors\IMapper;
 use App\Contractors\Services\IAtributosService;
+use App\Enums\AccionsEnums;
 use App\Mappers\AtributoMapper;
 use App\Services\AtributosService;
 use App\Services\ServicesContainer;
@@ -23,6 +24,9 @@ class AtributoController extends BaseController
 
     public function addAtributo(Request $request){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_ATRIBUTO_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $atributoDto=json_decode($request->getContent());
             if(empty($atributoDto)) return new Response($this->stdResponse(false,true,"Invalid request content",null),400);
             $this->service->addAtributo($this->mapper->reverse($atributoDto));
@@ -34,6 +38,9 @@ class AtributoController extends BaseController
 
     public function updateAtributo(Request $request,$id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_ATRIBUTO_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $atributoDto=json_decode($request->getContent());
             $atributoDto->publicId=$id;
             if(empty($atributoDto)) return new Response($this->stdResponse(false,true,"Invalid request content",null),400);
@@ -46,6 +53,8 @@ class AtributoController extends BaseController
 
     public function deleteAtributo($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_ATRIBUTO_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $this->service->deleteAtributo($id);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -55,6 +64,9 @@ class AtributoController extends BaseController
 
     public function getAtributo($id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_ATRIBUTO_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $atributo=$this->service->getAtributo($id);
             $dto=$this->mapper->reverse($atributo);
             return new Response($this->stdResponse(data:$dto));
@@ -65,6 +77,9 @@ class AtributoController extends BaseController
 
     public function getAtributos(Request $request){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_ATRIBUTO_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+            
             $searchParams = $request->query();
             $validSearchParams = [
                 'atributo',

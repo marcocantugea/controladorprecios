@@ -30,6 +30,11 @@ class AddAccionesSistema extends Seeder
             'activo'=>true,
             'created_at'=>new DateTime('now')
         ],
+        ['publicId'=>'8ab586153b3f',
+            'accion'=>'DELETE',
+            'activo'=>true,
+            'created_at'=>new DateTime('now')
+        ]   ,
         ['publicId'=>'39d7d02b3d1c',
             'accion'=>'ADD_PRODUCTOS',
             'activo'=>true,
@@ -56,11 +61,6 @@ class AddAccionesSistema extends Seeder
             'created_at'=>new DateTime('now')
         ],
         ['publicId'=>'6a4e47c09679',
-            'accion'=>'ADD_MARCA',
-            'activo'=>true,
-            'created_at'=>new DateTime('now')
-        ],
-        ['publicId'=>'69f41a99319c',
             'accion'=>'ADD_MARCA',
             'activo'=>true,
             'created_at'=>new DateTime('now')
@@ -120,11 +120,6 @@ class AddAccionesSistema extends Seeder
             'activo'=>true,
             'created_at'=>new DateTime('now')
         ],
-        ['publicId'=>'82f62adf5d14',
-            'accion'=>'UPDATE_MARCA',
-            'activo'=>true,
-            'created_at'=>new DateTime('now')
-        ],
         ['publicId'=>'2bd6984cab4f',
             'accion'=>'UPDATE_USUARIOS',
             'activo'=>true,
@@ -180,11 +175,6 @@ class AddAccionesSistema extends Seeder
             'activo'=>true,
             'created_at'=>new DateTime('now')
         ],
-        ['publicId'=>'fb99f4838951',
-            'accion'=>'DELETE_MARCA',
-            'activo'=>true,
-            'created_at'=>new DateTime('now')
-        ],
         ['publicId'=>'b3c5e0a26fae',
             'accion'=>'DELETE_USUARIOS',
             'activo'=>true,
@@ -236,11 +226,6 @@ class AddAccionesSistema extends Seeder
             'created_at'=>new DateTime('now')
         ],
         ['publicId'=>'a67af8729261',
-            'accion'=>'READ_MARCA',
-            'activo'=>true,
-            'created_at'=>new DateTime('now')
-        ],
-        ['publicId'=>'e4d0c2bd7d47',
             'accion'=>'READ_MARCA',
             'activo'=>true,
             'created_at'=>new DateTime('now')

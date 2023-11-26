@@ -39,6 +39,14 @@ class AddRelacionRolAccion extends Seeder
                 'accionPid'=>'c458855e008c',
                 'created_at'=>new DateTime()
             ],
+            [
+                'publicId'=>'4029617f2e3d',
+                'rolId'=>1,
+                'rolPid'=>'65628f44d73b6',
+                'accionId'=>4,
+                'accionPid'=>'8ab586153b3f',
+                'created_at'=>new DateTime()
+            ],
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contractors\Services\IProductosService;
+use App\Enums\AccionsEnums;
 use App\Mappers\ProductoMapper;
 use App\Services\ProductoService;
 use App\Services\ServicesContainer;
@@ -28,6 +29,9 @@ class ProductoController extends BaseController
     public function addProducto(Request $request){
 
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_PRODUCTO_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= json_decode($request->getContent());
             $productoDto= $this->mapper->reverse($jsonParsed);
             $this->service->addProduct($productoDto);
@@ -39,6 +43,9 @@ class ProductoController extends BaseController
 
     public function getProducto($id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PRODUCTOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $productoDto=$this->service->getProducto($id);
             return new Response($this->stdResponse(data:$productoDto));
         } catch (\Throwable $th) {
@@ -48,6 +55,9 @@ class ProductoController extends BaseController
 
     public function updateProducto(Request $request,$id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_PRODUCTOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= json_decode($request->getContent());
             $productoDto= $this->mapper->reverse($jsonParsed);
             $productoDto->publicId=$id;
@@ -60,6 +70,9 @@ class ProductoController extends BaseController
 
     public function updateProductoByProperty(Request $request,$id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_PRODUCTOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= json_decode($request->getContent(),true);
             $this->service->updateProductoByProperty($id,$jsonParsed);
             return new Response($this->stdResponse());
@@ -70,6 +83,9 @@ class ProductoController extends BaseController
 
     public function deleteProducto($id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_PRODUCTOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $this->service->deleteProducto($id);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -80,6 +96,9 @@ class ProductoController extends BaseController
     public function getProductos(Request $request){
         $searchParams= $request->query();
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PRODUCTOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $productosSearchParams=[];
             $limit=500;
             $offset=0;
@@ -107,6 +126,9 @@ class ProductoController extends BaseController
     
     public function getProductoSimple($pid){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PRODUCTOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $producto=$this->service->getProductoSimple($pid);
             return new Response($this->stdResponse(data:$producto));
         } catch (\Throwable $th) {
@@ -116,6 +138,9 @@ class ProductoController extends BaseController
 
     public function getProductosSimple(Request $request){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PRODUCTOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $searchParams= $request->query();
             $jsonParsed=json_encode($searchParams);
             $items=json_decode($jsonParsed);
@@ -131,6 +156,9 @@ class ProductoController extends BaseController
 
     public function addSeveralProductos(Request $request){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_PRODUCTO_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= $this->validateJsonContent($request);
             if(! is_array($jsonParsed)) return new Response($this->stdResponse(false,true,"invalid payload"),400);
 
