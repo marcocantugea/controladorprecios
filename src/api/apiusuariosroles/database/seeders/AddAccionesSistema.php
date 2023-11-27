@@ -254,6 +254,26 @@ class AddAccionesSistema extends Seeder
             'accion'=>'READ_CANALVENTA',
             'activo'=>true,
             'created_at'=>new DateTime('now')
+        ],
+        ['publicId'=>'2f68405224dc',
+            'accion'=>'ADD_ROL',
+            'activo'=>true,
+            'created_at'=>new DateTime('now')
+        ],
+        ['publicId'=>'f233b71b0968',
+            'accion'=>'READ_ROL',
+            'activo'=>true,
+            'created_at'=>new DateTime('now')
+        ],
+        ['publicId'=>'ed08424599fd',
+            'accion'=>'DELETE_ROL',
+            'activo'=>true,
+            'created_at'=>new DateTime('now')
+        ],
+        ['publicId'=>'73ef0ccfb9d5',
+            'accion'=>'UPDATE_ROL',
+            'activo'=>true,
+            'created_at'=>new DateTime('now')
         ]
         ]);
     }

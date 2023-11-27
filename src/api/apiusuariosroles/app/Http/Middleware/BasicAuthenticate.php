@@ -32,8 +32,9 @@ class BasicAuthenticate
         $parseAuth=base64_decode($token);
         $credentials=explode(":",$parseAuth);
         try {
-            $this->authService->AuthenticatedUser($credentials[0],$credentials[1]);
+            $user=$this->authService->AuthenticatedUser($credentials[0],$credentials[1]);
             $_SESSION['token']=$token;
+            $_SESSION['actions']=(isset($user->actions)) ? $user->actions : null;
         } catch (\Throwable $th) {
             return response('Unauthorized.', 401);
         }

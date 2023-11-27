@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contractors\IMapper;
 use App\Contractors\Services\IUsuariosService;
+use App\Enums\AccionsEnums;
 use App\Mappers\UsuarioMapper;
 use App\Services\ServicesContainer;
 use App\Services\UsuariosService;
@@ -22,6 +23,7 @@ class UsuarioController extends Controller{
 
     public function addUsuario(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_USUARIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= json_decode($request->getContent());
             $dto= $this->mapper->reverse($jsonParsed);
             $dto->password=$jsonParsed->password;
@@ -34,6 +36,7 @@ class UsuarioController extends Controller{
 
     public function activateUsuario($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_USUARIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $this->service->activateUsuario($id);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -43,6 +46,7 @@ class UsuarioController extends Controller{
 
     public function deleteUsuario($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_USUARIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $this->service->deleteUsuario($id);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -52,6 +56,7 @@ class UsuarioController extends Controller{
 
     public function getUsuarios(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_USUARIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $searchParams= $request->query();
             $productosSearchParams=[];
             $limit=500;
