@@ -4,6 +4,7 @@
 
 use Routes\AccionesRoutes;
 use Routes\AuthRoutes;
+use Routes\RolAccionesRoutes;
 use Routes\RolesRoutes;
 use Routes\UsuarioRoutes;
 
@@ -26,3 +27,4 @@ AuthRoutes::setRoutes($router);
 UsuarioRoutes::setRoutes($router);
 RolesRoutes::setRoutes($router);
 AccionesRoutes::setRoutes($router);
+RolAccionesRoutes::setRoutes($router);
