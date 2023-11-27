@@ -2,15 +2,20 @@
 
 namespace App\Providers;
 
+use App\Contractors\Repositories\IAccionesRepository;
 use App\Contractors\Repositories\IRolesRepository;
 use App\Contractors\Repositories\IUsuariosRepository;
+use App\Contractors\Services\IAccionesService;
 use App\Contractors\Services\IAuthService;
 use App\Contractors\Services\IRolService;
 use App\Contractors\Services\IUsuariosService;
+use App\Mappers\AccionMapper;
 use App\Mappers\RolMapper;
 use App\Mappers\UsuarioMapper;
+use App\Repositories\AccionesRepository;
 use App\Repositories\RolesRepository;
 use App\Repositories\UsuariosRepository;
+use App\Services\AccionesService;
 use App\Services\AuthService;
 use App\Services\RolService;
 use App\Services\UsuariosService;
@@ -54,5 +59,16 @@ class AppServiceProvider extends ServiceProvider
             return new RolService($app[IRolesRepository::class],$app[RolMapper::class]);
         });
 
+        $this->app->scoped(AccionMapper::class,function($app){
+            return new AccionMapper();
+        });
+
+        $this->app->scoped(IAccionesRepository::class,function($app){
+            return new AccionesRepository(DB::connection(),$app[AccionMapper::class]);
+        });
+
+        $this->app->scoped(IAccionesService::class,function($app){
+            return new AccionesService($app[IAccionesRepository::class],$app[AccionMapper::class]);
+        });
     }
 }

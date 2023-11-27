@@ -2,6 +2,7 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use Routes\AccionesRoutes;
 use Routes\AuthRoutes;
 use Routes\RolesRoutes;
 use Routes\UsuarioRoutes;
@@ -24,3 +25,4 @@ use Routes\UsuarioRoutes;
 AuthRoutes::setRoutes($router);
 UsuarioRoutes::setRoutes($router);
 RolesRoutes::setRoutes($router);
+AccionesRoutes::setRoutes($router);
