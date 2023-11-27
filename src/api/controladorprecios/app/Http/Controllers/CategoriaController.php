@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contractors\IMapper;
 use App\Contractors\Services\ICategoriaService;
+use App\Enums\AccionsEnums;
 use App\Mappers\CategoriaMapper;
 use App\Services\CategoriaService;
 use App\Services\ServicesContainer;
@@ -24,6 +25,9 @@ class CategoriaController extends BaseController
     public function addCategoria(Request $request){
 
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= json_decode($request->getContent());
             $dto= $this->mapper->reverse($jsonParsed);
             $this->service->addCategoria($dto);
@@ -35,6 +39,9 @@ class CategoriaController extends BaseController
 
     public function updateCategoria(Request $request,$id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= json_decode($request->getContent());
             $dto= $this->mapper->reverse($jsonParsed);
             $dto->publicId=$id;
@@ -47,6 +54,9 @@ class CategoriaController extends BaseController
 
     public function getCategoria(Request $request,$id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $addChilds=boolval($request->query('childs'));
             $dto= $this->service->getCategoria($id,$addChilds);
             return new Response($this->stdResponse(data:$dto));
@@ -57,6 +67,9 @@ class CategoriaController extends BaseController
 
     public function deleteCategoria($id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $this->service->deleteCategoria($id);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -65,8 +78,11 @@ class CategoriaController extends BaseController
     }
 
     public function getCategorias(Request $request){
-        $nombre= empty($request->query('nombre')) ? "" : $request->query('nombre');
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
+            $nombre= empty($request->query('nombre')) ? "" : $request->query('nombre');
+
             $addChilds=boolval($request->query('childs'));
             return new Response($this->stdResponse(data:$this->service->getCategorias($nombre,$addChilds)));
         } catch (\Throwable $th) {
@@ -76,6 +92,9 @@ class CategoriaController extends BaseController
 
     public function addSubCategoria(Request $request,$id){
         try {
+            
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= json_decode($request->getContent());
             $dto= $this->mapper->reverse($jsonParsed);
             $this->service->addSubCategoria($id,$dto);
@@ -87,6 +106,9 @@ class CategoriaController extends BaseController
 
     public function addSubCategorias(Request $request, $id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed= json_decode($request->getContent());
             if(!is_array($jsonParsed)) return new Response($this->stdResponse(false,true,"invalid content"),400);
             $subcategoriasDTO=[];
@@ -103,6 +125,9 @@ class CategoriaController extends BaseController
 
     public function getSubCategorias(Request $request,$id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CATEGORIA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $addChilds=boolval($request->query('childs'));
             return new Response($this->stdResponse(data: $this->service->getSubCategorias($id,$addChilds)));
         } catch (\Throwable $th) {

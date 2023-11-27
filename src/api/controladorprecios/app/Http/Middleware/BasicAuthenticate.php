@@ -2,12 +2,20 @@
 
 namespace App\Http\Middleware;
 
+use App\Contractors\Services\IAuthService;
 use App\Factories\AuthServiceFactory;
 use Closure;
 use Illuminate\Http\Request;
 
 class BasicAuthenticate
 {
+
+    private IAuthService $authService;
+
+    public function __construct(IAuthService $authService) {
+        $this->authService=$authService;
+    }
+
  
      /**
      * Handle an incoming request.
@@ -25,9 +33,7 @@ class BasicAuthenticate
         $parseAuth=base64_decode($token);
         $credentials=explode(":",$parseAuth);
         try {
-            $service=AuthServiceFactory::get();
-            $service->AuthenticatedUser($credentials[0],$credentials[1]);
-            $_SESSION['token']=$token;
+            $this->authService->AuthenticatedUser($credentials[0],$credentials[1],$token);
         } catch (\Throwable $th) {
             return response('Unauthorized.', 401);
         }

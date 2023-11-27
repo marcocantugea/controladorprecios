@@ -19,6 +19,8 @@ class AuthService implements IAuthService
     {
         $response= $this->authWrapper->AuthenticatedUser($user,$password);
         if($token!=$response['data']['token']) throw new Exception("Invalid token");
+        $_SESSION['token']=$token;
+        $_SESSION['actions']=(isset($response['data']['actions'])) ? $response['data']['actions'] : null;
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contractors\IMapper;
 use App\Contractors\Services\ICanalesVentaService;
 use App\Contractors\Services\ICanalVentaListaPrecioService;
+use App\Enums\AccionsEnums;
 use App\Http\Controllers\Controller;
 use App\Mappers\CanalesVentaMapper;
 use App\Mappers\CanalVentaListaPrecioMapper;
@@ -28,6 +29,7 @@ final class CanalesVentaController extends Controller
 
     public function addCanalVenta(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= $this->validateJsonContent($request);
             $dto= $this->mapper->reverse($jsonParsed);
             $publicId=$this->service->addCanalVenta($dto);
@@ -39,6 +41,7 @@ final class CanalesVentaController extends Controller
 
     public function updateCanalVenta(Request $request,string $pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= $this->validateJsonContent($request);
             $dto= $this->mapper->reverse($jsonParsed);
             $dto->publicId=$pid;
@@ -51,6 +54,7 @@ final class CanalesVentaController extends Controller
 
     public function getCanalVenta($pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $dto= $this->service->getCanalVenta($pid);
             return new Response($this->stdResponse(data:$dto));
         } catch (\Throwable $th) {
@@ -60,6 +64,7 @@ final class CanalesVentaController extends Controller
 
     public function deleteCanalVenta($pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $this->service->deleteCanalVenta($pid);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -69,6 +74,7 @@ final class CanalesVentaController extends Controller
 
     public function getCanalesVenta(){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $dtos=$this->service->getCanalesVenta();
             return new Response($this->stdResponse(data:$dtos));
         } catch (\Throwable $th) {
@@ -78,6 +84,7 @@ final class CanalesVentaController extends Controller
 
     public function addListaPrecioACanal(Request $request,$pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed= $this->validateJsonContent($request);
             if(!is_array($jsonParsed)) return new Response($this->stdResponse(false,true,'invalid request'),401);
 
@@ -102,6 +109,7 @@ final class CanalesVentaController extends Controller
 
     public function deleteListaPrecioACanal($pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $this->canalVentaListaPrecioService->deleteCanalVentaListaPrecio($pid);
             return new Response($this->stdResponse());
         } catch (\Throwable $th) {
@@ -111,6 +119,7 @@ final class CanalesVentaController extends Controller
 
     public function getListaPreciosByCanal($pid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data= $this->canalVentaListaPrecioService->getListaPreciosPorCanal($pid);
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {
@@ -120,6 +129,7 @@ final class CanalesVentaController extends Controller
 
     public function getCanalVentaPorListaPrecios($listaPid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data= $this->canalVentaListaPrecioService->getCanalesPorListaPrecios($listaPid);
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {
@@ -129,6 +139,7 @@ final class CanalesVentaController extends Controller
 
     public function getListaPrecioPorCanal($pid,$listaPid){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_CANALVENTA_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $data= $this->canalVentaListaPrecioService->getListaPrecioPorCanal($pid,$listaPid);
             return new Response($this->stdResponse(data:$data));
         } catch (\Throwable $th) {

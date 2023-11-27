@@ -11,16 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('users')->create('usuarios', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('publicId');
-            $table->string('user');
-            $table->string('hash');
-            $table->string('email');
-            $table->boolean('active');
-            $table->timestamps();
-            $table->dateTime('deleted_at')->nullable();
-        });
+       
     }
 
     /**
@@ -28,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection('users')->dropIfExists('usuarios');
+       
     }
 };

@@ -6,6 +6,7 @@ use App\Contractors\IMapper;
 use App\Contractors\Models\ProveedorMarca;
 use App\Contractors\Services\IProveedoresService;
 use App\DTOs\ProveedorDTO;
+use App\Enums\AccionsEnums;
 use App\Mappers\ProveedorInfoBasicMapper;
 use App\Mappers\ProveedorMapper;
 use App\Mappers\ProveedorMarcaMapper;
@@ -40,6 +41,7 @@ class ProveedorController extends BaseController{
 
     public function addProveedor(Request $request){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_PROVEEDOR_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed=$this->validateJsonContent($request);
             if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->mapper->reverse($jsonParsed);
@@ -53,6 +55,7 @@ class ProveedorController extends BaseController{
 
     public function addProveedorBasicInfo(Request $request, $id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::ADD_PERMIT,AccionsEnums::ADD_PROVEEDOR_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed=$this->validateJsonContent($request);
             if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->proveedorBasicInfoMapper->reverse($jsonParsed);
@@ -67,6 +70,7 @@ class ProveedorController extends BaseController{
 
     public function updateProveedor(Request $request,$id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_PROVEEDOR_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed=$this->validateJsonContent($request);
             if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->mapper->reverse($jsonParsed);
@@ -81,6 +85,7 @@ class ProveedorController extends BaseController{
 
     public function updateProveedorInfoBasic(Request $request, $id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_PROVEEDOR_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed=$this->validateJsonContent($request);
             if($jsonParsed instanceof Response) return $jsonParsed;
             $dto= $this->proveedorBasicInfoMapper->reverse($jsonParsed);
@@ -95,6 +100,7 @@ class ProveedorController extends BaseController{
 
     public function deleteProveedor($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_PROVEEDOR_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             if(empty($id)) return new Response($this->stdResponse(false,true,"no valid content"),400);
             $this->service->deleteProveedor($id);
             return new Response($this->stdResponse());
@@ -105,6 +111,7 @@ class ProveedorController extends BaseController{
 
     public function deleteProveedorBasicInfo($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_PROVEEDOR_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             if(empty($id)) return new Response($this->stdResponse(false,true,"no valid content"),400);
             $this->service->deleteProveedorInfoBasic($id);
             return new Response($this->stdResponse());
@@ -115,6 +122,7 @@ class ProveedorController extends BaseController{
 
     public function getProveedor($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PROVEEDOR_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             if(empty($id)) return new Response($this->stdResponse(false,true,"no valid content"),400);
             $proveedor=$this->service->getProveedor($id);
             return new Response($this->stdResponse(data:$proveedor));
@@ -126,6 +134,9 @@ class ProveedorController extends BaseController{
     public function getProveedores(Request $request){
         $searchParams= $request->query();
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PROVEEDOR_PERMIT])) 
+                return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+            
             $productosSearchParams=[];
             $limit=500;
             $offset=0;
@@ -160,6 +171,9 @@ class ProveedorController extends BaseController{
     public function updatePropiedadesProveedor(Request $request,$id){
 
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_PROVEEDOR_PERMIT])) 
+                return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed=$this->validateJsonContent($request);
             if($jsonParsed instanceof Response) return $jsonParsed;
             if(isset($jsonParsed->marcas)){
@@ -195,6 +209,9 @@ class ProveedorController extends BaseController{
 
     public function getMarcasProveedor($id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PROVEEDOR_PERMIT])) 
+                return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+            
             if(empty($id)) return new Response($this->stdResponse(false,true,"no valid content"),400);
             $items=$this->service->getMarcasByProveedor($id);
             return new Response($this->stdResponse(data:$items));
@@ -205,6 +222,8 @@ class ProveedorController extends BaseController{
 
     public function deleteProveedorMarcas(Request $request,$id){
         try {
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_PROVEEDOR_PERMIT])) 
+                return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
             $jsonParsed=$this->validateJsonContent($request);
             if($jsonParsed instanceof Response) return $jsonParsed;
             if(isset($jsonParsed->marcas)){
@@ -228,6 +247,10 @@ class ProveedorController extends BaseController{
 
     public function deleteProveedorProducto(Request $request, $id){
         try {
+            
+            if(!$this->HasAccionsPermit([AccionsEnums::DELETE_PERMIT,AccionsEnums::DELETE_PROVEEDOR_PERMIT])) 
+                return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             $jsonParsed=$this->validateJsonContent($request);
             if($jsonParsed instanceof Response) return $jsonParsed;
             if(isset($jsonParsed->productos)){
@@ -250,6 +273,10 @@ class ProveedorController extends BaseController{
 
     public function getProveedorProductos(Request $request,$id){
         try {
+
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_PROVEEDOR_PERMIT])) 
+            return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+
             if(empty($id)) return new Response($this->stdResponse(false,true,"no valid content"),400);
             $limit=500;
             $offset=0;

@@ -16,4 +16,11 @@ class BaseController extends Controller
         if(empty($jsonParsed)) return new Response($this->stdResponse(false,true,"no valid content"),400);
         return $jsonParsed;
     }
+
+    public function HasAccionsPermit(array $actions) : bool {
+        $userAccions=$_SESSION['actions'];
+        $matches=array_intersect($userAccions,$actions);
+        if(count($matches)<=0) return false;
+        return true;
+    }
 }

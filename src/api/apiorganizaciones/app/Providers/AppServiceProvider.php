@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Contractors\Services\IAuthService;
+use App\Contractors\Wrappers\IAuthWrapper;
 use App\Repositories\OrganizacionRepository;
 use App\Services\OrganizacionService;
 use Illuminate\Support\ServiceProvider;
 use App\Mappers\OrganizacionMapper;
+use App\Services\AuthService;
+use App\Wrappers\AuthWrapper;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,7 +20,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        
+        $this->app->scoped(IAuthWrapper::class,function($app){
+            return new AuthWrapper();
+        });
+
+        $this->app->scoped(IAuthService::class,function($app){
+            return new AuthService($app[IAuthWrapper::class]);
+        });
+
         $this->app->scoped(OrganizacionMapper::class,function($app){
             return new OrganizacionMapper();
         });
