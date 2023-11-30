@@ -103,7 +103,7 @@ return [
         ],
 
         'sistema' => [
-            'driver' => 'mysql',
+            'driver' =>env('DB_CONNECTION_SYSTEM', 'mysql'),
             'host' => env('DB_HOST_SYSTEM', '127.0.0.1'),
             'port' => env('DB_PORT_SYSTEM', 3306),
             'database' => env('DB_DATABASE_SYSTEM', 'forge'),
