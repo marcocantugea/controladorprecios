@@ -15,7 +15,7 @@ class AddRolesSistema extends Seeder
     public function run(): void
     {
         DB::connection()->table('roles_sistema')->insert(
-            ['publicId'=>uniqid(),
+            ['publicId'=>'6563f02152497',
             'rol'=>'ADMIN',
             'ACTIVO'=>true,
             'created_at'=>new DateTime('now')

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AddAccionesSistema::class);
         $this->call(AddRelacionRolAccion::class);
         $this->call(AddRelUsuariosRoles::class);
+        $this->call(AddAccionesModuloMenusToRoles::class);
     }
 }

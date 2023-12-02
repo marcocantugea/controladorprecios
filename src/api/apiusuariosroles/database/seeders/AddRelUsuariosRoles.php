@@ -20,7 +20,7 @@ class AddRelUsuariosRoles extends Seeder
                 'usuarioId'=>1,
                 'rolId'=>1,
                 'usuarioPid'=>'95765b2da765',
-                'rolPid'=>'65628f44d73b6',
+                'rolPid'=>'6563f02152497',
                 'created_at'=>new DateTime()
             ]
             ]);

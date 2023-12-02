@@ -33,6 +33,9 @@ class AuthService implements IAuthService
             array_push($accionesList,$accion->accion);
         }
         $userObj->actions=$accionesList;
+
+        $userObj->rolPid=$this->userRepository->getUserRol($userObj->publicId)->publicId;
+
         return $userObj;
 
         } catch (\Throwable $th) {
