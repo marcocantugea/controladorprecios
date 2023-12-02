@@ -22,5 +22,6 @@ class AuthService implements IAuthService
         $_SESSION['pid']=$response['data']['pid'];
         $_SESSION['token']=$token;
         $_SESSION['actions']=(isset($response['data']['actions'])) ? $response['data']['actions'] : null;
+        $_SESSION['rolPid']=(isset($response['data']['rolPid'])) ? $response['data']['rolPid'] : null;
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Contractors\IMapper;
 use App\Contractors\Models\Usuario;
 use App\Contractors\Repositories\IUsuariosRepository;
+use App\Mappers\RolMapper;
 use DateTime;
 use Exception;
 use Illuminate\Database\MySqlConnection;
@@ -15,11 +17,13 @@ class UsuariosRepository implements IUsuariosRepository
     private const TABLE_USUARIO_ROL='usuario_rol';
     private const TABLE_ROL_ACCIONES='roles_acciones_sistema';
     private const TABLE_ACCIONES='acciones_sistema';
+    private IMapper $rolMapper;
 
     private MySqlConnection $db;
 
-    public function __construct(MySqlConnection $db) {
+    public function __construct(MySqlConnection $db,RolMapper $rolMapper) {
         $this->db = $db;
+        $this->rolMapper=$rolMapper;
     }
     public function add($model)
     {
@@ -143,5 +147,28 @@ class UsuariosRepository implements IUsuariosRepository
         ;
 
         return $acciones;
+    }
+
+    public function getUserRol($pid){
+        if(empty($pid)) throw new Exception('invalid id');
+
+        $item=$this->db->table($this::TABLE_USUARIO_ROL)
+        ->join('roles_sistema','roles_sistema.id','=',$this::TABLE_USUARIO_ROL.'.rolId')
+        ->where($this::TABLE_USUARIO_ROL.'.usuarioPid',$pid)
+        ->whereNull($this::TABLE_USUARIO_ROL.'.fecha_eliminado')
+        ->select([
+            'roles_sistema.publicId',
+            'roles_sistema.id',
+            'roles_sistema.rol',
+            'roles_sistema.activo',
+            'roles_sistema.created_at',
+            'roles_sistema.updated_at',
+            'roles_sistema.fecha_eliminado'
+            ])
+        ->first();
+
+        $model=$this->rolMapper->map($item);
+
+        return $model;
     }
 }

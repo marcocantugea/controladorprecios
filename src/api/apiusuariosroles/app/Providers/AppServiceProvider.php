@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->scoped(IUsuariosRepository::class,function($app){
-            return new UsuariosRepository(DB::connection());
+            return new UsuariosRepository(DB::connection(),$app[RolMapper::class]);
         });
 
         $this->app->scoped(IUsuariosService::class,function($app){

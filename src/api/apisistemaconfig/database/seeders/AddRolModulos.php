@@ -41,10 +41,38 @@ class AddRolModulos extends Seeder
             [
                 'publicId'=>uniqid(),
                 'rolPid'=>'6563f02152497',
-                'moduloPid'=>'f8c34aa9f9e7',
+                'moduloPid'=>'23a1d1f73498',
                 'moduloId'=>4,
                 'created_at'=>new DateTime()
             ],
+            [
+                'publicId'=>uniqid(),
+                'rolPid'=>'6563f02152497',
+                'moduloPid'=>'ab07cde61999',
+                'moduloId'=>5,
+                'created_at'=>new DateTime()
+            ],
+            [
+                'publicId'=>uniqid(),
+                'rolPid'=>'6563f02152497',
+                'moduloPid'=>'ca254594201a',
+                'moduloId'=>7,
+                'created_at'=>new DateTime()
+            ],
+            [
+                'publicId'=>uniqid(),
+                'rolPid'=>'6563f02152497',
+                'moduloPid'=>'e3e6643852fc',
+                'moduloId'=>8,
+                'created_at'=>new DateTime()
+            ],
+            [
+                'publicId'=>uniqid(),
+                'rolPid'=>'6563f02152497',
+                'moduloPid'=>'e3e6643852fc',
+                'moduloId'=>8,
+                'created_at'=>new DateTime()
+            ]
         ]);
     }
 }
