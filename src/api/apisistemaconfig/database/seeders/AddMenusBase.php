@@ -24,7 +24,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/usuarios'
             ],
             [
                 'publicId'=>'a1d359c738dc',
@@ -33,7 +34,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>2,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/usuario/actualizar'
             ],
             [
                 'publicId'=>'17cb4433c3cc',
@@ -42,7 +44,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/roles'
             ],
             [
                 'publicId'=>'a358fe31e7e2',
@@ -51,7 +54,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>2,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/role/acciones'
             ],
             [
                 'publicId'=>'ff04d9567d5b',
@@ -60,7 +64,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/catalogos/categorias'
             ],
             [
                 'publicId'=>'a5bd2097a5bd',
@@ -69,7 +74,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>2,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/catalogos/categorias'
             ],
             [
                 'publicId'=>'ad3e885c1b9b',
@@ -78,7 +84,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/catalogos/atributos'
             ],
             [
                 'publicId'=>'7ce8b63f66a8',
@@ -87,7 +94,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/catalogos/marcas'
             ],
             [
                 'publicId'=>'4231ce3e55d2',
@@ -96,7 +104,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/proveedores'
             ],
             [
                 'publicId'=>'4231ce3e55d2',
@@ -105,7 +114,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/costos'
             ],
             [
                 'publicId'=>'82a41b54e51c',
@@ -114,7 +124,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/organizaciones'
             ],
             [
                 'publicId'=>'df7d9cc6f109',
@@ -123,7 +134,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/listaspprecios'
             ],
             [
                 'publicId'=>'bf37968482e0',
@@ -132,7 +144,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>2,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/listaspprecios/productos'
             ],
             [
                 'publicId'=>'efd8f17c30df',
@@ -141,7 +154,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/canalesventa'
             ],
             [
                 'publicId'=>'3e757552333b',
@@ -150,7 +164,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>2,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/canalesventa/listaprecios'
             ],
             [
                 'publicId'=>'6a96674dd2aa',
@@ -159,7 +174,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>1,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/sistema/modulos'
             ],
             [
                 'publicId'=>'c60ec17c11fc',
@@ -168,7 +184,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>2,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/sistema/menus'
             ],
             [
                 'publicId'=>'4c314173b0c9',
@@ -177,7 +194,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>3,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/sistema/modulos/roles'
             ],
             [
                 'publicId'=>'792952bbfba6',
@@ -186,7 +204,8 @@ class AddMenusBase extends Seeder
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>3,
-                'created_at'=>new DateTime()
+                'created_at'=>new DateTime(),
+                'accion'=>'/admin/productos'
             ]
         ]);
     }
