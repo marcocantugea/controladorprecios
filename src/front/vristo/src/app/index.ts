@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LoadingModalService } from './components/modal/loading/loading/loading.service';
 
 @Component({
     moduleId: module.id,
@@ -7,18 +6,9 @@ import { LoadingModalService } from './components/modal/loading/loading/loading.
 })
 export class IndexComponent {
 
-    constructor(private loadingModal:LoadingModalService) {}
+    constructor() {}
 
     ngOnInit(): void {
-        this.showLoading();
-        setTimeout(() => {
-            this.loadingModal.closeLoading() 
-        }, 10000);
     }
-
-    showLoading(){
-        this.loadingModal.showLoading();
-    }
-
 
 }
