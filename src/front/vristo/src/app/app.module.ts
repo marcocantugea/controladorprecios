@@ -41,6 +41,9 @@ import { SidebarComponent } from './layouts/sidebar';
 import { ThemeCustomizerComponent } from './layouts/theme-customizer';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthSignoutComponent } from './pages/auth-signout/auth-signout.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
+import { LoadingComponent } from './components/modal/loading/loading/loading.component';
 
 @NgModule({
     imports: [
@@ -65,8 +68,10 @@ import { AuthSignoutComponent } from './pages/auth-signout/auth-signout.componen
             visibility: 'hover',
             appearance: 'standard',
         }),
+        MatProgressSpinnerModule,
+        MatDialogModule
     ],
-    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent],
+    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent],
     providers: [AppService, Title],
     bootstrap: [AppComponent],
 })
