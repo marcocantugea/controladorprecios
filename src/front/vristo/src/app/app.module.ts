@@ -39,6 +39,8 @@ import { HeaderComponent } from './layouts/header';
 import { FooterComponent } from './layouts/footer';
 import { SidebarComponent } from './layouts/sidebar';
 import { ThemeCustomizerComponent } from './layouts/theme-customizer';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthSignoutComponent } from './pages/auth-signout/auth-signout.component';
 
 @NgModule({
     imports: [
@@ -64,7 +66,7 @@ import { ThemeCustomizerComponent } from './layouts/theme-customizer';
             appearance: 'standard',
         }),
     ],
-    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout],
+    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent],
     providers: [AppService, Title],
     bootstrap: [AppComponent],
 })
