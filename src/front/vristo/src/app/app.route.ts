@@ -26,13 +26,13 @@ export const routes: Routes = [
         component: AppLayout,
         children: [
             // dashboard
-            { path: '', component: IndexComponent, title: 'Sales Admin | VRISTO - Multipurpose Tailwind Dashboard Template' },
+            { path: '', component: IndexComponent, title: 'Adminstrador de Precios | VRISTO - Dashboard' },
 
         ],
     },
 
     {
-        path: '',
+        path: 'preload',
         component: AuthLayout,
         children: [
         ],

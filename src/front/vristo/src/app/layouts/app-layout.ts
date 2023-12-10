@@ -16,6 +16,9 @@ export class AppLayout {
     }
     headerClass = '';
     ngOnInit() {
+
+        this.checkSession();
+                
         this.initAnimation();
         this.toggleLoader();
         window.addEventListener('scroll', () => {
@@ -63,5 +66,11 @@ export class AppLayout {
     goToTop() {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+    }
+
+    checkSession(){
+        if((sessionStorage.getItem('upid')==null )
+        && sessionStorage.getItem('rolPid')==null && sessionStorage.getItem('uto')==null) 
+        this.router.navigateByUrl('/login');
     }
 }

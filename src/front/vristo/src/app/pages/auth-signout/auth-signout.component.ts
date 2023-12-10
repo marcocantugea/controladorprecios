@@ -15,6 +15,9 @@ export class AuthSignoutComponent {
   ngOnInit(): void {
     
     //todo remove token from session
+    sessionStorage.removeItem('upid');
+    sessionStorage.removeItem('rolPid');
+    sessionStorage.removeItem('uto');
     this.router.navigateByUrl('/login');
   }
 
