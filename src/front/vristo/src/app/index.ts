@@ -8,7 +8,5 @@ export class IndexComponent {
 
     constructor() {}
 
-    ngOnInit(): void {
-    }
-
+    ngOnInit(): void {}
 }

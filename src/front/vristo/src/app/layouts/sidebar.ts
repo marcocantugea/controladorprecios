@@ -1,10 +1,9 @@
 ﻿import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { slideDownUp } from '../shared/animations';
-import { ModulosService } from '../services/modulos/modulos.service';
 import { IModulo } from '../services/modulos/IModulo';
 
 @Component({
@@ -18,9 +17,9 @@ export class SidebarComponent {
     store: any;
     activeDropdown: string[] = [];
     parentDropdown: string = '';
-    modulos:IModulo[]=[];
+    @Input() modulos:IModulo[]=[];
 
-    constructor(public translate: TranslateService, public storeData: Store<any>, public router: Router, private modulosService :ModulosService) {
+    constructor(public translate: TranslateService, public storeData: Store<any>, public router: Router) {
         this.initStore();
     }
     async initStore() {
@@ -30,26 +29,12 @@ export class SidebarComponent {
                 this.store = d;
             });
 
-        this.modulosService.getModulosMenuUsuario().subscribe({
-            next:(response)=>{
-                
-                console.log(response.data);
-                this.modulos= response.data;
-                console.log(this.modulos);
-            },
-            error:((error)=>{
-                console.log(error);
-            }),
-            complete:()=>{
-                this.hideLoader();
-            }
-        })
+       
     }
 
     ngOnInit() {
         this.setActiveDropdown();
     }
-
 
     setActiveDropdown() {
         const selector = document.querySelector('.sidebar ul a[routerLink="' + window.location.pathname + '"]');
@@ -82,9 +67,4 @@ export class SidebarComponent {
         }
     }
 
-    hideLoader(){
-        setTimeout(() => {
-            this.storeData.dispatch({ type: 'toggleMainLoader', payload: false });
-        }, 500);
-    }
 }

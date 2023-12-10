@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { AppService } from '../service/app.service';
 import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ModulosService } from '../services/modulos/modulos.service';
+import { IModulo } from '../services/modulos/IModulo';
 
 @Component({
     selector: 'app-root',
@@ -11,10 +13,12 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppLayout {
     store: any;
     showTopButton = false;
-    constructor(public translate: TranslateService, public storeData: Store<any>, private service: AppService, private router: Router) {
+    constructor(public translate: TranslateService, public storeData: Store<any>, private service: AppService, private router: Router, private modulosService:ModulosService) {
         this.initStore();
     }
     headerClass = '';
+    modulos:IModulo[]=[];
+
     ngOnInit() {
 
         this.checkSession();
@@ -28,6 +32,21 @@ export class AppLayout {
                 this.showTopButton = false;
             }
         });
+
+        this.modulosService.getModulosMenuUsuario().subscribe({
+            next:(response)=>{
+                
+                console.log(response.data);
+                this.modulos= response.data;
+                console.log(this.modulos);
+            },
+            error:((error)=>{
+                console.log(error);
+            }),
+            complete:()=>{
+                this.hideLoader();
+            }
+        })
     }
 
     ngOnDestroy() {
@@ -72,5 +91,11 @@ export class AppLayout {
         if((sessionStorage.getItem('upid')==null )
         && sessionStorage.getItem('rolPid')==null && sessionStorage.getItem('uto')==null) 
         this.router.navigateByUrl('/login');
+    }
+
+    hideLoader(){
+        setTimeout(() => {
+            this.storeData.dispatch({ type: 'toggleMainLoader', payload: false });
+        }, 500);
     }
 }
