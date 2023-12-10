@@ -25,7 +25,8 @@
                             "src/demo-prepare.html"
                         ],
                         "styles": [
-                            "src/assets/css/app.css"
+                          "@angular/material/prebuilt-themes/indigo-pink.css",
+                          "src/assets/css/app.css"
                         ],
                         "scripts": [],
                         "allowedCommonJsDependencies": []
@@ -88,7 +89,8 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.css"
+                          "@angular/material/prebuilt-themes/indigo-pink.css",
+                          "src/styles.css"
                         ],
                         "scripts": []
                     }
