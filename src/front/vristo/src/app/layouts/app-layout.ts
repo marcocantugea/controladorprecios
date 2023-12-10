@@ -50,9 +50,9 @@ export class AppLayout {
 
     toggleLoader() {
         this.storeData.dispatch({ type: 'toggleMainLoader', payload: true });
-        setTimeout(() => {
-            this.storeData.dispatch({ type: 'toggleMainLoader', payload: false });
-        }, 500);
+        // setTimeout(() => {
+        //     this.storeData.dispatch({ type: 'toggleMainLoader', payload: false });
+        // }, 500);
     }
 
     async initStore() {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthRequest } from './AuthRequest';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ApisConfiguration } from 'src/app/app.apisconfig';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class Authservice {
   }
   
   authUser(userCredentials:AuthRequest):Observable<any>{
-    return this.httpClient.post("http://localhost/apiusuariosroles/public/api/auth",JSON.stringify(userCredentials));
+    return this.httpClient.post(ApisConfiguration.apiAuth,JSON.stringify(userCredentials));
   }
 
 }
