@@ -14,6 +14,7 @@ class UsuarioRoutes {
             $router->get('api/usuarios','UsuarioController@getUsuarios');
             $router->put('api/usuario/activar/{id}','UsuarioController@activateUsuario');
             $router->put('api/usuario/desactivar/{id}','UsuarioController@deActivateUsuario');
+            $router->post('api/usuario/{pid}/password/change','UsuarioController@updatePassword');
         });
 
     }

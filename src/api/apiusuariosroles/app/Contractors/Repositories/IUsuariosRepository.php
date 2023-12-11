@@ -12,4 +12,5 @@ interface IUsuariosRepository extends IRepository{
     function getUsuarios(array $searchParams,int $limit=500,int $offset=0);
     function getAcciones($pid);
     function getUserRol($pid);
+    function updatePasswordUsario(string $pid,string $hash);
 }

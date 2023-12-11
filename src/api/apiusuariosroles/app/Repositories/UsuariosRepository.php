@@ -184,4 +184,16 @@ class UsuariosRepository implements IUsuariosRepository
 
         return $model;
     }
+
+    public function updatePasswordUsario(string $pid, string $hash)
+    {
+        if(empty($pid) || empty($hash)) throw new Exception('invalid id or password');
+
+        $this->db->table($this::TABLE)->where('publicId',$pid)->whereNull('deleted_at')->update([
+            'hash'=>$hash,
+            'updated_at'=>new DateTime()
+        ]);
+
+
+    }
 }

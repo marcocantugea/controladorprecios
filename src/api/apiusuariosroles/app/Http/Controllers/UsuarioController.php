@@ -92,4 +92,15 @@ class UsuarioController extends Controller{
         }
     }
 
+    public function  updatePassword(Request $request,$pid){
+        try {
+            if(!$this->HasAccionsPermit([AccionsEnums::UPDATE_PERMIT,AccionsEnums::UPDATE_USUARIOS_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+            $jsonParsed= json_decode($request->getContent()); 
+            if(!isset($jsonParsed->password)) return new Response($this->stdResponse(false,true),401);
+            $this->service->updateUsuarioPassword($pid,$jsonParsed->password);
+            return new Response($this->stdResponse());
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }
