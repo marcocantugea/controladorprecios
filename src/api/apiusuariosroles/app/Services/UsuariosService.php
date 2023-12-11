@@ -48,6 +48,15 @@ class UsuariosService implements IUsuariosService {
         }
     }
 
+    public function deActivateUsuario($id)
+    {
+        try {
+            $this->usuariosRepository->deActivateUsuario($id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function deleteUsuario($id)
     {
         try {

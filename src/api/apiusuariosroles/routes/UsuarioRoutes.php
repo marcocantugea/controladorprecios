@@ -12,7 +12,8 @@ class UsuarioRoutes {
             $router->post('api/usuario','UsuarioController@addUsuario');
             $router->delete('api/usuario/{id}','UsuarioController@deleteUsuario');
             $router->get('api/usuarios','UsuarioController@getUsuarios');
-            $router->post('api/usuario/{id}','UsuarioController@activateUsuario');
+            $router->put('api/usuario/activar/{id}','UsuarioController@activateUsuario');
+            $router->put('api/usuario/desactivar/{id}','UsuarioController@deActivateUsuario');
         });
 
     }

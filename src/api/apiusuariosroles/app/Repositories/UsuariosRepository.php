@@ -107,6 +107,8 @@ class UsuariosRepository implements IUsuariosRepository
             $query->where($key,empty($operator) ? '=' : $operator,$value);
         }
 
+        $query=$query->whereNull('deleted_at');
+
         return $query->select(
             [
                 'publicId',
@@ -125,6 +127,17 @@ class UsuariosRepository implements IUsuariosRepository
         if(empty($id)) throw new Exception("invalid Id to update");
         $this->db->table('usuarios')->where('publicId',$id)->update([
             'active'=>true,
+            'updated_at'=> new DateTime('now')
+        ]);
+
+        
+    }
+
+    public function deActivateUsuario($id)
+    {
+        if(empty($id)) throw new Exception("invalid Id to update");
+        $this->db->table('usuarios')->where('publicId',$id)->whereNull('deleted_at')->update([
+            'active'=>false,
             'updated_at'=> new DateTime('now')
         ]);
 
