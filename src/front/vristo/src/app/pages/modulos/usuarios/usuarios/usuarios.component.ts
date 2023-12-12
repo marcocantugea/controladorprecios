@@ -5,6 +5,7 @@ import { LoadingModalService } from 'src/app/components/modal/loading/loading/lo
 import { IUsuario } from 'src/app/services/admin/modulos/IUsuario';
 import { UsuariosService } from 'src/app/services/admin/modulos/usuarios.service';
 import { UsuarioChangepasswordComponent } from './components/usuario-changepassword/usuario-changepassword.component';
+import { ErrorModalService } from 'src/app/components/modal/error/error-modal.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -16,7 +17,7 @@ export class UsuariosComponent {
   showAddUser:boolean=false;
   listUsuarios:IUsuario[]=[];
 
-  constructor(private usuariosService:UsuariosService,private loadingModal:LoadingModalService,private confirmModal:ConfirmModalService,private dialog: MatDialog) {}
+  constructor(private usuariosService:UsuariosService,private loadingModal:LoadingModalService,private confirmModal:ConfirmModalService,private dialog: MatDialog, private errorModal:ErrorModalService) {}
   
   ngOnInit(): void {
     this.LoadData();
@@ -36,14 +37,18 @@ export class UsuariosComponent {
     this.getListaUsuarios().subscribe({
       next:(response)=>{
         if(!response.success){
-          //todo error modal
+          this.loadingModal.closeLoading();  
+          this.errorModal.showErrorDialog("Error al procesar la peticion");
+          console.log(response.message);
           return;
         }
         
         this.listUsuarios=response.data;
       },
       error:(error)=>{
-        //todo : error modal
+        this.loadingModal.closeLoading();  
+        this.errorModal.showErrorDialog("Error al procesar la peticion");
+        console.log(error);
       },
       complete:()=>{
         if(showLoading) {
@@ -64,12 +69,15 @@ export class UsuariosComponent {
     this.usuariosService.AddUsuario($event.value as IUsuario).subscribe({
       next:(response)=>{
         if(!response.success){
-          //todo:error modal
+          this.loadingModal.closeLoading();  
+          this.errorModal.showErrorDialog("Error al procesar la peticion");
+          console.log(response.message);
         }
         this.LoadData();
       },
       error:(error)=>{
-        //todo: error modal
+        this.loadingModal.closeLoading();  
+        this.errorModal.showErrorDialog("Error al procesar la peticion");
         console.log(error);
         return;
       },
@@ -85,12 +93,16 @@ export class UsuariosComponent {
     this.usuariosService.DeleteUsuario($event).subscribe({
       next:(response)=>{
         if(!response.success){
-          //todo : show error modal  
+          this.loadingModal.closeLoading();  
+          this.errorModal.showErrorDialog("Error al procesar la peticion");
+          console.log(response.message);
         }
         this.LoadData();
       },
       error:(error)=>{
-        //todo : show error modal
+        this.loadingModal.closeLoading();  
+        this.errorModal.showErrorDialog("Error al procesar la peticion");
+        console.log(error);
       },
       complete:()=>{}
     })
@@ -101,12 +113,16 @@ export class UsuariosComponent {
     this.usuariosService.ActivarUsuario($event).subscribe({
       next:(response)=>{
         if(!response.success){
-          //todo : show error modal  
+          this.loadingModal.closeLoading();  
+          this.errorModal.showErrorDialog("Error al procesar la peticion");
+          console.log(response.message);
         }
         this.LoadData();
       },
       error:(error)=>{
-        //todo : show error modal
+        this.loadingModal.closeLoading();  
+        this.errorModal.showErrorDialog("Error al procesar la peticion");
+        console.log(error);
       },
     })
   }
@@ -116,12 +132,16 @@ export class UsuariosComponent {
     this.usuariosService.DesactivarUsuario($event).subscribe({
       next:(response)=>{
         if(!response.success){
-          //todo : show error modal  
+          this.loadingModal.closeLoading();  
+          this.errorModal.showErrorDialog("Error al procesar la peticion");
+          console.log(response.message);
         }
         this.LoadData();
       },
       error:(error)=>{
-        //todo : show error modal
+        this.loadingModal.closeLoading();  
+        this.errorModal.showErrorDialog("Error al procesar la peticion");
+        console.log(error);
       },
     })
   }
@@ -137,11 +157,18 @@ export class UsuariosComponent {
       this.usuariosService.ActualizarPassword($event.publicId,result.password).subscribe({
         next:(response)=>{
           if(!response.success){
-            //todo: show error modal
+            this.loadingModal.closeLoading();  
+            this.errorModal.showErrorDialog("Error al procesar la peticion");
+            console.log(response.message);
             return;
           }
+          
         },
-        error:(error)=>{},
+        error:(error)=>{
+          this.loadingModal.closeLoading();  
+          this.errorModal.showErrorDialog("Error al procesar la peticion");
+          console.log(error);
+        },
         complete:()=>{
           this.loadingModal.closeLoading();
         }

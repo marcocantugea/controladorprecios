@@ -49,6 +49,7 @@ import { UsuarioListadoComponent } from './pages/modulos/usuarios/usuarios/compo
 import { UsuarioAddComponent } from './pages/modulos/usuarios/usuarios/components/usuario-add/usuario-add.component';
 import { ConfirmComponent } from './components/modal/confirm/confirm.component';
 import { UsuarioChangepasswordComponent } from './pages/modulos/usuarios/usuarios/components/usuario-changepassword/usuario-changepassword.component';
+import { ErrorComponent } from './components/modal/error/error.component';
 
 @NgModule({
     imports: [
@@ -76,7 +77,7 @@ import { UsuarioChangepasswordComponent } from './pages/modulos/usuarios/usuario
         MatProgressSpinnerModule,
         MatDialogModule
     ],
-    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent],
+    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent, ErrorComponent],
     providers: [AppService, Title],
     bootstrap: [AppComponent],
 })
