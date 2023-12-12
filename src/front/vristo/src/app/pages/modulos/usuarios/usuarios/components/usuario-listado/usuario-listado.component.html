@@ -1,0 +1,46 @@
+<div class="panel">
+    <table >
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>E-mail</th>
+                <th class="!text-center">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let usuario of listUsuarios">
+                <td>
+                    {{usuario.user}}
+                </td>
+                <td>
+                    {{usuario.email}}
+                </td>
+                <td>
+                    <div class="flex items-center justify-center gap-4">
+                        <button *ngIf="usuario.active && (usuario.user!=='admin')" type="button" class="btn btn-sm btn-outline-danger" (click)="DesactivarUsuario(usuario)" >
+                            Desactivar
+                        </button>
+                        <button *ngIf="!usuario.active  && (usuario.user!=='admin')" type="button" class="btn btn-sm btn-outline-success" (click)="ActivarUsuario(usuario)" >
+                            Activar
+                        </button>
+                        <button *ngIf="usuario.user!=='admin'" type="button" class="btn btn-sm btn-outline-danger" (click)="EliminarUsuario(usuario)" >
+                            Eliminar
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" (click)="CambiarPassword(usuario)" >
+                            Restablecer Contraseña
+                        </button>    
+                        <button *ngIf="usuario.user!=='admin'" type="button" class="btn btn-sm btn-outline-secondary" >
+                            Asignar Rol
+                        </button>    
+                    </div>
+                    <!-- <a href="#">Desactivar</button>
+                    <a href="#">Eliminar</button> -->
+                    
+                </td>
+            </tr>
+        </tbody>
+        <!-- <tfoot>
+            demos footer
+        </tfoot> -->
+    </table>
+</div>

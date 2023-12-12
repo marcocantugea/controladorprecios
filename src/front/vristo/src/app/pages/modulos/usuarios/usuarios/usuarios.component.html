@@ -1,0 +1,12 @@
+<h2>Administraci&oacute;n de usuarios</h2>
+<div class="panel mb-2" >
+    <div>
+        <button type="button" class="btn btn-sm btn-outline-primary" (click)="showFormAddUser()" >
+            Agregar usuario
+        </button>
+    </div>
+</div>
+<app-usuario-add [showForm]="showAddUser" (hideForm)="hideFormAddUser($event)" (userDataToSave)="SaveNewUser($event)" ></app-usuario-add>
+<app-usuario-listado [listUsuarios]="listUsuarios" (deleteUser)="DeleteUsuario($event)" (activarUser)="ActivarUsuario($event)" (desActivarUser)="DesactivarUsuario($event)"
+(changePassword)="CambiarPassword($event)"
+ ></app-usuario-listado>

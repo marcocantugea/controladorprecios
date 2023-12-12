@@ -44,6 +44,11 @@ import { AuthSignoutComponent } from './pages/auth-signout/auth-signout.componen
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
 import { LoadingComponent } from './components/modal/loading/loading/loading.component';
+import { UsuariosComponent } from './pages/modulos/usuarios/usuarios/usuarios.component';
+import { UsuarioListadoComponent } from './pages/modulos/usuarios/usuarios/components/usuario-listado/usuario-listado.component';
+import { UsuarioAddComponent } from './pages/modulos/usuarios/usuarios/components/usuario-add/usuario-add.component';
+import { ConfirmComponent } from './components/modal/confirm/confirm.component';
+import { UsuarioChangepasswordComponent } from './pages/modulos/usuarios/usuarios/components/usuario-changepassword/usuario-changepassword.component';
 
 @NgModule({
     imports: [
@@ -71,7 +76,7 @@ import { LoadingComponent } from './components/modal/loading/loading/loading.com
         MatProgressSpinnerModule,
         MatDialogModule
     ],
-    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent],
+    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent],
     providers: [AppService, Title],
     bootstrap: [AppComponent],
 })

@@ -1,0 +1,22 @@
+<div style="text-align: center; align-items: center;">
+    <mat-dialog-content>
+        <table style="text-align: center;">
+            <tr >
+                <td align="center" colspan="2" class="pt-3">
+                    <h3>{{message}}</h3>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <div mat-dialog-actions>
+                        <button class="btn btn-small btn-danger" mat-button mat-dialog-close>Cancelar</button>
+                    </div>
+                </td>
+                <td align="right">
+                    <button class="btn btn-small btn-success"  mat-button [mat-dialog-close]="true">Ok</button>
+                </td>
+            </tr>
+            
+        </table>
+    </mat-dialog-content>
+</div>

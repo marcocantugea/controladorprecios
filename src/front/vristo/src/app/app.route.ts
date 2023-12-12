@@ -6,6 +6,7 @@ import { AppLayout } from './layouts/app-layout';
 import { AuthLayout } from './layouts/auth-layout';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthSignoutComponent } from './pages/auth-signout/auth-signout.component';
+import { UsuariosComponent } from './pages/modulos/usuarios/usuarios/usuarios.component';
 
 export const routes: Routes = [
     {
@@ -27,7 +28,8 @@ export const routes: Routes = [
         children: [
             // dashboard
             { path: '', component: IndexComponent, title: 'Adminstrador de Precios | VRISTO - Dashboard' },
-
+            //usuarios
+            {path:'usuarios',component:UsuariosComponent,title:'Administración de Usuarios | VRISTO'}
         ],
     },
 

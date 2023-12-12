@@ -35,10 +35,7 @@ export class AppLayout {
 
         this.modulosService.getModulosMenuUsuario().subscribe({
             next:(response)=>{
-                
-                console.log(response.data);
                 this.modulos= response.data;
-                console.log(this.modulos);
             },
             error:((error)=>{
                 console.log(error);
