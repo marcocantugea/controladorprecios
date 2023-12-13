@@ -11,6 +11,7 @@ import { IRol } from 'src/app/services/admin/modulos/roles/IRol';
 import { RolService } from 'src/app/services/admin/modulos/roles/rol.service';
 import { resolve } from 'path';
 import { IRolUsuario } from 'src/app/services/admin/modulos/roles/IRolUsuario';
+import { Observable, Observer, Subscriber, Subscription, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-usuarios',
@@ -22,6 +23,7 @@ export class UsuariosComponent {
   showAddUser:boolean=false;
   listUsuarios:IUsuario[]=[];
   listRoles:IRol[]=[];
+  subscribers:Subscription[]=[];
 
   commonError=(error:any)=>{
     this.loadingModal.closeLoading();  
@@ -36,6 +38,12 @@ export class UsuariosComponent {
     
   }
 
+  ngOnDestroy(): void {
+    this.subscribers.forEach((subscription)=>{
+      subscription.unsubscribe();
+    })    
+  }
+
   showFormAddUser(){
     this.showAddUser=true
   }
@@ -47,41 +55,29 @@ export class UsuariosComponent {
   LoadData(showLoading:boolean=true){
 
     if(showLoading)this.loadingModal.showLoading();
-    this.getListaUsuarios().subscribe({
-      next:(response)=>{
-        if(!response.success){
-          this.loadingModal.closeLoading();  
-          this.errorModal.showErrorDialog("Error al procesar la peticion");
-          console.log(response.message);
-          return;
-        }
 
-        this.listUsuarios=response.data;
-      },
-      error:this.commonError,
-      complete:()=>{
-        this.rolesService.GetRoles().subscribe({
-          next:(response)=>{
-            if(!response.success){
-              this.loadingModal.closeLoading();  
-              this.errorModal.showErrorDialog("Error al procesar la peticion");
-              console.log(response.message);
-              return;
-            }
-            this.listRoles=response.data;
-          },
-          error:this.commonError,
-          complete:()=>{
-            if(showLoading) {
-              setTimeout(() => {
-                this.loadingModal.closeLoading();  
-              }, 800); 
-            }
-          }
-        });
+    this.subscribers.push(forkJoin({
+        listUsuarios:this.getListaUsuarios(),
+        listRoles : this.rolesService.GetRoles()
       }
-    })
+    ).subscribe((results)=>{
+      if(!results.listUsuarios.success || !results.listRoles.success){
+        this.loadingModal.closeLoading();  
+        this.errorModal.showErrorDialog("Error al procesar la peticion");
+        console.log(results.listUsuarios.message);
+        console.log(results.listRoles.message);
+        return;
+      }
 
+      this.listUsuarios=results.listUsuarios.data;
+      this.listRoles=results.listRoles.data;
+    },
+    this.commonError,
+    ()=>{
+      if(showLoading) {
+        this.loadingModal.closeLoading();  
+      }
+    }));
     
   }
 
