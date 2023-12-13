@@ -69,6 +69,18 @@ class RolUsuarioRepository implements IRolUsuarioRepository
         return $model;
     }
 
+    public function getRolByUserId(string $usuarioPid)
+    {
+        if(empty($usuarioPid)) throw new Exception('invalid id');
+        $info=$this->db->table($this::TABLE)->where('usuarioPid',$usuarioPid)->whereNull('fecha_eliminado')
+        ->select($this->getModelFields())
+        ->first();
+
+        $model=$this->mapper->map($info);
+
+        return $model;
+    }
+
     public function getModelFields(){
         return array_keys(get_class_vars(get_class(new RolUsuario())));
     }

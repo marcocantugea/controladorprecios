@@ -52,4 +52,14 @@ final class RolUsuarioController extends Controller
             return new Response($this->stdResponse(false,true,$th->getMessage()),500);
         }
     }
+
+    public function getRolByUsuarioId($usuarioPid){
+        try {
+            if(!$this->HasAccionsPermit([AccionsEnums::READ_PERMIT,AccionsEnums::READ_ROL_PERMIT])) return new Response($this->stdResponse(false,true,'401 Unauthorized'),401);
+            $dto=$this->service->getRolByUsuarioId($usuarioPid);
+            return new Response($this->stdResponse(data:$dto));
+        } catch (\Throwable $th) {
+            return new Response($this->stdResponse(false,true,$th->getMessage()),500);
+        }
+    }
 }

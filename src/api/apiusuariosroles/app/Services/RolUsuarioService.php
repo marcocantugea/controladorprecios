@@ -67,4 +67,16 @@ class RolUsuarioService implements IRolUsuarioService
         }
     }
 
+    public function getRolByUsuarioId(string $usuarioPid)
+    {
+        try {
+            if(empty($usuarioPid)) throw new Exception('invalid id');
+            $model=$this->repository->getRolByUserId($usuarioPid);
+            $dto=$this->mapper->reverse($model);
+            return $dto;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
 }

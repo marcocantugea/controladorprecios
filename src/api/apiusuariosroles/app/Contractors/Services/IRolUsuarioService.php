@@ -9,5 +9,5 @@ interface IRolUsuarioService{
     function addRolUsuario(RolUsuarioDTO $dto);
     function deleteRolUsuario(string $pid);
     function getRolUsuarioById(string $pid);
-
+    function getRolByUsuarioId(string $usuarioPid);
 }
