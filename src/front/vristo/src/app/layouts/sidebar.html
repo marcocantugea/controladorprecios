@@ -83,9 +83,9 @@
                         </div>
                     </li>
 
-                    <!-- ejemplo de modulos y menus -->
+                    <!-- modulos y menus -->
                     <div *ngFor="let modulo of modulos">
-                    <h2 class="-mx-4 mb-1 flex items-center bg-white-light/30 py-3 px-7 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
+                    <h2 class="-mx-4 mb-1 flex items-center bg-white-light/30 py-3 px-7 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]" style="font-size: 14px;">
                         <svg
                             class="hidden h-5 w-4 flex-none"
                             viewBox="0 0 24 24"
@@ -103,7 +103,7 @@
                     <li class="nav-item" *ngFor="let menu of modulo.menus">
                         <ul>
                             <li class="nav-item">
-                                <a routerLink="{{menu.accion}}#" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
+                                <a routerLink="{{menu.accion}}" class="group" routerLinkActive="active" (click)="toggleMobileMenu()">
                                     <div class="flex items-center">
                                         <span class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark"
                                             >{{ menu.display | translate }}</span

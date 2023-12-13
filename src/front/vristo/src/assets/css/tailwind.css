@@ -313,7 +313,7 @@ hover:text-primary hover:before:!bg-primary ltr:before:mr-2 rtl:before:ml-2 dark
     .form-textarea,
     .form-select,
     .form-multiselect {
-        @apply w-full rounded-md border border-[#e0e6ed] bg-white px-4 py-2 text-sm font-semibold text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+        @apply w-full rounded-md border border-[#e0e6ed] bg-white px-4 py-2 text-sm  text-black !outline-none focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
     }
 
     .form-input-lg,
@@ -329,7 +329,7 @@ hover:text-primary hover:before:!bg-primary ltr:before:mr-2 rtl:before:ml-2 dark
         @apply py-1.5 text-xs;
     }
     label {
-        @apply mb-1.5 block font-semibold;
+        @apply mb-1.5 block ;
     }
     [dir='rtl'] select {
         background-position: left 0.5rem center;

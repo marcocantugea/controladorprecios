@@ -70,8 +70,9 @@ class UsuariosRepository implements IUsuariosRepository
         return $this->db->table('usuarios')
         ->where('publicId',$id)
         ->where('active',true)
-        ->where('deleted_at',"!=",null)
+        ->whereNull('deleted_at')
         ->select([
+            'id',
             'publicId',
             'user',
             'hash',
@@ -107,6 +108,8 @@ class UsuariosRepository implements IUsuariosRepository
             $query->where($key,empty($operator) ? '=' : $operator,$value);
         }
 
+        $query=$query->whereNull('deleted_at');
+
         return $query->select(
             [
                 'publicId',
@@ -125,6 +128,17 @@ class UsuariosRepository implements IUsuariosRepository
         if(empty($id)) throw new Exception("invalid Id to update");
         $this->db->table('usuarios')->where('publicId',$id)->update([
             'active'=>true,
+            'updated_at'=> new DateTime('now')
+        ]);
+
+        
+    }
+
+    public function deActivateUsuario($id)
+    {
+        if(empty($id)) throw new Exception("invalid Id to update");
+        $this->db->table('usuarios')->where('publicId',$id)->whereNull('deleted_at')->update([
+            'active'=>false,
             'updated_at'=> new DateTime('now')
         ]);
 
@@ -170,5 +184,17 @@ class UsuariosRepository implements IUsuariosRepository
         $model=$this->rolMapper->map($item);
 
         return $model;
+    }
+
+    public function updatePasswordUsario(string $pid, string $hash)
+    {
+        if(empty($pid) || empty($hash)) throw new Exception('invalid id or password');
+
+        $this->db->table($this::TABLE)->where('publicId',$pid)->whereNull('deleted_at')->update([
+            'hash'=>$hash,
+            'updated_at'=>new DateTime()
+        ]);
+
+
     }
 }

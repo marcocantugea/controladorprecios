@@ -1,0 +1,34 @@
+
+<div class="panel mb-3" *ngIf="showForm==true">
+    <div>
+        <form [formGroup]="frmUsuario">
+            <div class="mb-5">
+                <label for="user">Nombre de usuario</label>
+                <input id="user" formControlName="user" type="text" placeholder="Nombre de usuario" class="form-input" x-model="params.user">
+                <div *ngIf="!frmUsuario.controls.user.valid && frmUsuario.controls.user.touched" class="text-danger">
+                    * el usuario debe contener al menos 6 caracteres
+               </div>
+            </div>
+            <div class="mb-5">
+                <label for="email">Email</label>
+                <input id="email" formControlName="email" type="email" placeholder="Enter Email" class="form-input" x-model="params.email">
+            </div>
+            <div class="mb-5">
+                <label for="password">Contraseña</label>
+                <input id="password"  formControlName="password" type="password" placeholder="Nueva contraseña" class="form-input" x-model="params.password">
+                <div *ngIf="!frmUsuario.controls.password.valid && frmUsuario.controls.password.touched" class="text-danger">
+                    * La contraseña debe contener al menos 8 caracteres
+               </div>
+            </div>
+            <div *ngIf="showErrorMessage" class="text-danger">
+                 * {{ErrorMessage}}
+            </div>
+            <div class="mt-8 flex items-center justify-end">
+                <button type="button" class="btn btn-outline-danger" (click)="CloseAddForm()">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary ltr:ml-4 rtl:mr-4" x-text="params.id ? 'Update' : 'Add'" (click)="SaveData()">Agregar</button>
+            </div>
+        </form>
+    </div>
+</div>

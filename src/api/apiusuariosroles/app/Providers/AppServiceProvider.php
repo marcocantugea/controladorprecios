@@ -5,24 +5,29 @@ namespace App\Providers;
 use App\Contractors\Repositories\IAccionesRepository;
 use App\Contractors\Repositories\IRolAccionRepository;
 use App\Contractors\Repositories\IRolesRepository;
+use App\Contractors\Repositories\IRolUsuarioRepository;
 use App\Contractors\Repositories\IUsuariosRepository;
 use App\Contractors\Services\IAccionesService;
 use App\Contractors\Services\IAuthService;
 use App\Contractors\Services\IRolAccionService;
 use App\Contractors\Services\IRolService;
+use App\Contractors\Services\IRolUsuarioService;
 use App\Contractors\Services\IUsuariosService;
 use App\Mappers\AccionMapper;
 use App\Mappers\RolAccionMapper;
 use App\Mappers\RolMapper;
+use App\Mappers\RolUsuarioMapper;
 use App\Mappers\UsuarioMapper;
 use App\Repositories\AccionesRepository;
 use App\Repositories\RolAccionRepository;
 use App\Repositories\RolesRepository;
+use App\Repositories\RolUsuarioRepository;
 use App\Repositories\UsuariosRepository;
 use App\Services\AccionesService;
 use App\Services\AuthService;
 use App\Services\RolAccionesService;
 use App\Services\RolService;
+use App\Services\RolUsuarioService;
 use App\Services\UsuariosService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -88,5 +93,16 @@ class AppServiceProvider extends ServiceProvider
             return new RolAccionesService($app[IRolAccionRepository::class],$app[RolAccionMapper::class],$app[IAccionesService::class]);
         });
 
+        $this->app->scoped(RolUsuarioMapper::class,function($app){
+            return new RolUsuarioMapper();
+        });
+
+        $this->app->scoped(IRolUsuarioRepository::class,function($app){
+            return new RolUsuarioRepository(DB::connection(),$app[RolUsuarioMapper::class]);
+        });
+
+        $this->app->scoped(IRolUsuarioService::class,function($app){
+            return new RolUsuarioService($app[IRolUsuarioRepository::class],$app[RolUsuarioMapper::class],$app[IUsuariosRepository::class],$app[IRolesRepository::class]);
+        });
     }
 }

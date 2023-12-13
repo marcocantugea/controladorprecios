@@ -48,6 +48,15 @@ class UsuariosService implements IUsuariosService {
         }
     }
 
+    public function deActivateUsuario($id)
+    {
+        try {
+            $this->usuariosRepository->deActivateUsuario($id);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
     public function deleteUsuario($id)
     {
         try {
@@ -79,6 +88,16 @@ class UsuariosService implements IUsuariosService {
         }
 
         return $usuariosDTOs;
+    }
+
+    public function updateUsuarioPassword(string $pid, string $password)
+    {
+        try {
+            $passwordHased= password_hash($password,PASSWORD_DEFAULT);
+            $this->usuariosRepository->updatePasswordUsario($pid,$passwordHased);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
 }

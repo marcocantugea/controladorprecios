@@ -6,6 +6,7 @@ use Routes\AccionesRoutes;
 use Routes\AuthRoutes;
 use Routes\RolAccionesRoutes;
 use Routes\RolesRoutes;
+use Routes\RolUsuarioRoutes;
 use Routes\UsuarioRoutes;
 
 /*
@@ -28,3 +29,4 @@ UsuarioRoutes::setRoutes($router);
 RolesRoutes::setRoutes($router);
 AccionesRoutes::setRoutes($router);
 RolAccionesRoutes::setRoutes($router);
+RolUsuarioRoutes::setRoutes($router);
