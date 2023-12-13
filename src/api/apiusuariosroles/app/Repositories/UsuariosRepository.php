@@ -70,8 +70,9 @@ class UsuariosRepository implements IUsuariosRepository
         return $this->db->table('usuarios')
         ->where('publicId',$id)
         ->where('active',true)
-        ->where('deleted_at',"!=",null)
+        ->whereNull('deleted_at')
         ->select([
+            'id',
             'publicId',
             'user',
             'hash',
