@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ConfirmModalService } from 'src/app/components/modal/confirm/confirmmodal.service';
 import { LoadingModalService } from 'src/app/components/modal/loading/loading/loading.service';
-import { IUsuario } from 'src/app/services/admin/modulos/IUsuario';
-import { UsuariosService } from 'src/app/services/admin/modulos/usuarios.service';
+import { IUsuario } from 'src/app/services/admin/modulos/usuarios/IUsuario';
+import { UsuariosService } from 'src/app/services/admin/modulos/usuarios/usuarios.service';
 
 @Component({
   selector: 'app-usuario-listado',
@@ -16,6 +16,8 @@ export class UsuarioListadoComponent {
   @Output() activarUser:EventEmitter<string>=new EventEmitter();
   @Output() desActivarUser:EventEmitter<string>=new EventEmitter();
   @Output() changePassword:EventEmitter<IUsuario>=new EventEmitter();
+  @Output() asignarRol:EventEmitter<IUsuario>=new EventEmitter();
+
   constructor(private confirmModel:ConfirmModalService) {}
 
   ngOnInit(): void {}
@@ -47,5 +49,10 @@ export class UsuarioListadoComponent {
 
   CambiarPassword(usuario:IUsuario){
     this.changePassword.emit(usuario);
+  }
+
+  AsignarRol(usuario:IUsuario){
+    console.log("usuario selected");
+    this.asignarRol.emit(usuario);
   }
 }

@@ -2,10 +2,15 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmModalService } from 'src/app/components/modal/confirm/confirmmodal.service';
 import { LoadingModalService } from 'src/app/components/modal/loading/loading/loading.service';
-import { IUsuario } from 'src/app/services/admin/modulos/IUsuario';
-import { UsuariosService } from 'src/app/services/admin/modulos/usuarios.service';
+import { IUsuario } from 'src/app/services/admin/modulos/usuarios/IUsuario';
+import { UsuariosService } from 'src/app/services/admin/modulos/usuarios/usuarios.service';
 import { UsuarioChangepasswordComponent } from './components/usuario-changepassword/usuario-changepassword.component';
 import { ErrorModalService } from 'src/app/components/modal/error/error-modal.service';
+import { UsuarioRolComponent } from './components/usuario-rol/usuario-rol.component';
+import { IRol } from 'src/app/services/admin/modulos/roles/IRol';
+import { RolService } from 'src/app/services/admin/modulos/roles/rol.service';
+import { resolve } from 'path';
+import { IRolUsuario } from 'src/app/services/admin/modulos/roles/IRolUsuario';
 
 @Component({
   selector: 'app-usuarios',
@@ -16,8 +21,15 @@ export class UsuariosComponent {
 
   showAddUser:boolean=false;
   listUsuarios:IUsuario[]=[];
+  listRoles:IRol[]=[];
 
-  constructor(private usuariosService:UsuariosService,private loadingModal:LoadingModalService,private confirmModal:ConfirmModalService,private dialog: MatDialog, private errorModal:ErrorModalService) {}
+  commonError=(error:any)=>{
+    this.loadingModal.closeLoading();  
+    this.errorModal.showErrorDialog("Error al procesar la peticion");
+    console.log(error);
+  };
+
+  constructor(private usuariosService:UsuariosService,private loadingModal:LoadingModalService,private confirmModal:ConfirmModalService,private dialog: MatDialog, private errorModal:ErrorModalService, private rolesService:RolService) {}
   
   ngOnInit(): void {
     this.LoadData();
@@ -33,6 +45,7 @@ export class UsuariosComponent {
   }
 
   LoadData(showLoading:boolean=true){
+
     if(showLoading)this.loadingModal.showLoading();
     this.getListaUsuarios().subscribe({
       next:(response)=>{
@@ -42,22 +55,34 @@ export class UsuariosComponent {
           console.log(response.message);
           return;
         }
-        
+
         this.listUsuarios=response.data;
       },
-      error:(error)=>{
-        this.loadingModal.closeLoading();  
-        this.errorModal.showErrorDialog("Error al procesar la peticion");
-        console.log(error);
-      },
+      error:this.commonError,
       complete:()=>{
-        if(showLoading) {
-          setTimeout(() => {
-            this.loadingModal.closeLoading();  
-          }, 800); 
-        }
+        this.rolesService.GetRoles().subscribe({
+          next:(response)=>{
+            if(!response.success){
+              this.loadingModal.closeLoading();  
+              this.errorModal.showErrorDialog("Error al procesar la peticion");
+              console.log(response.message);
+              return;
+            }
+            this.listRoles=response.data;
+          },
+          error:this.commonError,
+          complete:()=>{
+            if(showLoading) {
+              setTimeout(() => {
+                this.loadingModal.closeLoading();  
+              }, 800); 
+            }
+          }
+        });
       }
     })
+
+    
   }
 
   getListaUsuarios(){
@@ -75,12 +100,7 @@ export class UsuariosComponent {
         }
         this.LoadData();
       },
-      error:(error)=>{
-        this.loadingModal.closeLoading();  
-        this.errorModal.showErrorDialog("Error al procesar la peticion");
-        console.log(error);
-        return;
-      },
+      error:this.commonError,
       complete:()=>{
        
       }
@@ -99,11 +119,7 @@ export class UsuariosComponent {
         }
         this.LoadData();
       },
-      error:(error)=>{
-        this.loadingModal.closeLoading();  
-        this.errorModal.showErrorDialog("Error al procesar la peticion");
-        console.log(error);
-      },
+      error:this.commonError,
       complete:()=>{}
     })
   }
@@ -119,11 +135,7 @@ export class UsuariosComponent {
         }
         this.LoadData();
       },
-      error:(error)=>{
-        this.loadingModal.closeLoading();  
-        this.errorModal.showErrorDialog("Error al procesar la peticion");
-        console.log(error);
-      },
+      error:this.commonError,
     })
   }
 
@@ -138,11 +150,7 @@ export class UsuariosComponent {
         }
         this.LoadData();
       },
-      error:(error)=>{
-        this.loadingModal.closeLoading();  
-        this.errorModal.showErrorDialog("Error al procesar la peticion");
-        console.log(error);
-      },
+      error:this.commonError,
     })
   }
 
@@ -164,15 +172,73 @@ export class UsuariosComponent {
           }
           
         },
-        error:(error)=>{
-          this.loadingModal.closeLoading();  
-          this.errorModal.showErrorDialog("Error al procesar la peticion");
-          console.log(error);
-        },
+        error:this.commonError,
         complete:()=>{
           this.loadingModal.closeLoading();
         }
       })
+    })
+  }
+
+  AsignarRol($event:any){
+    let rolUsuario:IRolUsuario;
+    this.loadingModal.showLoading();
+    this.rolesService.GetRolDeUsuario($event.publicId).subscribe({
+      next:(response)=>{
+        if(!response.success){
+          this.loadingModal.closeLoading();  
+          this.errorModal.showErrorDialog("Error al procesar la peticion");
+          console.log(response.message);
+          return;
+        }
+
+        if(response.data){
+          rolUsuario=response.data;
+        }else{
+          rolUsuario={
+            usuarioPid:"",
+            rolPid:"-1"
+          };
+        }
+        
+      },
+      error:this.commonError,
+      complete:()=>{
+        this.loadingModal.closeLoading();
+        const modal=this.dialog.open(UsuarioRolComponent,{
+          width:"350px",
+          disableClose: true
+        })
+        let instance = modal.componentInstance;
+        instance.roles=this.listRoles;
+        instance.userRolSelected=rolUsuario;
+        
+        modal.afterClosed().subscribe((result)=>{
+          
+          let rolusuario:IRolUsuario={
+            usuarioPid:$event.publicId,
+            rolPid:result.rol
+          }
+    
+          this.loadingModal.showLoading()
+          this.rolesService.AddRolUsuario(rolusuario).subscribe({
+            next:(response)=>{
+              if(!response.success){
+                this.loadingModal.closeLoading();  
+                this.errorModal.showErrorDialog("Error al procesar la peticion");
+                console.log(response.message);
+                return;
+              }
+            },
+            error:this.commonError,
+            complete:()=>{
+              this.loadingModal.closeLoading();
+            }
+          })
+          console.log(rolusuario);
+        })
+
+      }
     })
   }
 

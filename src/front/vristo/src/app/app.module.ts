@@ -50,6 +50,7 @@ import { UsuarioAddComponent } from './pages/modulos/usuarios/usuarios/component
 import { ConfirmComponent } from './components/modal/confirm/confirm.component';
 import { UsuarioChangepasswordComponent } from './pages/modulos/usuarios/usuarios/components/usuario-changepassword/usuario-changepassword.component';
 import { ErrorComponent } from './components/modal/error/error.component';
+import { UsuarioRolComponent } from './pages/modulos/usuarios/usuarios/components/usuario-rol/usuario-rol.component';
 
 @NgModule({
     imports: [
@@ -77,7 +78,7 @@ import { ErrorComponent } from './components/modal/error/error.component';
         MatProgressSpinnerModule,
         MatDialogModule
     ],
-    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent, ErrorComponent],
+    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent, ErrorComponent, UsuarioRolComponent],
     providers: [AppService, Title],
     bootstrap: [AppComponent],
 })

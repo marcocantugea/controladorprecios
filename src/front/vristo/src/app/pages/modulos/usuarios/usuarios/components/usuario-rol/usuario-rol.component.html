@@ -1,0 +1,22 @@
+<div class="p-3 mt-2 mb-2">
+    <div>
+        <form [formGroup]="frmRolSelecton">
+            <div class="mb-5">
+                <label for="rol">Selecionar Rol:</label>
+                <select id="rol" name="rol" class="form-select flex-1" formControlName="rol">
+                    <option value="-1">Seleccione una opción...</option>
+                    <option *ngFor="let rol of roles" [ngValue]="rol.publicId" [selected]="rol.publicId===userRolSelected.rolPid" >{{rol.rol}}</option>
+                </select>
+            </div>
+            <div *ngIf="showErrorMessage" class="text-danger">
+                * {{errorMessage}}
+           </div>
+            <div class="mt-8 flex items-center justify-end">
+                <button type="button" class="btn btn-outline-danger" (click)="onCancelClick()" >
+                    Cancelar
+                </button>
+                <button type="submit" class="btn btn-success ltr:ml-4 rtl:mr-4" (click)="onSelectClick()" >Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

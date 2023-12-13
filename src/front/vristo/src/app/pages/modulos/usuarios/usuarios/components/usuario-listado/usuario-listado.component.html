@@ -29,7 +29,7 @@
                         <button type="button" class="btn btn-sm btn-outline-primary" (click)="CambiarPassword(usuario)" >
                             Restablecer Contraseña
                         </button>    
-                        <button *ngIf="usuario.user!=='admin'" type="button" class="btn btn-sm btn-outline-secondary" >
+                        <button *ngIf="usuario.user!=='admin' && usuario.active" type="button" class="btn btn-sm btn-outline-secondary" (click)="AsignarRol(usuario)" >
                             Asignar Rol
                         </button>    
                     </div>

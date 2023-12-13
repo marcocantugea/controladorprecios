@@ -9,4 +9,5 @@
 <app-usuario-add [showForm]="showAddUser" (hideForm)="hideFormAddUser($event)" (userDataToSave)="SaveNewUser($event)" ></app-usuario-add>
 <app-usuario-listado [listUsuarios]="listUsuarios" (deleteUser)="DeleteUsuario($event)" (activarUser)="ActivarUsuario($event)" (desActivarUser)="DesactivarUsuario($event)"
 (changePassword)="CambiarPassword($event)"
+(asignarRol)="AsignarRol($event)"
  ></app-usuario-listado>
