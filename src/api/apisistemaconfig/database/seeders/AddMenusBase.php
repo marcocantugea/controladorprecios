@@ -168,29 +168,9 @@ class AddMenusBase extends Seeder
                 'accion'=>'/admin/canalesventa/listaprecios'
             ],
             [
-                'publicId'=>'6a96674dd2aa',
-                'nombre'=>'ADD_SISTEMA_MODULOS',
-                'display'=>'Adm. Modulos de sistema',
-                'essubmenu'=>false,
-                'activo'=>true,
-                'orden'=>1,
-                'created_at'=>new DateTime(),
-                'accion'=>'/admin/sistema/modulos'
-            ],
-            [
-                'publicId'=>'c60ec17c11fc',
-                'nombre'=>'ADD_SISTEMA_MENUS',
-                'display'=>'Adm. Menu de sistema',
-                'essubmenu'=>false,
-                'activo'=>true,
-                'orden'=>2,
-                'created_at'=>new DateTime(),
-                'accion'=>'/admin/sistema/menus'
-            ],
-            [
                 'publicId'=>'4c314173b0c9',
                 'nombre'=>'ADD_SISTEMA_ROL_MODULOS',
-                'display'=>'Adm. Menu de sistema',
+                'display'=>'Adm. Modulos a Roles',
                 'essubmenu'=>false,
                 'activo'=>true,
                 'orden'=>3,
