@@ -60,17 +60,9 @@ class AddModulosMenu extends Seeder
             [
                 'publicId'=>uniqid(),
                 'moduloPid'=>'47b9e012a701',
-                'menuPid'=>'c60ec17c11fc',
-                'moduloId'=>2,
-                'menuId'=>17,
-                'created_at'=>new DateTime()
-            ],
-            [
-                'publicId'=>uniqid(),
-                'moduloPid'=>'47b9e012a701',
                 'menuPid'=>'4c314173b0c9',
                 'moduloId'=>2,
-                'menuId'=>18,
+                'menuId'=>16,
                 'created_at'=>new DateTime()
             ],
             [
@@ -78,7 +70,7 @@ class AddModulosMenu extends Seeder
                 'moduloPid'=>'5fef0313802b',
                 'menuPid'=>'792952bbfba6',
                 'moduloId'=>3,
-                'menuId'=>19,
+                'menuId'=>17,
                 'created_at'=>new DateTime()
             ],
             [
