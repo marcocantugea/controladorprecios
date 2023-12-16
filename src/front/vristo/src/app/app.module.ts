@@ -51,6 +51,11 @@ import { ConfirmComponent } from './components/modal/confirm/confirm.component';
 import { UsuarioChangepasswordComponent } from './pages/modulos/usuarios/usuarios/components/usuario-changepassword/usuario-changepassword.component';
 import { ErrorComponent } from './components/modal/error/error.component';
 import { UsuarioRolComponent } from './pages/modulos/usuarios/usuarios/components/usuario-rol/usuario-rol.component';
+import { RolesComponent } from './pages/modulos/roles/roles/roles.component';
+import { RolesListadoComponent } from './pages/modulos/roles/roles/components/roles-listado/roles-listado.component';
+import { RolesAddComponent } from './pages/modulos/roles/roles/components/roles-add/roles-add.component';
+import { AccionesComponent } from './pages/modulos/roles/acciones/acciones/acciones.component';
+import { AccionesListadoComponent } from './pages/modulos/roles/acciones/acciones/components/acciones-listado/acciones-listado.component';
 
 @NgModule({
     imports: [
@@ -78,7 +83,7 @@ import { UsuarioRolComponent } from './pages/modulos/usuarios/usuarios/component
         MatProgressSpinnerModule,
         MatDialogModule
     ],
-    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent, ErrorComponent, UsuarioRolComponent],
+    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent, ErrorComponent, UsuarioRolComponent, RolesComponent, RolesListadoComponent, RolesAddComponent, AccionesComponent, AccionesListadoComponent],
     providers: [AppService, Title],
     bootstrap: [AppComponent],
 })

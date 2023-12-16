@@ -1,0 +1,61 @@
+
+
+<!-- outline -->
+<div >
+    <form>
+
+        <table class="table-striped">
+            <tr>
+                <td>
+                    <table>
+                        <tr *ngFor="let accion of listaAcciones">
+                            <td *ngIf="accion.accion.includes('READ')">
+                                <label  class="inline-flex m-4" >
+                                    <input type="checkbox" class="form-checkbox outline-primary rounded-full peer" value="{{accion.publicId}}" (change)="checkValue(accion,$event)"  [checked]="isChecked(accion.publicId)"  />
+                                    <span class="peer-checked:text-primary">{{accion.accion}}</span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr *ngFor="let accion of listaAcciones">
+                            <td *ngIf="accion.accion.includes('ADD')">
+                                <label  class="inline-flex m-4" >
+                                    <input type="checkbox" class="form-checkbox outline-primary rounded-full peer" value="{{accion.publicId}}" (change)="checkValue(accion,$event)"  [checked]="isChecked(accion.publicId)" />
+                                    <span class="peer-checked:text-primary">{{accion.accion}}</span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr *ngFor="let accion of listaAcciones">
+                            <td *ngIf="accion.accion.includes('UPDATE')">
+                                <label  class="inline-flex m-4" >
+                                    <input type="checkbox" class="form-checkbox outline-primary rounded-full peer" value="{{accion.publicId}}" (change)="checkValue(accion,$event)" [checked]="isChecked(accion.publicId)"  />
+                                    <span class="peer-checked:text-primary">{{accion.accion}}</span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr *ngFor="let accion of listaAcciones">
+                            <td *ngIf="accion.accion.includes('DELETE')">
+                                <label  class="inline-flex m-4" >
+                                    <input type="checkbox" class="form-checkbox outline-primary rounded-full peer" value="{{accion.publicId}}"  (change)="checkValue(accion,$event)" [checked]="isChecked(accion.publicId)" />
+                                    <span class="peer-checked:text-primary">{{accion.accion}}</span>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+    
+</div>

@@ -30,6 +30,12 @@ class RolUsuarioRepository implements IRolUsuarioRepository
         if(empty($model->usuarioPid) || empty($model->rolPid) || empty($model->usuarioId) || empty($model->rolId)) throw new Exception('invalid ids');
         $exist=$this->db->table($this::TABLE)->where('usuarioPid',$model->usuarioPid)->where('rolPid',$model->rolPid)->whereNull('fecha_eliminado')->exists();
         if($exist) throw new Exception('record already exist');
+        $existingRecords=$this->db->table($this::TABLE)->where('usuarioPid',$model->usuarioPid)->whereNull('fecha_eliminado')->count();
+        if($existingRecords>0){
+            $this->db->table($this::TABLE)->where('usuarioPid',$model->usuarioPid)->whereNull('fecha_eliminado')->update([
+                'fecha_eliminado'=>new DateTime()
+            ]);
+        }
         $id=$this->db->table($this::TABLE)->insertGetId([
             'publicId'=>uniqid(),
             'usuarioPid'=>$model->usuarioPid,

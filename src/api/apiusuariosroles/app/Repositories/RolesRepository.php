@@ -12,6 +12,7 @@ use Illuminate\Database\MySqlConnection;
 class RolesRepository implements IRolesRepository
 {
     private const TABLE ='roles_sistema' ;
+    private const TABLE_ROLUSUARIO='usuario_rol';
     private MySqlConnection $db;
     private IMapper $mapper;
 
@@ -70,6 +71,8 @@ class RolesRepository implements IRolesRepository
     public function delete($pid)
     {
         if(empty($pid)) throw new Exception('invalid id');
+        $exist=$this->db->table($this::TABLE_ROLUSUARIO)->where('rolPid',$pid)->whereNull('fecha_eliminado')->exists();
+        if($exist) throw new Exception('No se puede eliminar el rol, existen usuarios con el rol assignado');
         $this->db->table($this::TABLE)->where('publicId',$pid)->whereNull('fecha_eliminado')->update(
             [
                 'fecha_eliminado'=>new DateTime()

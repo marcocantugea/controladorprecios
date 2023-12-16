@@ -32,7 +32,7 @@ export class UsuarioAddComponent {
 
   SaveData(){
     this.showErrorMessage=false;
-    console.log('saving data');
+    
     if(!this.frmUsuario.valid){
         this.ErrorMessage="Informacion invalida, favor de revisar los datos ingresados";
         this.showErrorMessage=true;

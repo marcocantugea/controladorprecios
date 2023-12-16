@@ -52,7 +52,6 @@ export class UsuarioListadoComponent {
   }
 
   AsignarRol(usuario:IUsuario){
-    console.log("usuario selected");
     this.asignarRol.emit(usuario);
   }
 }

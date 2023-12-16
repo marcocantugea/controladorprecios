@@ -1,5 +1,5 @@
 export interface IRol{
-    publicId:string,
+    publicId?:string,
     rol:string,
     activo:boolean
 }

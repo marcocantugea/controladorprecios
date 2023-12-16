@@ -231,7 +231,7 @@ export class UsuariosComponent {
               this.loadingModal.closeLoading();
             }
           })
-          console.log(rolusuario);
+          
         })
 
       }

@@ -1,0 +1,10 @@
+<h2>Administraci&oacute;n de Roles de Usuario</h2>
+<div class="panel mb-2" >
+    <div>
+        <button type="button" class="btn btn-sm btn-outline-primary" (click)="displayAddForm()" >
+            Agregar Rol
+        </button>
+    </div>
+</div>
+<app-roles-add [showForm]="showAddForm" (hideForm)="hideForm($event)" (rolDataToSave)="SaveNewRol($event)" ></app-roles-add>
+<app-roles-listado [RolesList]="listRols" (deleteRol)="DeleteRol($event)" ></app-roles-listado>

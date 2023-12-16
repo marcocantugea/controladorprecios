@@ -3,4 +3,5 @@ export const ApisConfiguration ={
     apiSystem:"http://localhost/apisistemaconfig/public/api/sistema/",
     apiUsuarios:"http://localhost/apiusuariosroles/public/api/usuario",
     apiRoles:"http://localhost/apiusuariosroles/public/api/rol",
+    apiAcciones:"http://localhost/apiusuariosroles/public/api/accion"
 }
