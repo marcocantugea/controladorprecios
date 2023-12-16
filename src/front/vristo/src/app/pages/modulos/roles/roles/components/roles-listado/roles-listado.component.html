@@ -16,7 +16,7 @@
                         <button *ngIf="rol.rol!=='ADMIN'" type="button" class="btn btn-sm btn-outline-danger" (click)="DeleteRol(rol)"  >
                             Eliminar
                         </button>
-                        <button *ngIf="rol.rol!=='ADMIN'" type="button" class="btn btn-sm btn-outline-secondary"  >
+                        <button *ngIf="rol.rol!=='ADMIN'" type="button" class="btn btn-sm btn-outline-secondary" [routerLink]="['acciones', rol.publicId]"> 
                             Asignar Acciones
                         </button>    
                     </div>

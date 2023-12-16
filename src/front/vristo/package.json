@@ -25,6 +25,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "headlessui-angular": "^0.0.7",
     "ngx-scrollbar": "^11.0.0",
+    "nice-select2": "^2.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
