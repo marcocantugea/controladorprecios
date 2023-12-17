@@ -127,8 +127,6 @@ export class AccionesComponent {
   }
 
   accionCheckEvent($event:any){
-    console.log($event);
-    console.log(this.selectedRol);
     if($event.checked){
       let request:IRolAccion={
         rolPid:this.selectedRol,

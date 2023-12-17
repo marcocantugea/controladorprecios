@@ -9,6 +9,7 @@ import { AuthSignoutComponent } from './pages/auth-signout/auth-signout.componen
 import { UsuariosComponent } from './pages/modulos/usuarios/usuarios/usuarios.component';
 import { RolesComponent } from './pages/modulos/roles/roles/roles.component';
 import { AccionesComponent } from './pages/modulos/roles/acciones/acciones/acciones.component';
+import { ModulosComponent } from './pages/modulos/modulos/modulos.component';
 
 export const routes: Routes = [
     {
@@ -37,7 +38,9 @@ export const routes: Routes = [
             //acciones a roles
             {path:'role/acciones',component:AccionesComponent,title:'Administración de Acciones | VRISTO'},
             //acciones a roles
-            {path:'roles/acciones/:id',component:AccionesComponent,title:'Administración de Acciones | VRISTO'}
+            {path:'roles/acciones/:id',component:AccionesComponent,title:'Administración de Acciones | VRISTO'},
+            //roles modulos
+            {path:'sistema/modulos/roles',component:ModulosComponent,title:'Asignacion de modulos a roles | VRISTO'}
         ],
     },
 

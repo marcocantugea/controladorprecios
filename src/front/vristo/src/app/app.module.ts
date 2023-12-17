@@ -56,6 +56,8 @@ import { RolesListadoComponent } from './pages/modulos/roles/roles/components/ro
 import { RolesAddComponent } from './pages/modulos/roles/roles/components/roles-add/roles-add.component';
 import { AccionesComponent } from './pages/modulos/roles/acciones/acciones/acciones.component';
 import { AccionesListadoComponent } from './pages/modulos/roles/acciones/acciones/components/acciones-listado/acciones-listado.component';
+import { ModulosComponent } from './pages/modulos/modulos/modulos.component';
+import { ModulosListadoComponent } from './pages/modulos/modulos/components/modulos-listado/modulos-listado.component';
 
 @NgModule({
     imports: [
@@ -83,7 +85,7 @@ import { AccionesListadoComponent } from './pages/modulos/roles/acciones/accione
         MatProgressSpinnerModule,
         MatDialogModule
     ],
-    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent, ErrorComponent, UsuarioRolComponent, RolesComponent, RolesListadoComponent, RolesAddComponent, AccionesComponent, AccionesListadoComponent],
+    declarations: [AppComponent, HeaderComponent, FooterComponent, SidebarComponent, ThemeCustomizerComponent, IndexComponent, AppLayout, AuthLayout, LoginComponent, AuthSignoutComponent, LoadingComponent, UsuariosComponent, UsuarioListadoComponent, UsuarioAddComponent, ConfirmComponent, UsuarioChangepasswordComponent, ErrorComponent, UsuarioRolComponent, RolesComponent, RolesListadoComponent, RolesAddComponent, AccionesComponent, AccionesListadoComponent, ModulosComponent, ModulosListadoComponent],
     providers: [AppService, Title],
     bootstrap: [AppComponent],
 })

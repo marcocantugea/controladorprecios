@@ -1,0 +1,11 @@
+<div >
+    <form>
+        <div>
+            <label *ngFor="let modulo of listaModulos" class="inline-flex m-4">
+                <input type="checkbox" class="form-checkbox outline-primary rounded-full peer" value="{{modulo.publicId}}"
+                    (change)="checkValue(modulo,$event)" [checked]="isChecked(modulo.publicId)" />
+                <span class="peer-checked:text-primary">{{modulo.display}}</span>
+            </label>
+        </div>
+    </form>
+</div>
