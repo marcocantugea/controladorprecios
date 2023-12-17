@@ -3,8 +3,9 @@
 namespace App\DTOs;
 
 use DateTime;
+use JsonSerializable;
 
-class CategoriaDTO
+class CategoriaDTO implements JsonSerializable
 {
     public ?int $id;
     public ?string $publicId;
@@ -32,5 +33,12 @@ class CategoriaDTO
         $this->fecha_eliminado=(empty($fecha_eliminado)) ? null : $fecha_eliminado;
         $this->publicId=$publicId;
         $this->esSubcategoria=$esSubCategoria;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return array_filter((array) $this,function($val){
+            return !is_null($val);
+        });
     }
 }

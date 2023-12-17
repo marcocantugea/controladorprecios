@@ -4,8 +4,9 @@ namespace App\DTOs;
 
 use App\Contractors\Models\Marca;
 use App\Contractors\Models\UnidadMedida;
+use JsonSerializable;
 
-class ProductoAtributoDTO 
+class ProductoAtributoDTO implements JsonSerializable
 {
     public string $productoId;
     public string $atributoId;
@@ -21,6 +22,13 @@ class ProductoAtributoDTO
         $this->unidadMedida=$unidadMedida;
         $this->marca=$marca;
         $this->atributo=$atributo;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return array_filter((array) $this,function($val){
+            return !is_null($val);
+        });
     }
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\DTOs;
 
-class AtributoDTO
+use JsonSerializable;
+
+class AtributoDTO implements JsonSerializable
 {
     public ?string $publicId;
     public string $atributo;
@@ -28,6 +30,13 @@ class AtributoDTO
         if(!empty($updated_at)) $this->updated_at=$updated_at;
         if(!empty($fecha_eliminado)) $this->fecha_eliminado=$fecha_eliminado;
         $this->esSubatributo=$esSubatributo;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return array_filter((array) $this,function($val){
+            return !is_null($val);
+        });
     }
     
 }
