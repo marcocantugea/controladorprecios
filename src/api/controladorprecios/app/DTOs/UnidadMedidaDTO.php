@@ -2,7 +2,9 @@
 
 namespace App\DTOs;
 
-class UnidadMedidaDTO
+use JsonSerializable;
+
+class UnidadMedidaDTO implements JsonSerializable
 {
     public ?string $publicId;
     public string $codigo;
@@ -14,5 +16,12 @@ class UnidadMedidaDTO
         $this->unidadDeMedida=$unidadDeMedidad;
         $this->publicId=$publicId;
         $this->activo=$activo;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return array_filter((array) $this,function($val){
+            return !is_null($val);
+        });
     }
 }

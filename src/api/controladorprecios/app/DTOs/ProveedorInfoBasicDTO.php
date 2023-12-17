@@ -3,8 +3,10 @@ namespace App\DTOs;
 
 use App\DTOs\ProveedorDTO;
 use DateTime;
+use JsonSerializable;
 
-class ProveedorInfoBasicDTO{
+class ProveedorInfoBasicDTO implements JsonSerializable
+{
 
     public ?string $publicId;
     public string $nombre;
@@ -34,6 +36,13 @@ class ProveedorInfoBasicDTO{
         $this->created_at=$created_at;
         $this->updated_at=$updated_at;
         $this->fecha_eliminado=$fecha_eliminado;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return array_filter((array) $this,function($val){
+            return !is_null($val);
+        });
     }
 
 }

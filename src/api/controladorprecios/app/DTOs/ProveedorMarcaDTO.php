@@ -2,8 +2,10 @@
 
 namespace App\DTOs;
 
+use JsonSerializable;
 
-class ProveedorMarcaDTO {
+class ProveedorMarcaDTO implements JsonSerializable
+ {
 
     public string $proveedorPublicId;
     public MarcaDTO $marca;
@@ -19,5 +21,12 @@ class ProveedorMarcaDTO {
             $this->marca=new MarcaDTO($marca,$marcaId);
         }
         
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return array_filter((array) $this,function($val){
+            return !is_null($val);
+        });
     }
 }
