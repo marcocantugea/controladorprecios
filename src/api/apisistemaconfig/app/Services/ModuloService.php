@@ -6,15 +6,18 @@ use App\Contractors\IMapper;
 use App\Contractors\Repositories\IModuloRepository;
 use App\Contractors\Services\IModuloService;
 use App\DTOs\ModuloDTO;
+use App\DTOs\RolModuloDTO;
 
 class ModuloService implements IModuloService
 {
     private IModuloRepository $repository;
     private IMapper $mapper;
+    private IMapper $rolModuloMapper;
 
-    public function __construct(IModuloRepository $repository, IMapper $mapper) {
+    public function __construct(IModuloRepository $repository, IMapper $mapper,IMapper $rolModuloMapper) {
         $this->repository=$repository;
         $this->mapper =$mapper;
+        $this->rolModuloMapper=$rolModuloMapper;
     }
     
     public function addModulo(ModuloDTO $dto){
@@ -76,6 +79,42 @@ class ModuloService implements IModuloService
             array_walk($models,function($model) use (&$dtos){
                 $dto=$this->mapper->reverse($model);
                 if(!empty($model)) array_push($dtos,$dto);
+            });
+
+            return $dtos;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function addModuloRol(RolModuloDTO $dto)
+    {
+        try {
+            $model=$this->rolModuloMapper->map($dto);
+            $publicId=$this->repository->addModuloRol($model);
+            return $publicId;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function deleteModuloRol(string $pid)
+    {
+        try {
+            $this->repository->deleteModuloRol($pid);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getRolModulosIds(string $rolPid)
+    {
+        try {
+            $models=$this->repository->getRolModulosIds($rolPid);
+            $dtos=[];
+            array_walk($models,function($model) use (&$dtos){
+                $dto=$this->rolModuloMapper->reverse($model);
+                if(!empty($dto))    array_push($dtos,$dto);
             });
 
             return $dtos;

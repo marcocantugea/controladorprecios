@@ -4,21 +4,27 @@ namespace App\Repositories;
 
 use App\Contractors\IMapper;
 use App\Contractors\Models\Modulo;
+use App\Contractors\Models\RolModulo;
 use App\Contractors\Repositories\IModuloRepository;
 use DateTime;
 use Exception;
 use Illuminate\Database\Connectors\MySqlConnector;
 use Illuminate\Database\MySqlConnection;
 
+use function FastRoute\TestFixtures\empty_options_cached;
+
 class ModuloRepository implements IModuloRepository
 {
     private const TABLE_NAME ='modulos_sistema';
+    private const TABLE_MODULO_ROL='roles_modulos';
     private MySqlConnection $db;
     private IMapper $mapper;
+    private IMapper $rolModuloMapper; 
 
-    public function __construct(MySqlConnection $db,IMapper $mapper) {
+    public function __construct(MySqlConnection $db,IMapper $mapper,IMapper $rolModuloMapper) {
         $this->db=$db;
         $this->mapper=$mapper;
+        $this->rolModuloMapper=$rolModuloMapper;
     }
 
     /**
@@ -128,7 +134,68 @@ class ModuloRepository implements IModuloRepository
         return $models;
     }
 
-    public function getModelFields(){
+    private function getModelFields(){
         return array_keys(get_class_vars(get_class(new Modulo())));
     }
+
+    public function getModelFieldsRolModulo(){
+        return array_keys(get_class_vars(get_class(new RolModulo())));
+    }
+
+    public function addModuloRol(RolModulo $rolmodulo)
+    {
+        if(empty($rolmodulo->rolPid) || empty($rolmodulo->moduloPid)) throw new Exception('invalid ids');
+
+        $exist= $this->db->table($this::TABLE_MODULO_ROL)->where('rolPid',$rolmodulo->rolPid)
+                ->where('moduloPid',$rolmodulo->moduloPid)->whereNull('fecha_eliminado')
+                ->exists();
+
+        if($exist) throw new Exception('relacion rol y menu ya existente');
+
+        $moduloId = $this->db->table($this::TABLE_NAME)->where('publicId',$rolmodulo->moduloPid)->whereNull('fecha_eliminado')
+        ->select('id')->first()->id;
+
+        if(empty($moduloId)) throw new Exception('invlaid modulo id');
+
+        $rolmodulo->moduloId=$moduloId;
+
+        $id=$this->db->table($this::TABLE_MODULO_ROL)->insertGetId([
+            'publicId'=>uniqid(),
+            'rolPid'=>$rolmodulo->rolPid,
+            'moduloPid'=>$rolmodulo->moduloPid,
+            'moduloId'=>$rolmodulo->moduloId,
+            'created_at'=>new DateTime()
+        ]);
+
+        $publicId=$this->db->table($this::TABLE_MODULO_ROL)->where('id',$id)->select('publicId')->first()->publicId;
+
+        return $publicId;
+    }
+
+    public function deleteModuloRol(string $pid)
+    {
+        if(empty($pid)) throw new Exception('invalid id');
+        $this->db->table($this::TABLE_MODULO_ROL)->where('publicId',$pid)->whereNull('fecha_eliminado')
+        ->update([
+            'fecha_eliminado'=>new DateTime()
+        ]);
+    }
+
+    public function getRolModulosIds(string $rolPid)
+    {
+        if(empty($rolPid)) throw new Exception('invalid id');
+        $data=$this->db->table($this::TABLE_MODULO_ROL)->where('rolPid',$rolPid)
+        ->whereNull('fecha_eliminado')
+        ->select($this->getModelFieldsRolModulo())
+        ->get();
+
+        $models=[];
+        $data->each(function ($item) use (&$models){
+            $model=$this->rolModuloMapper->map($item);
+            if(!empty($model)) array_push($models,$model);
+        });
+
+        return $models;
+    }
+
 }

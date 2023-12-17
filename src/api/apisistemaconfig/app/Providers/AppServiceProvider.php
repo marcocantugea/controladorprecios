@@ -10,6 +10,7 @@ use App\Contractors\Services\IModuloService;
 use App\Contractors\Wrappers\IAuthWrapper;
 use App\Mappers\MenuMapper;
 use App\Mappers\ModuloMapper;
+use App\Mappers\RolModuloMapper;
 use App\Repositories\MenuRepository;
 use App\Repositories\ModuloRepository;
 use App\Services\AuthService;
@@ -45,11 +46,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->scoped(IModuloRepository::class,function($app){
-            return new ModuloRepository(DB::connection(),$app[ModuloMapper::class]);
+            return new ModuloRepository(DB::connection(),$app[ModuloMapper::class],$app[RolModuloMapper::class]);
         });
 
         $this->app->scoped(IModuloService::class,function($app){
-            return new ModuloService($app[IModuloRepository::class],$app[ModuloMapper::class]);
+            return new ModuloService($app[IModuloRepository::class],$app[ModuloMapper::class],$app[RolModuloMapper::class]);
         });
 
         $this->app->scoped(IMenuRepository::class,function($app){
@@ -58,6 +59,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->scoped(IMenuService::class,function($app){
             return new MenuService($app[IMenuRepository::class],$app[MenuMapper::class]);
+        });
+
+        $this->app->scoped(RolModuloMapper::class,function($app){
+            return new RolModuloMapper();
         });
     }
 }
