@@ -17,6 +17,9 @@ final class ModulosRoutes
             $router->delete('api/sistema/modulo/{pid}',self::CONTROLLER_NAME.'@deleteModulo');
             $router->get('api/sistema/modulo/{pid}',self::CONTROLLER_NAME.'@getModuloById');
             $router->get('api/sistema/modulos/rol/{rolPid}',self::CONTROLLER_NAME.'@getModulosByRol');
+            $router->post('api/sistema/modulos/rol',self::CONTROLLER_NAME.'@addRolModulo');
+            $router->delete('api/sistema/modulos/rol/{pid}',self::CONTROLLER_NAME.'@deleteRolModulo');
+            $router->get('api/sistema/modulos/rol/{rolPid}/relacion',self::CONTROLLER_NAME.'@getRolModulosById');
         });
 
     }

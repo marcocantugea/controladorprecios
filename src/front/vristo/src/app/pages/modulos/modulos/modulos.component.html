@@ -1,0 +1,14 @@
+<h2>Asignaccion de Modulos de Sistema a Rol de usuario</h2>
+<div class="panel mb-2" >
+    <div >
+        <div class="mb-5">
+            <label for="rol">Selecionar Rol:</label>
+            <select id="rol" name="rol" class="form-select flex-1" [(ngModel)]="selectedRol" (change)="getSelectedRol()">
+                <option *ngFor="let rol of listaRoles" [ngValue]="rol.publicId" >{{rol.rol}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="panel">
+        <app-modulos-listado [listaModulos]="listaModulos" [checkedModulos]="listRolModulos" (actionSelected)="accionCheckEvent($event)" ></app-modulos-listado>
+    </div>
+</div>
