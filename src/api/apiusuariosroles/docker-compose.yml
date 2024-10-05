@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  php-apache:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8188:80"
+    container_name: apiusuariosroles-php
+    volumes:
+      - .:/var/www/html/usrauth
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Bank1234#
+    ports:
+      - "3366:3306"
+    container_name: apiusuariosroles-mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+volumes:
+  mysql-data:
