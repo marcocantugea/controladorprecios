@@ -1,0 +1,35 @@
+
+services:
+  api-ctrlprecios-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    ports:
+      - "8187:80"
+    container_name: apictrlprecios-php
+    volumes:
+      - .:/var/www/html/controlprices
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - XDEBUG_MODE=develop,debug
+    networks:
+      - api-services-controladorprecios
+  mysql-ctrlprecios-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Bank1234#
+    ports:
+      - "3368:3306"
+    container_name: apicrtlprecios-mysql
+    volumes:
+      - mysql-crtlprecios-data:/var/lib/mysql
+    networks:
+      - api-services-controladorprecios
+volumes:
+  mysql-crtlprecios-data:
+networks:
+  api-services-controladorprecios:
+    name: ${COMPOSE_PROJECT_NAME}_default

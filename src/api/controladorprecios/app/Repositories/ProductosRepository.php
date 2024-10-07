@@ -129,7 +129,7 @@ class ProductosRepository implements IProductosRepository
         }
 
         //insertamos valores en la tabla
-        $this->db->table('productoscategorias')->insert($insertValues);
+        $this->db->table('productosCategorias')->insert($insertValues);
 
     }
 
@@ -173,9 +173,9 @@ class ProductosRepository implements IProductosRepository
 
     public function getCategoriasOfProducto($id){
 
-        return $this->db->table('productoscategorias')
-                         ->join('productos','productoscategorias.productoId','productos.Id')
-                         ->join('categorias','productoscategorias.categoriaId','categorias.Id')
+        return $this->db->table('productosCategorias')
+                         ->join('productos','productosCategorias.productoId','productos.Id')
+                         ->join('categorias','productosCategorias.categoriaId','categorias.Id')
                          ->Where('productos.publicId',$id)
                          ->select(
                             'categorias.publicId',

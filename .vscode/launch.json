@@ -5,21 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Xdebug - usersauth",
+            "name": "Xdebug - miscroservices-controlprecios",
             "type": "php",
             "request": "launch",
             "port": 9103,
             "pathMappings": {
-                "/var/www/html/usrauth":"${workspaceRoot}/src/api/apiusuariosroles"
-            }
-        },
-        {
-            "name": "Xdebug - sysconfig",
-            "type": "php",
-            "request": "launch",
-            "port": 9103,
-            "pathMappings": {
-                "/var/www/html/usrauth":"${workspaceRoot}/src/api/apisistemaconfig"
+                "/var/www/html/usrauth":"${workspaceRoot}/src/api/apiusuariosroles",
+                "/var/www/html/controlprices":"${workspaceRoot}/src/api/controladorprecios",
+                "/var/www/html/systemconfig":"${workspaceRoot}/src/api/apisistemaconfig"
             }
         }
     ]
