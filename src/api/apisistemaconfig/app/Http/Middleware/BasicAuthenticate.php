@@ -35,7 +35,7 @@ class BasicAuthenticate
         try {
             $this->authService->AuthenticatedUser($credentials[0],$credentials[1],$token);
         } catch (\Throwable $th) {
-            return response('Unauthorized.', 401);
+            return response('Unauthorized.'. $th->getMessage(), 401);
         }
         
         return $next($request);

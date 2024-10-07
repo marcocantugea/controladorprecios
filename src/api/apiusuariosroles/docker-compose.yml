@@ -1,0 +1,35 @@
+
+services:
+  api-usrauth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8188:80"
+    container_name: apiuserauth-php
+    volumes:
+      - .:/var/www/html/usrauth
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - XDEBUG_MODE=develop,debug
+    networks:
+      - api-services-controladorprecios
+  mysql-usrauth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Bank1234#
+    ports:
+      - "3366:3306"
+    container_name: apiusuariosroles-mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - api-services-controladorprecios
+volumes:
+  mysql-data:
+networks:
+  api-services-controladorprecios:
+    name: ${COMPOSE_PROJECT_NAME}_default

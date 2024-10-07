@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Xdebug - miscroservices-controlprecios",
+            "type": "php",
+            "request": "launch",
+            "port": 9103,
+            "pathMappings": {
+                "/var/www/html/usrauth":"${workspaceRoot}/src/api/apiusuariosroles",
+                "/var/www/html/controlprices":"${workspaceRoot}/src/api/controladorprecios",
+                "/var/www/html/systemconfig":"${workspaceRoot}/src/api/apisistemaconfig",
+                "/var/www/html/organizations":"${workspaceRoot}/src/api/apiorganizaciones",
+                "/var/www/html/canalesventa":"${workspaceRoot}/src/api/apicanalesventa"
+            }
+        }
+    ]
+}

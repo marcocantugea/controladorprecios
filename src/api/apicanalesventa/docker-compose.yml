@@ -1,0 +1,35 @@
+
+services:
+  api-canalesventa-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    ports:
+      - "8185:80"
+    container_name: apicanalesventa-php
+    volumes:
+      - .:/var/www/html/canalesventa
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - XDEBUG_MODE=develop,debug
+    networks:
+      - api-services-controladorprecios
+  mysql-canalesventa-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=Bank1234#
+    ports:
+      - "3369:3306"
+    container_name: apicanalesventa-mysql
+    volumes:
+      - mysql-canalesventa-data:/var/lib/mysql
+    networks:
+      - api-services-controladorprecios
+volumes:
+  mysql-canalesventa-data:
+networks:
+  api-services-controladorprecios:
+    name: ${COMPOSE_PROJECT_NAME}_default
