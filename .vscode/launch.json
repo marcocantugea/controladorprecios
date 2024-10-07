@@ -13,7 +13,8 @@
                 "/var/www/html/usrauth":"${workspaceRoot}/src/api/apiusuariosroles",
                 "/var/www/html/controlprices":"${workspaceRoot}/src/api/controladorprecios",
                 "/var/www/html/systemconfig":"${workspaceRoot}/src/api/apisistemaconfig",
-                "/var/www/html/organizations":"${workspaceRoot}/src/api/apiorganizaciones"
+                "/var/www/html/organizations":"${workspaceRoot}/src/api/apiorganizaciones",
+                "/var/www/html/canalesventa":"${workspaceRoot}/src/api/apicanalesventa"
             }
         }
     ]
