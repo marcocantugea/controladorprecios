@@ -2,8 +2,8 @@ FROM php:8.1-apache
 
 RUN cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/
 
-RUN mkdir /var/www/html/controlprices
-COPY . /var/www/html/controlprices
+RUN mkdir /var/www/html/organizations
+COPY . /var/www/html/organizations
 
 RUN apt-get update && apt-get install -y nano
 RUN docker-php-ext-install pdo_mysql
@@ -18,13 +18,16 @@ ENV APP_URL=http://localhost
 ENV APP_TIMEZONE=UTC
 ENV LOG_CHANNEL=stack
 ENV LOG_SLACK_WEBHOOK_URL=
-
-ENV DB_CONNECTION_PRODUCTOS=mysql
-ENV DB_HOST_PRODUCTOS=mysql-ctrlprecios-service
-ENV DB_PORT_PRODUCTOS=3306
-ENV DB_DATABASE_PRODUCTOS=db_productosprecios
-ENV DB_USERNAME_PRODUCTOS=root
-ENV DB_PASSWORD_PRODUCTOS=Bank1234#
+ 
+ENV CACHE_DRIVER=file
+ENV QUEUE_CONNECTION=sync
+ 
+ENV DB_CONNECTION_ORG=mysql
+ENV DB_HOST_ORG=mysql-ctrlprecios-service
+ENV DB_PORT_ORG=3306
+ENV DB_DATABASE_ORG=db_productosprecios
+ENV DB_USERNAME_ORG=root
+ENV DB_PASSWORD_ORG=Bank1234#
 
 ENV DB_CONNECTION_USERS=users
 ENV DB_HOST_USERS=mysql-usrauth-service
@@ -33,17 +36,10 @@ ENV DB_DATABASE_USERS=mysql-usrauth-service
 ENV DB_USERNAME_USERS=db_users
 ENV DB_PASSWORD_USERS=Bank1234#
  
-ENV CACHE_DRIVER=file
-ENV QUEUE_CONNECTION=sync
- 
-ENV ORGANIZACION_API_HOST=http://apiorg-php/
-ENV ORGANIZACION_API_VERSION=organizations/public/api/
- 
 ENV APP_AUTHUSER_HOST=http://apiuserauth-php/
 ENV APP_AUTHUSER_APIVERSION=usrauth/public/
 
-
-WORKDIR /var/www/html/controlprices
+WORKDIR /var/www/html/organizations
 RUN /etc/init.d/apache2 restart
 RUN echo "xdebug.mode = off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
     echo "xdebug.start_with_request  = yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \

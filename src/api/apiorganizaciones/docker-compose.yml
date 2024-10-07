@@ -1,0 +1,35 @@
+
+services:
+  api-org-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    ports:
+      - "8186:80"
+    container_name: apiorg-php
+    volumes:
+      - .:/var/www/html/organizations
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - XDEBUG_MODE=develop,debug
+    networks:
+      - api-services-controladorprecios
+  # mysql-org-service:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.mysql
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=Bank1234#
+  #   ports:
+  #     - "3368:3306"
+  #   container_name: apiorg-mysql
+  #   volumes:
+  #     - mysql-org-data:/var/lib/mysql
+  #   networks:
+  #     - api-services-controladorprecios
+# volumes:
+#   mysql-org-data:
+networks:
+  api-services-controladorprecios:
+    name: ${COMPOSE_PROJECT_NAME}_default
